@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>MealMate — လက်ရှိ Project တိုးတက်မှု အခြေအနေ ခွဲခြမ်းစိတ်ဖြာချက်</title>
+<style>
+@page {
+  size: A4;
+  margin: 17mm 14mm 18mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Myanmar Text", "Pyidaungsu", "Noto Sans Myanmar",
+    "Segoe UI", sans-serif;
+  font-size: 10.4pt;
+  line-height: 1.68;
+  color: #1f2937;
+  background: #ffffff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: 23pt;
+  line-height: 1.3;
+  color: #06462a;
+  border-bottom: 4px solid #ff7900;
+  padding-bottom: 10px;
+}
+
+h2 {
+  margin: 26px 0 10px;
+  font-size: 16.5pt;
+  line-height: 1.35;
+  color: #06462a;
+  border-left: 6px solid #ff7900;
+  padding-left: 10px;
+  page-break-after: avoid;
+}
+
+h3 {
+  margin: 20px 0 8px;
+  font-size: 13pt;
+  color: #123d22;
+  page-break-after: avoid;
+}
+
+h4 {
+  margin: 16px 0 6px;
+  font-size: 11.4pt;
+  color: #1f4d2e;
+  page-break-after: avoid;
+}
+
+p {
+  margin: 8px 0;
+  orphans: 3;
+  widows: 3;
+}
+
+a {
+  color: #0b63b6;
+  text-decoration: none;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #d7ddd3;
+  margin: 18px 0;
+}
+
+blockquote {
+  margin: 12px 0;
+  padding: 9px 13px;
+  background: #f3f9e9;
+  border-left: 5px solid #17852a;
+  border-radius: 0 6px 6px 0;
+  color: #26402e;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+code {
+  font-family: Consolas, "Cascadia Mono", "Courier New", monospace;
+}
+
+:not(pre) > code {
+  background: #eef2f7;
+  color: #b42318;
+  border: 1px solid #e3e8ef;
+  border-radius: 3px;
+  padding: 0.5px 4px;
+  font-size: 9.1pt;
+  word-break: break-word;
+}
+
+pre {
+  margin: 10px 0 14px;
+  padding: 11px 13px;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 7px;
+  font-size: 8.35pt;
+  line-height: 1.48;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  page-break-inside: avoid;
+}
+
+pre code {
+  color: inherit;
+  background: transparent;
+  padding: 0;
+  border: 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0 16px;
+  font-size: 8.9pt;
+  line-height: 1.45;
+  table-layout: fixed;
+  page-break-inside: avoid;
+}
+
+th {
+  background: #06462a;
+  color: #ffffff;
+  font-weight: 700;
+  text-align: left;
+}
+
+th,
+td {
+  border: 1px solid #d1d5db;
+  padding: 5px 7px;
+  vertical-align: top;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+tbody tr:nth-child(even) td {
+  background: #f8fafc;
+}
+
+.list-block {
+  margin: 6px 0 10px;
+}
+
+.list-item {
+  display: flex;
+  gap: 0.45em;
+  margin: 2.5px 0;
+  align-items: flex-start;
+}
+
+.list-marker {
+  flex: 0 0 auto;
+  color: #17852a;
+  font-weight: 700;
+}
+
+.list-item > span:last-child {
+  flex: 1 1 auto;
+}
+
+strong {
+  color: #111827;
+}
+</style>
+</head>
+<body>
+<h1>MealMate — လက်ရှိ Project တိုးတက်မှု အခြေအနေ ခွဲခြမ်းစိတ်ဖြာချက်</h1>
+<blockquote>ဒီ document က <code>PROJECT1</code> ရဲ့ လက်ရှိ source code (Flutter <code>lib/</code> နှင့် Express/PostgreSQL <code>backend/</code>) ကို တိုက်ရိုက်ဖတ်ပြီး ရေးထားတဲ့ progress report ဖြစ်ပါတယ်။   ရည်ရွယ်ချက်က — ဘယ်အပိုင်း ပြီးပြီလဲ၊ ဘယ်အပိုင်း မပြီးသေးလဲ၊ ချိတ်ပြီးသားအပိုင်းတွေ ဘယ်လိုတည်ဆောက်ထားလဲ၊ ဘာအားနည်းချက်တွေ ရှိလဲ၊ နောက်ထပ် checkpoint တွေ ဘာတွေလဲ ဆိုတာကို တစ်နေရာတည်းမှာ ရှင်းရှင်းလင်းလင်း ဖတ်နိုင်ဖို့ပါ။</blockquote>
+<p><strong>စစ်ဆေးသည့်ရက်စွဲ:</strong> 2026-11-12 <strong>Code အခြေအနေ:</strong> Local working copy (git repo မဟုတ်) <strong>Backend:</strong> PostgreSQL သို့ ပြောင်းပြီး၊ endpoint အားလုံး mount ပြီး၊ smoke check 67 ခု pass</p>
+<hr/>
+<h2>1. တစ်ကြောင်းတည်း အနှစ်ချုပ်</h2>
+<pre><code class="language-text">Backend (API + PostgreSQL)        ████████████████████  100%  ပြီး
+Flutter UI screens                ██████████████░░░░░░   69%  ပြီး
+Flutter ↔ API integration         ██████████░░░░░░░░░░   50%  ပြီး
+Automated tests                   ████░░░░░░░░░░░░░░░░   20%  ပြီး</code></pre>
+<p>လက်ရှိ project က <strong>"အလုပ်လုပ်တဲ့ vertical slice နှစ်ခု + တစ်ဝက်စီပြီးသော slice သုံးခု"</strong> အဆင့်မှာ ရှိပါတယ်။</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><strong>အပြည့်အစုံ အလုပ်လုပ်နေတာ:</strong> Authentication, Daily Budget, Foods Catalog, Favorites, Meal Plan Save/Load</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><strong>UI ရှိပေမယ့် API မချိတ်သေးတာ:</strong> Plan Delete, Profile edit, Change password</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><strong>လုံးဝ မရေးရသေးတာ:</strong> Expenses page, History page, Reports page, Guest data transfer</span></div></div>
+<p>ဆိုလိုတာက — <strong>ကျောင်းသားတစ်ယောက် register/login လုပ်ပြီး budget ထည့်၊ food catalog ကြည့်၊ favorite လုပ်ပြီး ဒီနေ့အတွက် auto/manual plan သိမ်း/ပြန်ဖတ် လုပ်တဲ့ အထိ အစအဆုံး အလုပ်လုပ်နိုင်ပါပြီ။</strong> ဒါပေမယ့် သိမ်းထားတဲ့ plan ကို server ကနေ ဖျက်တာ၊ expense မှတ်တာ၊ history/report ကြည့်တာ၊ guest data ကို account ထဲ ရွှေ့တာတွေ မရှိသေးပါ။</p>
+<hr/>
+<h2>2. စစ်ဆေးခဲ့သော Source Files</h2>
+<table><thead><tr><th>အလွှာ</th><th>ဖိုင်</th><th>အခြေအနေ</th></tr></thead><tbody><tr><td>Composition root</td><td><code>lib/main.dart</code></td><td>ပြီး</td></tr><tr><td>Endpoint constants</td><td><code>lib/constants/api_endpoints.dart</code></td><td>Auth/Profile ပဲ ပါ</td></tr><tr><td>Transport</td><td><code>lib/services/api_client.dart</code></td><td>ပြီး</td></tr><tr><td>Error</td><td><code>lib/services/api_exception.dart</code></td><td>ပြီး</td></tr><tr><td>Token</td><td><code>lib/services/token_storage.dart</code></td><td>ပြီး</td></tr><tr><td>Models</td><td><code>lib/models/user.dart</code>, <code>auth_session.dart</code></td><td>Auth ပဲ ပြီး</td></tr><tr><td>Repositories</td><td><code>auth_repository</code>, <code>remote_auth_repository</code>, <code>food_repository</code>, <code>mealplan_repository</code></td><td>food/plan က interface မရှိ</td></tr><tr><td>BLoC</td><td><code>lib/logic/auth/</code></td><td>Auth ပဲ ရှိ</td></tr><tr><td>UI</td><td><code>lib/ui/</code> (page 11 ခု)</td><td>တစ်ချို့ API ချိတ်ပြီး</td></tr><tr><td>Backend</td><td><code>backend/</code></td><td>route အားလုံး ရှိ၊ controller အားလုံး ရှိ</td></tr><tr><td>Tests</td><td><code>test/logic/auth_bloc_test.dart</code>, <code>test/models/user_test.dart</code></td><td>၂ ဖိုင်ပဲ ရှိ</td></tr></tbody></table>
+<hr/>
+<h2>3. UI ရေးပြီးသား / မရေးရသေးတဲ့ အပိုင်း</h2>
+<h3>3.1 ရေးပြီးသား UI (11 screens)</h3>
+<table><thead><tr><th>#</th><th>Screen</th><th>ဖိုင်</th><th>လုပ်ဆောင်ချက်</th></tr></thead><tbody><tr><td>1</td><td>Splash</td><td><code>splash_page.dart</code></td><td>၃ စက္ကန့်ပြ၊ Home ကို ပို့</td></tr><tr><td>2</td><td>Login</td><td><code>login_page.dart</code></td><td>Email/password form၊ error banner၊ loading state</td></tr><tr><td>3</td><td>Sign Up</td><td><code>signup_page.dart</code></td><td>Name/email/password form၊ auto login</td></tr><tr><td>4</td><td>Home</td><td><code>home_page.dart</code></td><td>Welcome၊ budget card၊ planner cards၊ feature cards၊ today plan</td></tr><tr><td>5</td><td>Set Daily Budget</td><td><code>set_budget.dart</code></td><td>ပမာဏထည့်၊ validation၊ save callback</td></tr><tr><td>6</td><td>Budget Confirmation</td><td><code>budget_save.dart</code></td><td>သိမ်းပြီး အတည်ပြု၊ planner ဆက်ဝင်နိုင်</td></tr><tr><td>7</td><td>Foods</td><td><code>foods_page.dart</code></td><td>Search၊ category filter၊ favorites filter၊ favorite toggle</td></tr><tr><td>8</td><td>Automatic Planner</td><td><code>auto_page.dart</code></td><td>Local algorithm နဲ့ plan ဆောက်၊ save</td></tr><tr><td>9</td><td>Manual Planner</td><td><code>manual_page.dart</code></td><td>Meal type အလိုက် food ရွေး၊ quantity၊ save</td></tr><tr><td>10</td><td>Manual Browse / Detail</td><td><code>manual_browse.dart</code>, <code>manual_detail.dart</code></td><td>Food ရှာပြီး ရွေးချယ်</td></tr><tr><td>11</td><td>My Plan</td><td><code>myplan_page.dart</code></td><td>သိမ်းထားတဲ့ plan ပြ၊ edit၊ delete dialog</td></tr></tbody></table>
+<h3>3.2 တစ်စိတ်တစ်ပိုင်း ရေးပြီးသား UI</h3>
+<table><thead><tr><th>Screen</th><th>ရေးပြီးတာ</th><th>မရေးရသေးတာ</th></tr></thead><tbody><tr><td>Account / Profile</td><td>Dialog နဲ့ name, email, initials, logout</td><td>Edit profile form, change password form, save to backend</td></tr><tr><td>Reports</td><td>Home မှာ card + sidebar/bottom nav + login စစ်ခြင်း</td><td>Report page လုံးဝ မရှိ</td></tr><tr><td>Expenses</td><td>Home မှာ card ပဲ ရှိ</td><td>Expense page, add/edit expense form လုံးဝ မရှိ</td></tr><tr><td>Meal History</td><td>Home မှာ card ပဲ ရှိ</td><td>History page လုံးဝ မရှိ</td></tr><tr><td>Guest Transfer</td><td>ဘာမှ မရှိ</td><td>Conflict dialog, transfer prompt လုံးဝ မရှိ</td></tr></tbody></table>
+<h3>3.3 လုံးဝ မရေးရသေးတဲ့ UI (5 screens)</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">1.</span><span><strong>Expenses Page</strong> — နေ့စဉ် စားသုံးမှု မှတ်တမ်း ထည့်/ပြ/ဖျက်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">2.</span><span><strong>History Page</strong> — ရက်အလိုက် စားသုံးမှု ပြန်ကြည့်၊ summary</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">3.</span><span><strong>Reports Page</strong> — daily/weekly/monthly chart နှင့် total</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">4.</span><span><strong>Profile Settings Page</strong> — အမည်ပြင်၊ password ပြင်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">5.</span><span><strong>Guest Transfer Screen</strong> — guest budget/plan ကို account ထဲ ရွှေ့ရန် မေးတဲ့ UI</span></div></div>
+<h3>3.4 UI coverage</h3>
+<pre><code class="language-text">လိုအပ်တဲ့ screen စုစုပေါင်း ≈ 16
+ရေးပြီး                    = 11
+တစ်စိတ်တစ်ပိုင်း           = 2 (Profile dialog, placeholder cards)
+မရေးရသေး                  = 5
+
+UI screen coverage ≈ 11 / 16 = 69%</code></pre>
+<hr/>
+<h2>4. API ချိတ်ပြီးသား / မချိတ်ရသေးတဲ့ အပိုင်း</h2>
+<h3>4.1 ချိတ်ပြီးသား endpoints (12 ခု)</h3>
+<table><thead><tr><th>#</th><th>Endpoint</th><th>ခေါ်တဲ့နေရာ</th><th>ဘာအတွက်</th></tr></thead><tbody><tr><td>1</td><td><code>POST /auth/register</code></td><td><code>RemoteAuthRepository.register</code></td><td>Account ဖန်တီး</td></tr><tr><td>2</td><td><code>POST /auth/login</code></td><td><code>RemoteAuthRepository.login</code></td><td>Login</td></tr><tr><td>3</td><td><code>GET /auth/me</code></td><td><code>RemoteAuthRepository.restoreSession</code></td><td>App ပြန်ဖွင့်ရင် session ပြန်</td></tr><tr><td>4</td><td><code>POST /auth/logout</code></td><td><code>RemoteAuthRepository.logout</code></td><td>Logout</td></tr><tr><td>5</td><td><code>PUT /budget</code></td><td><code>HomePage._saveBudgetToBackend</code></td><td>Budget သိမ်း/ပြင်</td></tr><tr><td>6</td><td><code>GET /budget</code></td><td><code>_PlanSessionGateState._syncSession</code></td><td>Budget ပြန်ဖတ်</td></tr><tr><td>7</td><td><code>GET /foods</code></td><td><code>FoodRepository.getFoods</code></td><td>Catalog ဆွဲ (page loop)</td></tr><tr><td>8</td><td><code>GET /favorites</code></td><td><code>FoodRepository.getFavoriteIds</code></td><td>Favorite id စာရင်း</td></tr><tr><td>9</td><td><code>POST /favorites</code></td><td><code>FoodRepository.setFavorite</code></td><td>Favorite ထည့်</td></tr><tr><td>10</td><td><code>DELETE /favorites/:foodId</code></td><td><code>FoodRepository.setFavorite</code></td><td>Favorite ဖျက်</td></tr><tr><td>11</td><td><code>POST /plans</code></td><td><code>MealPlanRepository.save</code></td><td>Plan သိမ်း</td></tr><tr><td>12</td><td><code>GET /plans</code></td><td><code>MealPlanRepository.get</code></td><td>Plan ပြန်ဖတ်</td></tr></tbody></table>
+<h3>4.2 Repository ထဲ ရေးထားပြီး UI က မခေါ်သေးတာ (3 ခု)</h3>
+<table><thead><tr><th>Endpoint</th><th>Code ရှိပေမယ့်</th><th>ပြဿနာ</th></tr></thead><tbody><tr><td><code>DELETE /plans</code></td><td><code>MealPlanRepository.delete</code></td><td>ဘယ်နေရာကမှ မခေါ်ဘူး</td></tr><tr><td><code>PATCH /users/me</code></td><td><code>RemoteAuthRepository.updateProfile</code></td><td>UI/BLoC event မရှိ</td></tr><tr><td><code>PATCH /users/me/password</code></td><td><code>RemoteAuthRepository.changePassword</code></td><td>UI/BLoC event မရှိ</td></tr></tbody></table>
+<h3>4.3 လုံးဝ မချိတ်ရသေးတာ (9 ခု)</h3>
+<table><thead><tr><th>Endpoint</th><th>လိုအပ်တဲ့အလုပ်</th></tr></thead><tbody><tr><td><code>GET /expenses</code></td><td>Expense page load</td></tr><tr><td><code>POST /expenses</code></td><td>နေ့စဉ် စားသုံးမှု သိမ်း</td></tr><tr><td><code>DELETE /expenses</code></td><td>နေ့စဉ် မှတ်တမ်း ဖျက်</td></tr><tr><td><code>GET /history</code></td><td>ရက်အလိုက် သမိုင်း</td></tr><tr><td><code>GET /reports</code></td><td>daily/weekly/monthly report</td></tr><tr><td><code>POST /guest-transfer</code></td><td>Guest data ရွှေ့</td></tr><tr><td><code>GET /foods/:id</code></td><td>တစ်ခုချင်း detail (လောလောဆယ် မလို)</td></tr><tr><td><code>POST/PATCH/DELETE /foods</code></td><td>Admin catalog management</td></tr><tr><td><code>GET /health</code></td><td>Startup/server status check</td></tr></tbody></table>
+<h3>4.4 Integration coverage</h3>
+<table><thead><tr><th>Feature</th><th>UI</th><th>API</th><th>အခြေအနေ</th></tr></thead><tbody><tr><td>Register</td><td>ရှိ</td><td>ချိတ်ပြီး</td><td>အပြည့်အစုံ</td></tr><tr><td>Login</td><td>ရှိ</td><td>ချိတ်ပြီး</td><td>အပြည့်အစုံ</td></tr><tr><td>Session restore</td><td>ရှိ</td><td>ချိတ်ပြီး</td><td>အပြည့်အစုံ</td></tr><tr><td>Logout</td><td>ရှိ</td><td>ချိတ်ပြီး</td><td>အပြည့်အစုံ</td></tr><tr><td>Budget save</td><td>ရှိ</td><td>ချိတ်ပြီး</td><td>အပြည့်အစုံ</td></tr><tr><td>Budget load</td><td>ရှိ</td><td>ချိတ်ပြီး</td><td>အပြည့်အစုံ</td></tr><tr><td>Foods catalog</td><td>ရှိ</td><td>ချိတ်ပြီး</td><td>အပြည့်အစုံ</td></tr><tr><td>Favorites</td><td>ရှိ</td><td>ချိတ်ပြီး</td><td>အပြည့်အစုံ</td></tr><tr><td>Plan save</td><td>ရှိ</td><td>ချိတ်ပြီး</td><td>အပြည့်အစုံ</td></tr><tr><td>Plan load</td><td>ရှိ</td><td>ချိတ်ပြီး</td><td>အပြည့်အစုံ</td></tr><tr><td>Plan delete</td><td>ရှိ</td><td>မချိတ်</td><td>Local only — bug ဖြစ်နိုင်</td></tr><tr><td>Profile update</td><td>Dialog ပဲ</td><td>Repo ရှိ၊ UI မရှိ</td><td>တစ်စိတ်တစ်ပိုင်း</td></tr><tr><td>Change password</td><td>မရှိ</td><td>Repo ရှိ၊ UI မရှိ</td><td>တစ်စိတ်တစ်ပိုင်း</td></tr><tr><td>Expenses</td><td>မရှိ</td><td>မချိတ်</td><td>မစရသေး</td></tr><tr><td>History</td><td>မရှိ</td><td>မချိတ်</td><td>မစရသေး</td></tr><tr><td>Reports</td><td>မရှိ</td><td>မချိတ်</td><td>မစရသေး</td></tr><tr><td>Guest transfer</td><td>မရှိ</td><td>မချိတ်</td><td>မစရသေး</td></tr></tbody></table>
+<pre><code class="language-text">Feature အရေအတွက် 17
+အပြည့်အစုံ        = 10
+တစ်စိတ်တစ်ပိုင်း   = 3
+မစရသေး           = 4
+
+API integration coverage ≈ 10 / 17 = 59% (တစ်စိတ်တစ်ပိုင်း ထည့်ရင် ≈ 65%)</code></pre>
+<hr/>
+<h2>5. ချိတ်ပြီးသားအပိုင်းတွေ — Construction အလိုက် ရှင်းလင်းချက်</h2>
+<p>ဒီအပိုင်းက "ဘယ်လိုချိတ်ထားတယ်" ဆိုတာကို အလွှာအလိုက်၊ တကယ့် code အတိုင်း ရှင်းပြထားပါတယ်။</p>
+<h3>5.1 အလွှာ ခြောက်လွှာ ပုံစံ</h3>
+<pre><code class="language-text">Flutter UI (Page / Widget)
+        │  user action / callback
+        ▼
+BLoC (AuthBloc သာ အပြည့်ရှိ)
+        │
+        ▼
+Repository (Auth / Food / MealPlan)
+        │  body['data'] ဆွဲထုတ်
+        ▼
+ApiClient (Dio wrapper)
+        │  baseUrl + Bearer token
+        ▼
+Express route → controller → model
+        │
+        ▼
+PostgreSQL
+        │
+        ▼
+{ success, data } / { success, message, details }</code></pre>
+<p>လက်ရှိ code မှာ route နှစ်မျိုး ရှိတယ်ဆိုတာ သတိထားပါ။</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><strong>အပြည့်အစုံ route:</strong> <code>UI → BLoC → Repository → ApiClient</code> (Auth)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><strong>တိုတို route:</strong> <code>UI → Repository → ApiClient</code> (Foods, Favorites, Plans, Budget)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><strong>အရှင်းဆုံး route:</strong> <code>UI → ApiClient</code> (Budget PUT/GET က <code>home_page.dart</code> ထဲ တိုက်ရိုက်)</span></div></div>
+<hr/>
+<h3>5.2 Composition Root — <code>lib/main.dart</code></h3>
+<pre><code class="language-dart">void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final tokenStorage = TokenStorage();
+  final apiClient = ApiClient(tokenStorage: tokenStorage);
+  final authRepository = RemoteAuthRepository(
+    apiClient: apiClient,
+    tokenStorage: tokenStorage,
+  );
+
+  runApp(MealMateApp(
+    authRepository: authRepository,
+    apiClient: apiClient,
+  ));
+}</code></pre>
+<p>Provider tree —</p>
+<pre><code class="language-dart">RepositoryProvider&lt;ApiClient&gt;.value(
+  value: apiClient,
+  child: BlocProvider(
+    create: (_) =&gt; AuthBloc(authRepository)..add(const AuthStarted()),
+    child: MaterialApp(
+      home: const SplashPage(),
+    ),
+  ),
+)</code></pre>
+<p>အဓိပ္ပာယ် —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>ApiClient</code> က app တစ်ခုလုံးအတွက် instance တစ်ခုတည်း။ Page တိုင်း <code>context.read&lt;ApiClient&gt;()</code> နဲ့ ယူနိုင်တယ်။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>AuthBloc</code> က app တစ်ခုလုံးအတွက် instance တစ်ခုတည်း။ <code>context.watch&lt;AuthBloc&gt;()</code> နဲ့ login state ကို စောင့်ကြည့်နိုင်တယ်။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>App စတာနဲ့ <code>AuthStarted</code> ပို့ပြီး secure storage ထဲက token ကို ဖတ်ကာ <code>GET /auth/me</code> နဲ့ session ပြန်တည်ဆောက်တယ်။</span></div></div>
+<p><strong>အားနည်းချက်:</strong> <code>FoodRepository</code> နဲ့ <code>MealPlanRepository</code> တို့ကို provider မှာ မထည့်ထားဘဲ page တွေထဲမှာ <code>FoodRepository(context.read&lt;ApiClient&gt;())</code> လို <strong>နေရာတိုင်းမှာ အသစ်ဆောက်</strong> နေတယ်။ လောလောဆယ် အလုပ်ဖြစ်ပေမယ့် test လုပ်ရခက်တယ်၊ instance များလာတယ်။</p>
+<hr/>
+<h3>5.3 Transport — <code>lib/services/api_client.dart</code></h3>
+<p><code>ApiClient</code> က တာဝန် ၃ ခု ရှိတယ်။</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">1.</span><span><code>baseUrl</code>, timeout, JSON header သတ်မှတ်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">2.</span><span>Request တိုင်းမှာ <code>Authorization: Bearer &lt;token&gt;</code> ထည့်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">3.</span><span>Dio error ကို <code>ApiException</code> ပြောင်</span></div></div>
+<p>Token ထည့်ပုံ —</p>
+<pre><code class="language-dart">Future&lt;void&gt; _attachAccessToken(
+  RequestOptions options,
+  RequestInterceptorHandler handler,
+) async {
+  if (options.extra['skipAuth'] != true) {
+    final token = await tokenStorage.readToken();
+    if (token != null &amp;&amp; token.isNotEmpty) {
+      options.headers['Authorization'] = 'Bearer $token';
+    }
+  }
+  handler.next(options);
+}</code></pre>
+<p>Response ကို <strong>envelope တစ်ခုလုံး</strong> ပြန်တယ်။</p>
+<pre><code class="language-dart">if (body is Map) return Map&lt;String, dynamic&gt;.from(body);
+return &lt;String, dynamic&gt;{};</code></pre>
+<p>ဒါကြောင့် repository တိုင်းက <code>body['data']</code> ကို ကိုယ်တိုင် ဆွဲထုတ်ရတယ်။</p>
+<p>Base URL resolution —</p>
+<pre><code class="language-text">Windows / Web   → http://localhost:4000/api
+Android Emulator→ http://10.0.2.2:4000/api
+Physical device → --dart-define=API_BASE_URL=http://&lt;PC-LAN-IP&gt;:4000/api</code></pre>
+<hr/>
+<h3>5.4 Auth Vertical Slice (အပြည့်အစုံ)</h3>
+<pre><code class="language-text">LoginPage
+   │ AuthLoginRequested(email, password)
+   ▼
+AuthBloc._onLoginRequested
+   │ isSubmitting = true → button disable
+   ▼
+RemoteAuthRepository.login
+   │ POST /auth/login (authenticated: false)
+   ▼
+_persistSession
+   │ body['data'] → AuthSession.fromJson
+   │ tokenStorage.saveToken(token)
+   ▼
+AuthState(status: authenticated, user)
+   │ BlocConsumer listener
+   ▼
+Navigator → HomePage</code></pre>
+<p>Login repository —</p>
+<pre><code class="language-dart">@override
+Future&lt;AuthSession&gt; login({
+  required String email,
+  required String password,
+}) async {
+  final body = await apiClient.post(
+    ApiEndpoints.login,
+    data: {'email': email.trim(), 'password': password},
+    authenticated: false,
+  );
+  return _persistSession(body);
+}</code></pre>
+<p>Session restore —</p>
+<pre><code class="language-dart">@override
+Future&lt;AuthSession?&gt; restoreSession() async {
+  final token = await tokenStorage.readToken();
+  if (token == null || token.isEmpty) return null;
+
+  try {
+    final body = await apiClient.get(ApiEndpoints.me);
+    final user = _userFromBody(body);
+    return AuthSession(token: token, user: user);
+  } on ApiException catch (error) {
+    if (error.isUnauthorized) {
+      await tokenStorage.clearToken();
+      return null;
+    }
+    rethrow;
+  }
+}</code></pre>
+<p>Session restore ကို app စတာနဲ့ <code>AuthStarted</code> က ခေါ်တယ်။</p>
+<pre><code class="language-text">Token မရှိ        → unauthenticated (guest)
+Token ရှိ + 200    → authenticated
+Token ရှိ + 401    → token ဖျက် → unauthenticated</code></pre>
+<p><strong>အားသာချက်:</strong> ဒီ slice က အလွှာအားလုံး (UI → BLoC → Repository → ApiClient → Backend) ဖြတ်ထားတာမို့ ကျန်တဲ့ feature တွေအတွက် စံပြပုံစံ ဖြစ်နေတယ်။</p>
+<hr/>
+<h3>5.5 Budget Save (တိုက်ရိုက် API ခေါ်)</h3>
+<p><code>home_page.dart</code> ထဲမှာ —</p>
+<pre><code class="language-dart">Future&lt;void&gt; _saveBudgetToBackend(BuildContext context, int amount) async {
+  final api = context.read&lt;ApiClient&gt;();
+
+  final response = await api.put(
+    '/budget',
+    data: {'date': _todayDate(), 'amount': amount},
+  );
+
+  if (response['success'] != true) {
+    throw StateError('Budget could not be saved.');
+  }
+}</code></pre>
+<p><code>openBudget()</code> ထဲမှာ logged-in ဆိုမှ backend သိမ်းတယ်။</p>
+<pre><code class="language-dart">Future&lt;bool&gt; saveBudget(int amount) async {
+  try {
+    if (isLoggedIn) {
+      await _saveBudgetToBackend(context, amount);
+    }
+    GuestBudget.save(amount);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}</code></pre>
+<p>Design —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Guest → <code>GuestBudget</code> (memory only)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Logged-in → <code>PUT /budget</code> + <code>GuestBudget</code> ကို display အတွက် သိမ်း</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>date</code> ကို <code>YYYY-MM-DD</code> အတိအကျ ပို့</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Backend က budget တစ်ခုတည်း ရှိရမယ်၊ ပြင်ရင် upsert လုပ်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Budget ပြင်တာ plan ကို မဖျက်ဘူး၊ ရှိရင် <code>overBudget</code> warning ပြန်</span></div></div>
+<p><code>_startPlan()</code> ထဲမှာ budget မရှိသေးရင် planner မဝင်ခင် <code>SetBudgetPage</code> ကို အရင်ခေါ်တယ်။ အဲဒီမှာလည်း logged-in ဆို <code>PUT /budget</code> ကို တိုက်ရိုက်ခေါ်တယ်။</p>
+<hr/>
+<h3>5.6 Budget Restore — <code>_PlanSessionGate</code></h3>
+<p>ဒါက ဒီ project ရဲ့ <strong>အရေးအကြီးဆုံး session orchestration</strong> ပါ။ HomePage ကို wrap ထားတယ်။</p>
+<pre><code class="language-text">HomePage
+  └── _PlanSessionGate (StatefulWidget)
+        ├── initState → postFrame → _syncSession(authState)
+        ├── BlocListener&lt;AuthBloc&gt;
+        │     listenWhen: status သို့မဟုတ် email ပြောင်း
+        │     listener: _onAuthChanged
+        └── child: HomePage UI</code></pre>
+<p><code>_syncSession()</code> က အစဉ်လိုက် လုပ်တယ်။</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">1.</span><span>Account key (<code>user.email</code>) တွက်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">2.</span><span>Account မရှိ (guest) ဆို <code>GuestBudget.clear()</code> ပြီး ရပ်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">3.</span><span>Account အသစ်ဖြစ်ရင် —</span></div><div class="list-item" style="padding-left:2.50em"><span class="list-marker">•</span><span><code>_savedTodayPlan.value = null</code></span></div><div class="list-item" style="padding-left:2.50em"><span class="list-marker">•</span><span><code>_myPlanSelected.value = false</code></span></div><div class="list-item" style="padding-left:2.50em"><span class="list-marker">•</span><span><code>GuestBudget.clear()</code> (အကောင့်တစ်ခုရဲ့ budget ကို နောက်အကောင့် မပြစေရန်)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">4.</span><span><code>GET /budget?date=...</code></span></div><div class="list-item" style="padding-left:2.50em"><span class="list-marker">•</span><span>404 က "မရှိသေး" အဖြစ် ကိုင်ပြီး error မပြ</span></div><div class="list-item" style="padding-left:2.50em"><span class="list-marker">•</span><span><code>data.budget.amount</code> ကို <code>GuestBudget.save()</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">5.</span><span><code>GET /foods</code> နဲ့ catalog ဆွဲ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">6.</span><span><code>GET /plans?date=...</code> နဲ့ plan ဆွဲ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">7.</span><span>Plan items တွေကို food id နဲ့ catalog ထဲ join ပြီး <code>AutoPlan</code>/<code>ManualPlan</code> ပြန်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">8.</span><span><code>HomePage._savedTodayPlan.value = plan</code></span></div></div>
+<p>Race condition ကို ကာကွယ်ထားတယ် —</p>
+<pre><code class="language-dart">final request = ++_requestVersion;
+...
+if (!mounted || request != _requestVersion) return;
+...
+if (_accountKey(context.read&lt;AuthBloc&gt;().state) != account) return;</code></pre>
+<p>ဒါက account လဲလိုက်တဲ့အခါ ရှေးဟောင်း response တွေ UI ကို မရောက်စေရန် ကာကွယ်တယ်။</p>
+<p><strong>အားသာချက်:</strong> App ပြန်ဖွင့်ရင် logged-in user ရဲ့ budget နဲ့ ဒီနေ့ plan ကို server ကနေ ပြန်ပြီး ပြနိုင်တယ်။ Account လဲရင် data မရောတော့ဘူး။</p>
+<hr/>
+<h3>5.7 Foods Catalog — API ချိတ်ထား</h3>
+<p><code>FoodRepository.getFoods()</code> က page loop နဲ့ catalog တစ်ခုလုံး ဆွဲတယ်။</p>
+<pre><code class="language-dart">var page = 1;
+while (true) {
+  final body = await api.get(
+    '/foods',
+    authenticated: false,
+    queryParameters: {'page': page, 'limit': 100},
+  );
+
+  if (body['success'] != true) {
+    throw StateError('Cannot load foods.');
+  }
+
+  final data = Map&lt;String, dynamic&gt;.from(body['data'] as Map);
+  final rows = data['foods'] as List;
+
+  for (final row in rows) {
+    final food = Map&lt;String, dynamic&gt;.from(row as Map);
+    result.add(FoodCatalogItem(
+      id: food['id'].toString(),
+      name: food['name'].toString(),
+      price: (food['price'] as num).toInt(),
+      shopName: food['shopName'].toString(),
+      location: (food['location'] ?? '').toString(),
+      category: food['category'].toString(),
+      imagePath: food['imagePath']?.toString(),
+    ));
+  }
+
+  final pagination = Map&lt;String, dynamic&gt;.from(data['pagination'] as Map);
+  if (pagination['hasMore'] != true) break;
+  page++;
+}</code></pre>
+<p>အဓိကအချက် —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Backend က <strong>UUID</strong> ပြန်တယ်။ <code>food_001</code> မဟုတ်တော့ဘူး။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>pagination.hasMore</code> မပြီးမချင်း page တွေ ဆက်ဆွဲ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>authenticated: false</code> ဖြစ်လို့ guest လည်း catalog ကြည့်နိုင်တယ်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Search နဲ့ category ကို API မှာ မစစ်ဘဲ <strong>client မှာ local filter</strong> လုပ်တယ် (<code>FoodsPage._visibleFoods</code>)</span></div></div>
+<p><code>HomePage._openFoods()</code> က —</p>
+<pre><code class="language-dart">final foods = await repository.getFoods();
+
+final favoriteIds = isLoggedIn
+    ? await repository.getFavoriteIds()
+    : &lt;String&gt;{};
+
+Navigator.push(
+  FoodsPage(
+    isLoggedIn: isLoggedIn,
+    foods: foods,
+    initialFavoriteIds: favoriteIds,
+    onFavoriteToggle: isLoggedIn ? repository.setFavorite : null,
+    ...
+  ),
+);</code></pre>
+<p><code>_plannerPage()</code> ကလည်း logged-in ဆို API catalog ကို <code>FutureBuilder</code> နဲ့ ဆွဲပြီး planner ကို ပေးတယ်။ Guest ဆို <code>sampleFoodCatalog</code> ကို သုံးတယ်။</p>
+<hr/>
+<h3>5.8 Favorites — API ချိတ်ထား</h3>
+<pre><code class="language-dart">Future&lt;Set&lt;String&gt;&gt; getFavoriteIds() async {
+  final body = await api.get('/favorites');
+  ...
+  return rows.map((row) {
+    final favorite = Map&lt;String, dynamic&gt;.from(row as Map);
+    final food = favorite['food'];
+    if (food is Map) return food['id'].toString();
+    return (favorite['foodId'] ?? favorite['food_id']).toString();
+  }).toSet();
+}
+
+Future&lt;void&gt; setFavorite(String foodId, bool add) async {
+  final Map&lt;String, dynamic&gt; body;
+  if (add) {
+    body = await api.post('/favorites', data: {'foodId': foodId});
+  } else {
+    body = await api.delete('/favorites/$foodId');
+  }
+  if (body['success'] != true) {
+    throw StateError('Cannot update favorite.');
+  }
+}</code></pre>
+<p><code>FoodsPage._toggleFavorite()</code> ရဲ့ flow —</p>
+<pre><code class="language-text">Guest ဖြစ်ရင် → login dialog → ရပ်
+တန်းစီနေဆဲ id ဖြစ်ရင် → ရပ် (double tap ကာကွယ်)
+add = !_favoriteIds.contains(id)
+  │
+  ├─ onFavoriteToggle null → local setState (fallback)
+  │
+  └─ onFavoriteToggle ရှိ → await API
+        ├─ success → setState add/remove
+        └─ failure → snackbar, local မပြောင်း</code></pre>
+<p><strong>အားသာချက်:</strong> Backend မအောင်မြင်ရင် UI state မပြောင်းဘူး။ Double tap ကို <code>_updatingFavorites</code> နဲ့ ကာကွယ်ထားတယ်။</p>
+<p><strong>အားနည်းချက်:</strong> Optimistic update မဟုတ်လို့ network နှေးရင် icon ပြောင်းဖို့ စောင့်ရတယ်။ 409 (already favorite) ကို အထူးမကိုင်ဘဲ generic error ပြတယ်။</p>
+<hr/>
+<h3>5.9 Plan Save — Auto/Manual နှစ်မျိုးလုံး ချိတ်ထား</h3>
+<p>Planner page တွေက <code>onSave</code> callback ပေးတယ်။ <code>HomePage._savePlan()</code> က လက်ခံတယ်။</p>
+<pre><code class="language-dart">Future&lt;void&gt; _savePlan(BuildContext homeContext, Object plan) async {
+  final isLoggedIn = homeContext.read&lt;AuthBloc&gt;().state.isAuthenticated;
+
+  if (isLoggedIn) {
+    final repository = MealPlanRepository(homeContext.read&lt;ApiClient&gt;());
+    // Backend must save successfully before updating the UI.
+    await repository.save(plan);
+  }
+
+  _savedTodayPlan.value = plan;
+
+  final homeRoute = ModalRoute.of(homeContext);
+  if (homeRoute != null) {
+    Navigator.of(homeContext).popUntil((route) =&gt; identical(route, homeRoute));
+  }
+}</code></pre>
+<p>ဒီမှာ <strong>အရေးကြီးတဲ့ design decision</strong> ရှိတယ် — backend save မအောင်မြင်ရင် local UI ကို မပြောင်းဘူး။ <code>await repository.save(plan)</code> က မအောင်မြင်ရင် throw ဖြစ်ပြီး အောက်ကို မဆက်ဘူး။</p>
+<p><code>MealPlanRepository.save()</code> က plan အမျိုးအစားကို ခွဲတယ်။</p>
+<p>Auto plan —</p>
+<pre><code class="language-dart">if (plan is AutoPlan) {
+  date = plan.date;
+  method = 'auto';
+  items = [
+    for (final entry in plan.meals.entries)
+      {'foodId': entry.value.id, 'quantity': 1, 'mealType': entry.key.name},
+  ];
+}</code></pre>
+<p>Manual plan —</p>
+<pre><code class="language-dart">} else if (plan is ManualPlan) {
+  date = plan.date;
+  method = 'manual';
+  items = [
+    for (final entry in plan.meals.entries)
+      for (final item in entry.value)
+        {
+          'foodId': item.food.id,
+          'quantity': item.quantity,
+          'mealType': entry.key.name,
+        },
+  ];
+}</code></pre>
+<p>Payload —</p>
+<pre><code class="language-json">{
+  "date": "2026-11-12",
+  "method": "auto",
+  "items": [
+    { "foodId": "uuid", "quantity": 1, "mealType": "breakfast" }
+  ]
+}</code></pre>
+<p>Backend က စစ်တာ —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Budget မရှိရင် <code>422</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Auto plan budget ကျော်ရင် <code>422</code> (မသိမ်း)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Manual plan budget ကျော်လို့ရ၊ <code>overBudget: true</code> ပြန်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Auto plan မှာ meal type တစ်ခုကို item တစ်ခု၊ quantity 1 ပဲ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>ဒီနေ့ plan ရှိရင် အဟောင်းကို replace</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Price ကို server က catalog ကနေ ပြန်ယူ (client price ကို မယုံ)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Plan သိမ်းတာ expense မဖန်တီး</span></div></div>
+<p><strong>အားနည်းချက်:</strong> Planner page တွေက error ကို <code>catch (_)</code> နဲ့ ဖမ်းပြီး <strong>generic snackbar</strong> ပဲ ပြတယ်။ Backend ရဲ့ "Set a daily budget for 2026-11-12 before saving..." ဆိုတဲ့ အသုံးဝင်တဲ့ message ကို မပြဘူး။</p>
+<hr/>
+<h3>5.10 Plan Load — Session Gate ကနေ ပြန်ဖတ်</h3>
+<pre><code class="language-dart">final foods = await FoodRepository(api).getFoods();
+
+final plan = await MealPlanRepository(api)
+    .getSavedPlan(DateTime.now(), foods);
+
+HomePage._savedTodayPlan.value = plan;</code></pre>
+<p><code>getSavedPlan()</code> က API plan ကို local model ပြန်ပြောင်းတယ်။</p>
+<pre><code class="language-dart">final savedDate = DateTime.parse(
+  (plan['date'] ?? plan['planDate'] ?? '&lt;fallback&gt;').toString(),
+);
+
+for (final raw in rawItems) {
+  final item = Map&lt;String, dynamic&gt;.from(raw as Map);
+  final foodId = (item['food'] ?? item['foodId'] ?? item['food_id'])?.toString();
+  final food = foodsById[foodId];
+  if (food == null) {
+    throw FormatException('Food $foodId is missing from the catalog.');
+  }
+
+  final type = MealType.values.byName(
+    (item['mealType'] ?? item['meal_type']).toString(),
+  );
+
+  if (method == 'auto') {
+    meals[type] = food;
+  } else {
+    (meals[type] ??= []).add(
+      ManualItem(food: food, quantity: (item['quantity'] as num).toInt()),
+    );
+  }
+}</code></pre>
+<p>ဒီမှာ <strong>catalog join</strong> အရေးကြီးတယ်။ Backend plan item ထဲက food က id string ပဲ ဖြစ်တယ်။ ဒါကြောင့် UI မှာ ပြဖို့ catalog ကို အရင်ဆွဲပြီး id နဲ့ ပြန်တွဲရတယ်။</p>
+<hr/>
+<h3>5.11 Guest Mode — Local only ဒီဇိုင်း</h3>
+<pre><code class="language-text">Guest
+  ├── Budget → GuestBudget (memory)
+  ├── Planner catalog → sampleFoodCatalog
+  ├── Plan save → _savedTodayPlan (static ValueNotifier)
+  └── Favorites → login dialog (ခွင့်မပြု)</code></pre>
+<p><code>GuestBudget</code> —</p>
+<pre><code class="language-dart">class GuestBudget {
+  static final ValueNotifier&lt;int?&gt; dailyBudget = ValueNotifier&lt;int?&gt;(null);
+
+  static int? get amount =&gt; dailyBudget.value;
+  static bool get hasBudget =&gt; amount != null;
+
+  static void save(int amount) { ... }
+  static void clear() =&gt; dailyBudget.value = null;
+}</code></pre>
+<p>ဒါက app ပိတ်ရင် ပျောက်တယ်။ Database မပါဘူး။</p>
+<hr/>
+<h2>6. လက်ရှိ အားနည်းချက်များ</h2>
+<h3>6.1 အရေးကြီး (ချက်ချင်း ပြင်သင့်)</h3>
+<table><thead><tr><th>#</th><th>ပြဿနာ</th><th>ဖိုင်</th><th>သက်ရောက်မှု</th></tr></thead><tbody><tr><td>1</td><td><strong>Plan delete က local only</strong> — <code>onDelete</code> က <code>_savedTodayPlan.value = null</code> ပဲ လုပ်၊ <code>DELETE /plans</code> မခေါ်</td><td><code>home_page.dart</code> နှင့် <code>myplan_page.dart</code></td><td>App ပြန်ဖွင့်ရင် ဖျက်လိုက်တဲ့ plan ပြန်ပေါ်လာမယ်</td></tr><tr><td>2</td><td><strong>Guest data transfer မရှိ</strong> — login ဖြစ်တာနဲ့ <code>_syncSession</code> က <code>GuestBudget.clear()</code> လုပ်တယ်</td><td><code>home_page.dart</code></td><td>Guest ရဲ့ budget/plan ပျောက်တယ်၊ account ထဲ မရွှေ့ဘူး</td></tr><tr><td>3</td><td><strong>Profile update / password change UI မရှိ</strong></td><td><code>home_page.dart</code> account dialog</td><td>User က နာမည်ပြင်/password ပြင် မလုပ်နိုင်</td></tr><tr><td>4</td><td><strong>Plan load error အမြဲ silent</strong></td><td><code>_PlanSessionGateState._syncSession</code></td><td>Food တစ်ခု catalog ထဲက ဖျက်ခံရရင် plan တစ်ခုလုံး မပေါ်၊ "No Meal Plan Yet" ပြနေမယ်</td></tr><tr><td>5</td><td><strong>Planner error message မျိုချ</strong></td><td><code>auto_page.dart</code>, <code>manual_page.dart</code></td><td>Backend ရဲ့ တိကျတဲ့ validation message မပေါ်</td></tr></tbody></table>
+<h3>6.2 အလယ်အလတ်</h3>
+<table><thead><tr><th>#</th><th>ပြဿနာ</th><th>ရှင်းလင်းချက်</th></tr></thead><tbody><tr><td>6</td><td>401 ကို global မကိုင်</td><td><code>ApiClient</code> မှာ interceptor မရှိ။ Token သက်တမ်းကုန်ရင် page တစ်ခုချင်း error ပြနေမယ်၊ login ကို auto မပို့ဘူး</td></tr><tr><td>7</td><td>Endpoint တွေ hardcode</td><td><code>FoodRepository</code>/<code>MealPlanRepository</code>/<code>home_page</code> မှာ <code>'/foods'</code>, <code>'/budget'</code>, <code>'/plans'</code> လို string တွေ တိုက်ရိုက်</td></tr><tr><td>8</td><td>Repository interface မရှိ</td><td><code>FoodRepository</code>/<code>MealPlanRepository</code> က concrete class ပဲ။ Mock လုပ်ရခက်တယ်</td></tr><tr><td>9</td><td>BLoC မရှိ</td><td>Foods/Plans/Budget က <code>setState</code> + callback + static notifier နဲ့ ရေးထား။ Feature ကြီးလာရင် state ရှုပ်မယ်</td></tr><tr><td>10</td><td><code>HomePage</code> က <code>StatelessWidget</code> + static <code>ValueNotifier</code></td><td>Backend state ပါ ထည့်ထားပြီးမို့ Stateful/BLoC ပြောင်းတာ ပိုသင့်တော်</td></tr><tr><td>11</td><td>Foods filter/search local</td><td>Catalog ကြီးလာရင် client မှာ အားလုံးဆွဲထားရ။ API ရဲ့ <code>category/search/sort</code> ကို မသုံးဘူး</td></tr><tr><td>12</td><td>Pagination loop က blocking</td><td><code>_openFoods</code> က အားလုံးဆွဲပြီးမှ page ဖွင့်။ Catalog ကြီးရင် စောင့်ရ၊ loading UI မရှိ</td></tr><tr><td>13</td><td>Image path က backend field ကို တိုက်ရိုက် <code>Image.asset</code></td><td>Seed က <code>assets/img/...</code> ဖြစ်လို့ အခု အလုပ်ဖြစ်ပေမယ့် URL ပြောင်းရင် ကျိုးမယ်</td></tr></tbody></table>
+<h3>6.3 သေးငယ် / နောက်ပိုင်း</h3>
+<table><thead><tr><th>#</th><th>ပြဿနာ</th></tr></thead><tbody><tr><td>14</td><td><code>ApiEndpoints</code> ထဲမှာ foods/plans/budget/favorites မပါ</td></tr><tr><td>15</td><td><code>GET /budget</code> 404 ကို debugPrint နဲ့ပဲ ကိုင်၊ user မသိ</td></tr><tr><td>16</td><td><code>_saveBudgetToBackend</code> က date ကို client က ပို့၊ timezone ကွာရင် မတူနိုင်</td></tr><tr><td>17</td><td>Foods catalog မရရင် guest လည်း Foods page မဖွင့်နိုင် (local sample fallback မရှိ)</td></tr><tr><td>18</td><td>Favorites 409 ကို အထူးမကိုင်</td></tr><tr><td>19</td><td>Tests က auth bloc နဲ့ user model ပဲ ရှိ။ Repository/API tests မရှိ</td></tr><tr><td>20</td><td>Plan delete အတွက် repository method ရှိပြီးသား မသုံး (dead code)</td></tr><tr><td>21</td><td><code>HomePage._savedTodayPlan</code> က static ဖြစ်လို့ widget test တွေ ရှုပ်နိုင်</td></tr><tr><td>22</td><td>Form validation တွေက client မှာပဲ၊ backend error details ကို field တစ်ခုချင်း မပြသေး</td></tr><tr><td>23</td><td>Reports/Expenses/History က "not implemented" snackbar ပဲ</td></tr><tr><td>24</td><td>Currency format က <code>GuestBudget.format</code> နဲ့ပဲ၊ architecture တစ်ခုတည်း မရှိ</td></tr></tbody></table>
+<hr/>
+<h2>7. Checkpoints နှင့် Milestones</h2>
+<h3>7.1 ပြီးသွားတဲ့ checkpoint များ</h3>
+<table><thead><tr><th>CP</th><th>Milestone</th><th>သက်သေ</th><th>အခြေအနေ</th></tr></thead><tbody><tr><td>CP0</td><td>Backend PostgreSQL migration + API contract</td><td>smoke check 67 pass</td><td>ပြီး</td></tr><tr><td>CP1</td><td>Composition root + ApiClient + token injection</td><td><code>main.dart</code>, <code>api_client.dart</code></td><td>ပြီး</td></tr><tr><td>CP2</td><td>Auth vertical slice (register/login/restore/logout)</td><td><code>AuthBloc</code> + <code>RemoteAuthRepository</code></td><td>ပြီး</td></tr><tr><td>CP3</td><td>Budget save</td><td><code>PUT /budget</code> from Home</td><td>ပြီး</td></tr><tr><td>CP4</td><td>Budget restore + account switch safety</td><td><code>_PlanSessionGate</code></td><td>ပြီး</td></tr><tr><td>CP5</td><td>Foods catalog from API</td><td><code>FoodRepository.getFoods</code></td><td>ပြီး</td></tr><tr><td>CP6</td><td>Favorites from API</td><td><code>FoodRepository</code> + <code>FoodsPage</code></td><td>ပြီး</td></tr><tr><td>CP7</td><td>Plan save (auto + manual)</td><td><code>MealPlanRepository.save</code></td><td>ပြီး</td></tr><tr><td>CP8</td><td>Plan restore on login/app restart</td><td><code>getSavedPlan</code> + gate</td><td>ပြီး</td></tr><tr><td>CP9</td><td>Guest mode local flow</td><td><code>GuestBudget</code>, local planners</td><td>ပြီး</td></tr></tbody></table>
+<h3>7.2 ကျန်ရှိ checkpoint များ</h3>
+<table><thead><tr><th>CP</th><th>Milestone</th><th>လိုအပ်တဲ့အလုပ်</th><th>ခန့်မှန်း</th></tr></thead><tbody><tr><td>CP10</td><td>Plan delete API</td><td><code>onDelete</code> ထဲ <code>MealPlanRepository.delete(DateTime.now())</code> ခေါ်၊ 404 ကို success လို ကိုင်</td><td>၁–၂ နာရီ</td></tr><tr><td>CP11</td><td>Profile update + change password</td><td>Account dialog → form page → <code>AuthBloc</code> event → <code>updateProfile</code>/<code>changePassword</code></td><td>၄–၆ နာရီ</td></tr><tr><td>CP12</td><td>Expenses page + API</td><td><code>GET/POST/DELETE /expenses</code> + form + states</td><td>၁ ရက်</td></tr><tr><td>CP13</td><td>History page + API</td><td><code>GET /history</code> + date range + summary</td><td>၁ ရက်</td></tr><tr><td>CP14</td><td>Reports page + API</td><td><code>GET /reports</code> + chart + period switch</td><td>၁–၂ ရက်</td></tr><tr><td>CP15</td><td>Guest transfer</td><td><code>POST /guest-transfer</code> + 409 conflict dialog + resolution</td><td>တစ်ဝက်ရက်</td></tr><tr><td>CP16</td><td>Hardening</td><td>global 401, endpoint constants, error messages, loading states</td><td>၁ ရက်</td></tr><tr><td>CP17</td><td>Testing</td><td>repository tests, widget tests, integration test</td><td>၁–၂ ရက်</td></tr></tbody></table>
+<h3>7.3 Milestone အလိုက် ပြီးစီးမှု</h3>
+<pre><code class="language-text">M1 Backend ready                 ████████████████████ 100%
+M2 Auth usable end-to-end        ████████████████████ 100%
+M3 Budget + Foods + Favorites    ████████████████████ 100%
+M4 Plan save + load              ███████████████████░  90%
+M5 Plan delete + Profile         ██░░░░░░░░░░░░░░░░░░  10%
+M6 Expenses + History + Reports  ░░░░░░░░░░░░░░░░░░░░   0%
+M7 Guest transfer                ░░░░░░░░░░░░░░░░░░░░   0%
+M8 Hardening + Tests             ████░░░░░░░░░░░░░░░░  20%</code></pre>
+<p><strong>အကြမ်းဖျင်း project progress: ≈ 60%</strong> (Backend 100%, UI 69%, client integration ~59%, tests 20% တို့ကို ပျမ်းမျှချ)</p>
+<hr/>
+<h2>8. နောက်ထပ် လုပ်သင့်တဲ့ အစီအစဉ်</h2>
+<h3>အဆင့် 1 — Plan delete ကို အရင်ပြီးအောင် (အမြန်ဆုံး၊ အကျိုးအရှိဆုံး)</h3>
+<pre><code class="language-dart">// home_page.dart
+onDelete: () async {
+  if (context.read&lt;AuthBloc&gt;().state.isAuthenticated) {
+    await MealPlanRepository(context.read&lt;ApiClient&gt;())
+        .delete(DateTime.now());
+  }
+  _savedTodayPlan.value = null;
+},</code></pre>
+<p>ပြီးရင် —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>404 ကို "plan မရှိ" အဖြစ် ကိုင်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>error ရရင် snackbar ပြ၊ local state မဖျက်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>delete ပြီးရင် My Plan က Home ကို ပြန်</span></div></div>
+<h3>အဆင့် 2 — Plan load error ကို user သိနိုင်အောင်</h3>
+<pre><code class="language-dart">if (error is ApiException &amp;&amp; error.statusCode == 404) {
+  HomePage._savedTodayPlan.value = null; // empty state
+} else {
+  _planLoadError.value = 'Could not load your plan.';
+}</code></pre>
+<p>ဒါမှ "No Meal Plan Yet" နဲ့ "Load failed" ကို ခွဲပြနိုင်မယ်။</p>
+<h3>အဆင့် 3 — Profile + Password</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>AccountPage</code> အသစ်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>AuthProfileUpdateRequested</code>, <code>AuthPasswordChangeRequested</code> event</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>success ရင် <code>AuthState.user</code> update</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>validation error ကို <code>ApiException.details</code> နဲ့ field အောက်မှာ ပြ</span></div></div>
+<h3>အဆင့် 4 — Expenses (History/Reports အတွက် အခြေခံ)</h3>
+<p>Expenses ကို အရင်ချိတ်ရမယ်။ မဟုတ်ရင် History/Reports မှာ data မရှိဘူး။</p>
+<pre><code class="language-text">ExpensesPage
+  ├── GET /expenses?date=...
+  ├── POST /expenses  (နေ့တစ်ခုလုံး replace)
+  └── DELETE /expenses?date=...</code></pre>
+<h3>အဆင့် 5 — History နှင့် Reports</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>History: from/to date range၊ day list၊ summary</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Reports: <code>period=daily|weekly|monthly</code>၊ chart</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>404/empty state ကို error မဟုတ်ဘဲ empty အဖြစ် ကိုင်</span></div></div>
+<h3>အဆင့် 6 — Guest Transfer</h3>
+<p>Login/signup အောင်မြင်တာနဲ့ guest budget/plan ရှိမရှိ စစ်၊ ရှိရင် <code>POST /guest-transfer</code>။</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>409 ရရင် conflict dialog</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>resolution</code>: <code>replace-with-guest</code> သို့မဟုတ် <code>keep-account</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>ပြီးမှ local guest state ကို ရှင်း</span></div></div>
+<h3>အဆင့် 7 — Hardening</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>ApiClient</code> မှာ 401 interceptor → token ဖျက် → <code>AuthLogoutRequested</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>endpoint အားလုံးကို <code>ApiEndpoints</code> ထဲ ရွှေ့</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>repository interface တွေ ထုတ်၊ <code>main.dart</code> မှာ provider လုပ်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>loading / error / empty state သုံးမျိုး စံနှုန်းချ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>repository unit tests + widget tests</span></div></div>
+<hr/>
+<h2>9. Acceptance Checklist (လက်ရှိ အလုပ်လုပ်ကြောင်း စစ်ရန်)</h2>
+<h3>Auth</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Register အသစ် → Home ရောက်၊ token သိမ်း</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Logout → token ဖျက်၊ Guest banner ပြန်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ App ပိတ်ပြီး ပြန်ဖွင့် → session ပြန်၊ user name ပြ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ မှားတဲ့ password → error banner ပြ၊ button ပြန် enable</span></div></div>
+<h3>Budget</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Guest budget သိမ်း → Home မှာ ပြ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Logged-in budget သိမ်း → server ရောက်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ App ပြန်ဖွင့် → budget ပြန်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Account လဲ → အရင် account budget မပြ</span></div></div>
+<h3>Foods + Favorites</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Foods page ဖွင့် → backend catalog ပြ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Search/category → local filter မှန်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Logged-in favorite → server သိမ်း၊ ပြန်ဖွင့်ရင် ပြန်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Guest favorite → login dialog</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Favorite ဖျက် → server ဖျက်</span></div></div>
+<h3>Plan</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Budget မရှိဘဲ plan သိမ်း → 422 error (လက်ရှိ generic message)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Auto plan သိမ်း → server ရောက်၊ Home မှာ ပြ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Manual plan သိမ်း (budget ကျော်) → server သိမ်း၊ overBudget warning</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ App ပြန်ဖွင့် → plan ပြန်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ My Plan → Delete → <strong>server ကပါ ဖျက်ရမယ် (လက်ရှိ မဖြစ်)</strong></span></div></div>
+<h3>Guest</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Guest budget + plan သိမ်း → app ပိတ်ရင် ပျောက်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Guest က Foods → catalog ပြ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Guest → Login → guest data transfer (လက်ရှိ မရှိ)</span></div></div>
+<hr/>
+<h2>10. Endpoint ↔ Code Map (အမြန်ရှာဖွေရန်)</h2>
+<table><thead><tr><th>Endpoint</th><th>Repository / Code</th><th>UI ခေါ်တဲ့နေရာ</th></tr></thead><tbody><tr><td><code>POST /auth/register</code></td><td><code>RemoteAuthRepository.register</code></td><td><code>SignUpPage</code> → <code>AuthRegisterRequested</code></td></tr><tr><td><code>POST /auth/login</code></td><td><code>RemoteAuthRepository.login</code></td><td><code>LoginPage</code> → <code>AuthLoginRequested</code></td></tr><tr><td><code>GET /auth/me</code></td><td><code>RemoteAuthRepository.restoreSession</code></td><td><code>AuthStarted</code></td></tr><tr><td><code>POST /auth/logout</code></td><td><code>RemoteAuthRepository.logout</code></td><td>Account dialog → <code>AuthLogoutRequested</code></td></tr><tr><td><code>PATCH /users/me</code></td><td><code>RemoteAuthRepository.updateProfile</code></td><td>မရှိ</td></tr><tr><td><code>PATCH /users/me/password</code></td><td><code>RemoteAuthRepository.changePassword</code></td><td>မရှိ</td></tr><tr><td><code>GET /foods</code></td><td><code>FoodRepository.getFoods</code></td><td><code>HomePage._openFoods</code>, planner</td></tr><tr><td><code>GET /favorites</code></td><td><code>FoodRepository.getFavoriteIds</code></td><td><code>HomePage._openFoods</code></td></tr><tr><td><code>POST /favorites</code></td><td><code>FoodRepository.setFavorite</code></td><td><code>FoodsPage._toggleFavorite</code></td></tr><tr><td><code>DELETE /favorites/:foodId</code></td><td><code>FoodRepository.setFavorite</code></td><td><code>FoodsPage._toggleFavorite</code></td></tr><tr><td><code>GET /budget</code></td><td><code>home_page.dart</code> တိုက်ရိုက်</td><td><code>_PlanSessionGateState._syncSession</code></td></tr><tr><td><code>PUT /budget</code></td><td><code>home_page.dart</code> တိုက်ရိုက်</td><td><code>openBudget</code>, <code>_startPlan</code></td></tr><tr><td><code>POST /plans</code></td><td><code>MealPlanRepository.save</code></td><td><code>HomePage._savePlan</code></td></tr><tr><td><code>GET /plans</code></td><td><code>MealPlanRepository.getSavedPlan</code></td><td><code>_PlanSessionGateState._syncSession</code></td></tr><tr><td><code>DELETE /plans</code></td><td><code>MealPlanRepository.delete</code></td><td>မရှိ (dead code)</td></tr><tr><td><code>GET /expenses</code></td><td>မရှိ</td><td>မရှိ</td></tr><tr><td><code>POST /expenses</code></td><td>မရှိ</td><td>မရှိ</td></tr><tr><td><code>DELETE /expenses</code></td><td>မရှိ</td><td>မရှိ</td></tr><tr><td><code>GET /history</code></td><td>မရှိ</td><td>မရှိ</td></tr><tr><td><code>GET /reports</code></td><td>မရှိ</td><td>မရှိ</td></tr><tr><td><code>POST /guest-transfer</code></td><td>မရှိ</td><td>မရှိ</td></tr></tbody></table>
+<hr/>
+<h2>11. နိဂုံး</h2>
+<p>လက်ရှိ MealMate က <strong>"backend အပြည့်အစုံ + Flutter အခြေခံလမ်းကြောင်း အလုပ်လုပ်နေပြီ"</strong> အဆင့်မှာ ရှိပါတယ်။</p>
+<p>အပြည့်အစုံ အလုပ်လုပ်နေတာ —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Register / Login / Session restore / Logout</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Budget save + restore</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Foods catalog (UUID, pagination)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Favorites</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Auto/Manual plan save + restore</span></div></div>
+<p>ချက်ချင်း ပြင်သင့်တာ —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">1.</span><span><strong>Plan delete ကို API ချိတ်</strong> (လက်ရှိ local only — အမှန်တကယ် bug)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">2.</span><span><strong>Plan load error ကို user သိနိုင်အောင်</strong> ပြ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">3.</span><span><strong>Guest data transfer</strong> ထည့် (မဟုတ်ရင် login လုပ်တာနဲ့ guest data ပျောက်)</span></div></div>
+<p>ပြီးရင် Expenses → History → Reports → Profile → Hardening အစီအစဉ်နဲ့ ဆက်သွားရင် dependency မရှုပ်ဘဲ တစ်ဆင့်ချင်း အလုပ်လုပ်တဲ့ feature တွေ ရလာမယ်။</p>
+<hr/>
+<p>*ဒီ report ကို <code>lib/</code> နှင့် <code>backend/</code> ရဲ့ လက်ရှိ code မှ တိုက်ရိုက်ဖတ်ပြီး ပြင်ဆင်ထားပါတယ်။ Code ပြောင်းတာနဲ့ အခြေအနေ ပြောင်းနိုင်ပါတယ်။*</p>
+<footer style="margin-top:28px;padding-top:10px;border-top:1px solid #d7ddd3;color:#6b7280;font-size:8.5pt;">
+Generated from <code>lib/</code> and backend API contract · 2026-11-12 15:03
+</footer>
+</body>
+</html>

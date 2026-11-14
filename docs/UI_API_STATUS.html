@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>MealMate — UI နှင့် API အခြေအနေ အနှစ်ချုပ်</title>
+<style>
+@page {
+  size: A4;
+  margin: 17mm 14mm 18mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Myanmar Text", "Pyidaungsu", "Noto Sans Myanmar",
+    "Segoe UI", sans-serif;
+  font-size: 10.4pt;
+  line-height: 1.68;
+  color: #1f2937;
+  background: #ffffff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: 23pt;
+  line-height: 1.3;
+  color: #06462a;
+  border-bottom: 4px solid #ff7900;
+  padding-bottom: 10px;
+}
+
+h2 {
+  margin: 26px 0 10px;
+  font-size: 16.5pt;
+  line-height: 1.35;
+  color: #06462a;
+  border-left: 6px solid #ff7900;
+  padding-left: 10px;
+  page-break-after: avoid;
+}
+
+h3 {
+  margin: 20px 0 8px;
+  font-size: 13pt;
+  color: #123d22;
+  page-break-after: avoid;
+}
+
+h4 {
+  margin: 16px 0 6px;
+  font-size: 11.4pt;
+  color: #1f4d2e;
+  page-break-after: avoid;
+}
+
+p {
+  margin: 8px 0;
+  orphans: 3;
+  widows: 3;
+}
+
+a {
+  color: #0b63b6;
+  text-decoration: none;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #d7ddd3;
+  margin: 18px 0;
+}
+
+blockquote {
+  margin: 12px 0;
+  padding: 9px 13px;
+  background: #f3f9e9;
+  border-left: 5px solid #17852a;
+  border-radius: 0 6px 6px 0;
+  color: #26402e;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+code {
+  font-family: Consolas, "Cascadia Mono", "Courier New", monospace;
+}
+
+:not(pre) > code {
+  background: #eef2f7;
+  color: #b42318;
+  border: 1px solid #e3e8ef;
+  border-radius: 3px;
+  padding: 0.5px 4px;
+  font-size: 9.1pt;
+  word-break: break-word;
+}
+
+pre {
+  margin: 10px 0 14px;
+  padding: 11px 13px;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 7px;
+  font-size: 8.35pt;
+  line-height: 1.48;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  page-break-inside: avoid;
+}
+
+pre code {
+  color: inherit;
+  background: transparent;
+  padding: 0;
+  border: 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0 16px;
+  font-size: 8.9pt;
+  line-height: 1.45;
+  table-layout: fixed;
+  page-break-inside: avoid;
+}
+
+th {
+  background: #06462a;
+  color: #ffffff;
+  font-weight: 700;
+  text-align: left;
+}
+
+th,
+td {
+  border: 1px solid #d1d5db;
+  padding: 5px 7px;
+  vertical-align: top;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+tbody tr:nth-child(even) td {
+  background: #f8fafc;
+}
+
+.list-block {
+  margin: 6px 0 10px;
+}
+
+.list-item {
+  display: flex;
+  gap: 0.45em;
+  margin: 2.5px 0;
+  align-items: flex-start;
+}
+
+.list-marker {
+  flex: 0 0 auto;
+  color: #17852a;
+  font-weight: 700;
+}
+
+.list-item > span:last-child {
+  flex: 1 1 auto;
+}
+
+strong {
+  color: #111827;
+}
+</style>
+</head>
+<body>
+<h1>MealMate — UI နှင့် API အခြေအနေ အနှစ်ချုပ်</h1>
+<p><strong>ရက်စွဲ:</strong> 2026-11-12 <strong>ရည်ရွယ်ချက်:</strong> လက်ရှိ UI ရေးပြီး/မရေးရသေးတဲ့ အပိုင်းနှင့် API ချိတ်ပြီး/မချိတ်ရသေးတဲ့ အပိုင်းကို လိုရင်းတိုရှင်း ကြည့်ရန်</p>
+<hr/>
+<h2>1. UI ရေးပြီး / မရေးရသေး</h2>
+<h3>1.1 အနှစ်ချုပ်</h3>
+<table><thead><tr><th>အမျိုးအစား</th><th>အရေအတွက်</th></tr></thead><tbody><tr><td>ရေးပြီးသား screen</td><td>11</td></tr><tr><td>တစ်စိတ်တစ်ပိုင်း</td><td>2</td></tr><tr><td>လုံးဝ မရေးရသေး</td><td>5</td></tr><tr><td><strong>စုစုပေါင်း</strong></td><td><strong>18</strong></td></tr></tbody></table>
+<pre><code class="language-text">UI screen coverage ≈ 11 / 18 = 61% (တစ်စိတ်တစ်ပိုင်း ထည့်ရင် ≈ 72%)</code></pre>
+<h3>1.2 ရေးပြီးသား UI (11)</h3>
+<table><thead><tr><th>#</th><th>Screen</th><th>ဖိုင်</th><th>လုပ်ဆောင်ချက်</th></tr></thead><tbody><tr><td>1</td><td>Splash</td><td><code>splash_page.dart</code></td><td>၃ စက္ကန့်ပြ၊ Home ပို့</td></tr><tr><td>2</td><td>Login</td><td><code>login_page.dart</code></td><td>Email/password၊ error banner၊ loading</td></tr><tr><td>3</td><td>Sign Up</td><td><code>signup_page.dart</code></td><td>Register form၊ auto login</td></tr><tr><td>4</td><td>Home</td><td><code>home_page.dart</code></td><td>Budget card၊ planner cards၊ today plan</td></tr><tr><td>5</td><td>Set Budget</td><td><code>set_budget.dart</code></td><td>ပမာဏထည့်၊ validation</td></tr><tr><td>6</td><td>Budget Confirm</td><td><code>budget_save.dart</code></td><td>သိမ်းပြီး အတည်ပြု</td></tr><tr><td>7</td><td>Foods</td><td><code>foods_page.dart</code></td><td>Search၊ category၊ favorites</td></tr><tr><td>8</td><td>Auto Planner</td><td><code>auto_page.dart</code></td><td>Auto plan ဆောက်၊ save</td></tr><tr><td>9</td><td>Manual Planner</td><td><code>manual_page.dart</code></td><td>Food ရွေး၊ quantity၊ save</td></tr><tr><td>10</td><td>Manual Browse</td><td><code>manual_browse.dart</code></td><td>Food ရှာ၊ detail ကြည့်</td></tr><tr><td>11</td><td>My Plan</td><td><code>myplan_page.dart</code></td><td>Plan ပြ၊ edit၊ delete dialog</td></tr></tbody></table>
+<h3>1.3 တစ်စိတ်တစ်ပိုင်း (2)</h3>
+<table><thead><tr><th>Screen</th><th>ရှိပြီး</th><th>မရှိသေး</th></tr></thead><tbody><tr><td>Account / Profile</td><td>Name, email, logout dialog</td><td>Edit profile၊ change password</td></tr><tr><td>Protected feature cards</td><td>Reports/Expenses/History card နှင့် login စစ်ခြင်း</td><td>သက်ဆိုင်ရာ page တွေ မရှိ</td></tr></tbody></table>
+<h3>1.4 လုံးဝ မရေးရသေး (5)</h3>
+<table><thead><tr><th>#</th><th>Screen</th><th>လိုအပ်ချက်</th></tr></thead><tbody><tr><td>1</td><td>Expenses</td><td>နေ့စဉ် စားသုံးမှု ထည့်/ပြ/ဖျက်</td></tr><tr><td>2</td><td>History</td><td>ရက်အလိုက် မှတ်တမ်း ပြန်</td></tr><tr><td>3</td><td>Reports</td><td>Daily/weekly/monthly summary</td></tr><tr><td>4</td><td>Profile Settings</td><td>အမည်ပြင်၊ password ပြင်</td></tr><tr><td>5</td><td>Guest Transfer</td><td>Guest data ကို account ထဲ ရွှေ့ရန်</td></tr></tbody></table>
+<hr/>
+<h2>2. API ချိတ်ပြီး / မချိတ်ရသေး</h2>
+<h3>2.1 အနှစ်ချုပ်</h3>
+<table><thead><tr><th>အမျိုးအစား</th><th>အရေအတွက်</th></tr></thead><tbody><tr><td>အပြည့်အစုံ ချိတ်ပြီး</td><td>10</td></tr><tr><td>Repository ရှိပြီး UI မခေါ်</td><td>3</td></tr><tr><td>လုံးဝ မချိတ်ရသေး</td><td>4</td></tr><tr><td><strong>စုစုပေါင်း feature</strong></td><td><strong>17</strong></td></tr></tbody></table>
+<pre><code class="language-text">API integration coverage ≈ 10 / 17 = 59% (တစ်စိတ်တစ်ပိုင်း ထည့်ရင် ≈ 76%)</code></pre>
+<h3>2.2 ချိတ်ပြီး endpoints (12)</h3>
+<table><thead><tr><th>#</th><th>Endpoint</th><th>ခေါ်တဲ့ code</th><th>အသုံး</th></tr></thead><tbody><tr><td>1</td><td><code>POST /auth/register</code></td><td><code>RemoteAuthRepository.register</code></td><td>Register</td></tr><tr><td>2</td><td><code>POST /auth/login</code></td><td><code>RemoteAuthRepository.login</code></td><td>Login</td></tr><tr><td>3</td><td><code>GET /auth/me</code></td><td><code>restoreSession</code></td><td>Session ပြန်</td></tr><tr><td>4</td><td><code>POST /auth/logout</code></td><td><code>logout</code></td><td>Logout</td></tr><tr><td>5</td><td><code>PUT /budget</code></td><td><code>HomePage._saveBudgetToBackend</code></td><td>Budget သိမ်း</td></tr><tr><td>6</td><td><code>GET /budget</code></td><td><code>_PlanSessionGateState</code></td><td>Budget ပြန်ဖတ်</td></tr><tr><td>7</td><td><code>GET /foods</code></td><td><code>FoodRepository.getFoods</code></td><td>Catalog ဆွဲ</td></tr><tr><td>8</td><td><code>GET /favorites</code></td><td><code>getFavoriteIds</code></td><td>Favorite စာရင်း</td></tr><tr><td>9</td><td><code>POST /favorites</code></td><td><code>setFavorite</code></td><td>Favorite ထည့်</td></tr><tr><td>10</td><td><code>DELETE /favorites/:foodId</code></td><td><code>setFavorite</code></td><td>Favorite ဖျက်</td></tr><tr><td>11</td><td><code>POST /plans</code></td><td><code>MealPlanRepository.save</code></td><td>Plan သိမ်း</td></tr><tr><td>12</td><td><code>GET /plans</code></td><td><code>MealPlanRepository.getSavedPlan</code></td><td>Plan ပြန်ဖတ်</td></tr></tbody></table>
+<h3>2.3 Repository ရှိပြီး UI မခေါ်သေး (3)</h3>
+<table><thead><tr><th>Endpoint</th><th>Code ရှိ</th><th>ပြဿနာ</th></tr></thead><tbody><tr><td><code>DELETE /plans</code></td><td><code>MealPlanRepository.delete</code></td><td>ဘယ်နေရာကမှ မခေါ် — plan delete က local only</td></tr><tr><td><code>PATCH /users/me</code></td><td><code>updateProfile</code></td><td>UI/BLoC event မရှိ</td></tr><tr><td><code>PATCH /users/me/password</code></td><td><code>changePassword</code></td><td>UI/BLoC event မရှိ</td></tr></tbody></table>
+<h3>2.4 လုံးဝ မချိတ်ရသေး (4 feature)</h3>
+<table><thead><tr><th>Feature</th><th>လိုအပ်တဲ့ endpoint</th><th>လက်ရှိ UI</th></tr></thead><tbody><tr><td>Expenses</td><td><code>GET/POST/DELETE /expenses</code></td><td>မရှိ</td></tr><tr><td>History</td><td><code>GET /history</code></td><td>မရှိ</td></tr><tr><td>Reports</td><td><code>GET /reports</code></td><td>မရှိ</td></tr><tr><td>Guest Transfer</td><td><code>POST /guest-transfer</code></td><td>မရှိ</td></tr></tbody></table>
+<h3>2.5 Feature အလိုက် အခြေအနေ</h3>
+<table><thead><tr><th>Feature</th><th>UI</th><th>API</th><th>အခြေအနေ</th></tr></thead><tbody><tr><td>Register / Login / Restore / Logout</td><td>ရှိ</td><td>ချိတ်ပြီး</td><td>အပြည့်အစုံ</td></tr><tr><td>Budget save + load</td><td>ရှိ</td><td>ချိတ်ပြီး</td><td>အပြည့်အစုံ</td></tr><tr><td>Foods catalog</td><td>ရှိ</td><td>ချိတ်ပြီး</td><td>အပြည့်အစုံ</td></tr><tr><td>Favorites</td><td>ရှိ</td><td>ချိတ်ပြီး</td><td>အပြည့်အစုံ</td></tr><tr><td>Plan save + load</td><td>ရှိ</td><td>ချိတ်ပြီး</td><td>အပြည့်အစုံ</td></tr><tr><td>Plan delete</td><td>ရှိ</td><td>မချိတ်</td><td>Local only</td></tr><tr><td>Profile update</td><td>Dialog ပဲ</td><td>Repo ရှိ</td><td>တစ်စိတ်တစ်ပိုင်း</td></tr><tr><td>Change password</td><td>မရှိ</td><td>Repo ရှိ</td><td>တစ်စိတ်တစ်ပိုင်း</td></tr><tr><td>Expenses</td><td>မရှိ</td><td>မချိတ်</td><td>မစရသေး</td></tr><tr><td>History</td><td>မရှိ</td><td>မချိတ်</td><td>မစရသေး</td></tr><tr><td>Reports</td><td>မရှိ</td><td>မချိတ်</td><td>မစရသေး</td></tr><tr><td>Guest transfer</td><td>မရှိ</td><td>မချိတ်</td><td>မစရသေး</td></tr></tbody></table>
+<hr/>
+<h2>3. လိုရင်း ကောက်ချက်</h2>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><strong>အလုပ်လုပ်နေတာ:</strong> Auth, Budget, Foods, Favorites, Plan save/load</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><strong>ချက်ချင်း ပြင်သင့်တာ:</strong> Plan delete ကို <code>DELETE /plans</code> နဲ့ ချိတ်၊ Plan load error ကို user သိနိုင်အောင် ပြ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><strong>နောက်ထပ် စရန်:</strong> Guest transfer → Expenses → History → Reports → Profile → Hardening</span></div></div>
+<hr/>
+<p>*ဒီစာမျက်နှာသည် <code>docs/PROGRESS_ANALYSIS.md</code> ရဲ့ UI/API အပိုင်းကို လိုရင်းချုပ်ထားတဲ့ အနှစ်ချုပ်ဖြစ်သည်။*</p>
+<footer style="margin-top:28px;padding-top:10px;border-top:1px solid #d7ddd3;color:#6b7280;font-size:8.5pt;">
+Generated from <code>lib/</code> and backend API contract · 2026-11-12 15:08
+</footer>
+</body>
+</html>

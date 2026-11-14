@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>MealMate — Budget အပိုင်း လုံးဝ ခွဲခြမ်းစိတ်ဖြာချက်</title>
+<style>
+@page {
+  size: A4;
+  margin: 17mm 14mm 18mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Myanmar Text", "Pyidaungsu", "Noto Sans Myanmar",
+    "Segoe UI", sans-serif;
+  font-size: 10.4pt;
+  line-height: 1.68;
+  color: #1f2937;
+  background: #ffffff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: 23pt;
+  line-height: 1.3;
+  color: #06462a;
+  border-bottom: 4px solid #ff7900;
+  padding-bottom: 10px;
+}
+
+h2 {
+  margin: 26px 0 10px;
+  font-size: 16.5pt;
+  line-height: 1.35;
+  color: #06462a;
+  border-left: 6px solid #ff7900;
+  padding-left: 10px;
+  page-break-after: avoid;
+}
+
+h3 {
+  margin: 20px 0 8px;
+  font-size: 13pt;
+  color: #123d22;
+  page-break-after: avoid;
+}
+
+h4 {
+  margin: 16px 0 6px;
+  font-size: 11.4pt;
+  color: #1f4d2e;
+  page-break-after: avoid;
+}
+
+p {
+  margin: 8px 0;
+  orphans: 3;
+  widows: 3;
+}
+
+a {
+  color: #0b63b6;
+  text-decoration: none;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #d7ddd3;
+  margin: 18px 0;
+}
+
+blockquote {
+  margin: 12px 0;
+  padding: 9px 13px;
+  background: #f3f9e9;
+  border-left: 5px solid #17852a;
+  border-radius: 0 6px 6px 0;
+  color: #26402e;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+code {
+  font-family: Consolas, "Cascadia Mono", "Courier New", monospace;
+}
+
+:not(pre) > code {
+  background: #eef2f7;
+  color: #b42318;
+  border: 1px solid #e3e8ef;
+  border-radius: 3px;
+  padding: 0.5px 4px;
+  font-size: 9.1pt;
+  word-break: break-word;
+}
+
+pre {
+  margin: 10px 0 14px;
+  padding: 11px 13px;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 7px;
+  font-size: 8.35pt;
+  line-height: 1.48;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  page-break-inside: avoid;
+}
+
+pre code {
+  color: inherit;
+  background: transparent;
+  padding: 0;
+  border: 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0 16px;
+  font-size: 8.9pt;
+  line-height: 1.45;
+  table-layout: fixed;
+  page-break-inside: avoid;
+}
+
+th {
+  background: #06462a;
+  color: #ffffff;
+  font-weight: 700;
+  text-align: left;
+}
+
+th,
+td {
+  border: 1px solid #d1d5db;
+  padding: 5px 7px;
+  vertical-align: top;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+tbody tr:nth-child(even) td {
+  background: #f8fafc;
+}
+
+.list-block {
+  margin: 6px 0 10px;
+}
+
+.list-item {
+  display: flex;
+  gap: 0.45em;
+  margin: 2.5px 0;
+  align-items: flex-start;
+}
+
+.list-marker {
+  flex: 0 0 auto;
+  color: #17852a;
+  font-weight: 700;
+}
+
+.list-item > span:last-child {
+  flex: 1 1 auto;
+}
+
+strong {
+  color: #111827;
+}
+</style>
+</head>
+<body>
+<h1>MealMate — Budget အပိုင်း လုံးဝ ခွဲခြမ်းစိတ်ဖြာချက်</h1>
+<blockquote>ဒီ document က <strong>Budget feature တစ်ခုတည်း</strong> ကို အာရုံစိုက်ပြီး ရေးထားပါတယ်။   ဘယ် class တွေ ပါလဲ၊ ဘယ် function တွေ ဘယ်လို အလုပ်လုပ်လဲ၊ ဘယ်သူက ဘယ်သူ့ကို ခေါ်လဲ၊ ဘယ် state က ဘယ်လို ပြောင်းလဲလဲ၊ backend နဲ့ ဘယ်လို ချိတ်ထားလဲ ဆိုတာကို အစအဆုံး ဖတ်နိုင်အောင် စီစဉ်ထားပါတယ်။</blockquote>
+<p><strong>ရက်စွဲ:</strong> 2026-11-13 <strong>သက်ဆိုင်တဲ့ ဖိုင်များ:</strong></p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>lib/ui/home_page.dart</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>lib/ui/set_budget.dart</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>lib/ui/budget_save.dart</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>lib/ui/guest_budget.dart</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>lib/services/api_client.dart</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>lib/logic/auth/auth_bloc.dart</code> (သွယ်ဝိုက်သာ)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>backend/routes/budgetRoutes.js</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>backend/controllers/budgetController.js</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>backend/models/DailyBudget.js</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>backend/middleware/validate.js</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>backend/utils/dates.js</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>backend/utils/constants.js</code></span></div></div>
+<hr/>
+<h2>1. Budget ဆိုတာ ဒီ project မှာ ဘာလဲ</h2>
+<p>Budget က <strong>"တစ်နေ့စာ အစားအသောက် သုံးငွေ ကန့်သတ်ချက်"</strong> ဖြစ်ပါတယ်။</p>
+<table><thead><tr><th>အချက်</th><th>သတ်မှတ်ချက်</th></tr></thead><tbody><tr><td>ယူနစ်</td><td>တစ်နေ့တစ်ခု (one budget per day)</td></tr><tr><td>ငွေ</td><td>ကျပ် ကိန်းပြည့် (whole MMK integer)</td></tr><tr><td>အနည်းဆုံး</td><td>1 MMK</td></tr><tr><td>အများဆုံး</td><td>10,000,000 MMK (backend)</td></tr><tr><td>သိမ်းပုံ</td><td>Guest ဆို memory၊ Logged-in ဆို PostgreSQL</td></tr><tr><td>သက်ရောက်မှု</td><td>Meal plan ရဲ့ budget limit ဖြစ်တယ်</td></tr><tr><td>မလုပ်တာ</td><td>Budget သိမ်းတာ expense မဖန်တီးဘူး၊ plan ကို မဖျက်ဘူး</td></tr></tbody></table>
+<p>အရေးကြီးဆုံး သဘောတရား —</p>
+<pre><code class="language-text">Budget သတ်မှတ်တာ = "ဒီနေ့ ဘယ်လောက်သုံးမယ်" ကြိုတင်စီမံခြင်း
+Expense မှတ်တမ်း = "အမှန်တကယ် ဘယ်လောက်သုံးခဲ့" မှတ်ခြင်း</code></pre>
+<p>ဒီနှစ်ခုက မတူပါဘူး။ ဒါကြောင့် budget သိမ်းတာက expense record မဖန်တီးပါဘူး။</p>
+<hr/>
+<h2>2. ခြုံငုံ Flow မြေပုံ</h2>
+<p>Budget ထဲ ဝင်နိုင်တဲ့ လမ်းကြောင်း <strong>၄ ခု</strong> ရှိပါတယ်။</p>
+<pre><code class="language-text">┌─────────────────────────────────────────────────────────────┐
+│ A. Home → "Set Daily Budget" / Edit icon                    │
+│    HomePage.openBudget()                                    │
+│      → SetBudgetPage                                         │
+│      → onSave = saveBudget()                                 │
+│      → BudgetSavePage (confirmation)                        │
+│      → Edit / Automatic / Manual / Back Home                │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│ B. Planner ဝင်ချိန် budget မရှိသေးလျှင်                       │
+│    HomePage._startPlan()                                     │
+│      → SetBudgetPage (confirmation page မပါ)                 │
+│      → budget ရမှ _openPlanner()                             │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│ C. BudgetSavePage မှ "Edit Budget"                           │
+│    BudgetSavePage._edit()                                    │
+│      → SetBudgetPage(initialBudget: _budget)                 │
+│      → onSave = onBudgetChanged                              │
+│      → pop(updated) → _budget update                        │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│ D. App ပြန်ဖွင့် / Login ဖြစ်ချိန်                            │
+│    _PlanSessionGateState._syncSession()                      │
+│      → GET /budget?date=YYYY-MM-DD                           │
+│      → GuestBudget.save(amount)                              │
+└─────────────────────────────────────────────────────────────┘</code></pre>
+<hr/>
+<h2>3. Path A — Home မှ Budget သတ်မှတ်ခြင်း (အဓိကလမ်းကြောင်း)</h2>
+<h3>3.1 စတင်တဲ့နေရာ — <code>_budgetCard()</code></h3>
+<p><code>home_page.dart</code> ရဲ့ <code>_budgetCard(BuildContext context)</code> က budget card ကို ဆောက်တယ်။</p>
+<pre><code class="language-dart">ValueListenableBuilder&lt;int?&gt;(
+  valueListenable: GuestBudget.dailyBudget,
+  builder: (context, amount, _) {
+    final hasBudget = amount != null;
+    ...
+  },
+)</code></pre>
+<p>ဒီ card မှာ —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Budget မရှိရင် <strong>"Set your budget"</strong> နှင့် <strong>"Set Daily Budget"</strong> button</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Budget ရှိရင် <strong>"{amount} MMK"</strong> နှင့် <strong>Edit</strong> icon</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>နှစ်မျိုးလုံး <code>openBudget(context)</code> ကို ခေါ်</span></div></div>
+<pre><code class="language-dart">onPressed: () =&gt; openBudget(context)</code></pre>
+<p><code>ValueListenableBuilder</code> က <code>GuestBudget.dailyBudget</code> ကို စောင့်ကြည့်တာမို့ budget ပြောင်းတာနဲ့ card အလိုအလျောက် ပြန်ဆွဲတယ်။</p>
+<h3>3.2 <code>HomePage.openBudget()</code></h3>
+<pre><code class="language-dart">Future&lt;void&gt; openBudget(BuildContext context) async {
+  final isLoggedIn = context.read&lt;AuthBloc&gt;().state.isAuthenticated;
+
+  Future&lt;bool&gt; saveBudget(int amount) async {
+    try {
+      if (isLoggedIn) {
+        await _saveBudgetToBackend(context, amount);
+      }
+      GuestBudget.save(amount);
+      return true;
+    } catch (error, stackTrace) {
+      debugPrint('BUDGET SAVE ERROR: $error');
+      debugPrintStack(stackTrace: stackTrace);
+      return false;
+    }
+  }
+
+  await Navigator.of(context).push&lt;int&gt;(
+    MaterialPageRoute&lt;int&gt;(
+      builder: (context) =&gt; SetBudgetPage(
+        initialBudget: GuestBudget.amount,
+        onSave: saveBudget,
+        confirmationPageBuilder: (amount) =&gt; BudgetSavePage(
+          budget: amount,
+          onBudgetChanged: saveBudget,
+          automaticPageBuilder: (context) =&gt; _plannerPage(
+            context, 'Automatic', GuestBudget.amount ?? amount,
+          ),
+          manualPageBuilder: (context) =&gt;
+              _plannerPage(context, 'Manual', GuestBudget.amount ?? amount),
+        ),
+      ),
+    ),
+  );
+}</code></pre>
+<p>ဒီ function မှာ အပိုင်း ၃ ပိုင်း ရှိတယ်။</p>
+<table><thead><tr><th>အပိုင်း</th><th>လုပ်ဆောင်ချက်</th></tr></thead><tbody><tr><td>1</td><td>လက်ရှိ user logged-in လား စစ်</td></tr><tr><td>2</td><td><code>saveBudget()</code> closure ဆောက် — backend သိမ်း + <code>GuestBudget</code> update</td></tr><tr><td>3</td><td><code>SetBudgetPage</code> ကို push၊ confirmation page builder ပေး</td></tr></tbody></table>
+<p><strong>အရေးကြီးချက်:</strong> <code>saveBudget</code> က <code>Future&lt;bool&gt;</code> ပြန်တယ်။ အောင်မြင်ရင် <code>true</code>၊ မအောင်မြင်ရင် <code>false</code>။ ဒါပေမယ့် error ကို ဖမ်းပြီး <strong>user ကို ဘာမှ မပြ</strong>ဘဲ <code>false</code> ပြန်တယ်။ ဒါက အောက်ပိုင်း အားနည်းချက်မှာ ထပ်ရှင်းပါမယ်။</p>
+<h3>3.3 <code>_saveBudgetToBackend()</code></h3>
+<pre><code class="language-dart">Future&lt;void&gt; _saveBudgetToBackend(BuildContext context, int amount) async {
+  final api = context.read&lt;ApiClient&gt;();
+
+  final response = await api.put(
+    '/budget',
+    data: {'date': _todayDate(), 'amount': amount},
+  );
+
+  if (response['success'] != true) {
+    throw StateError('Budget could not be saved.');
+  }
+}</code></pre>
+<p>ဒီမှာ —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>context.read&lt;ApiClient&gt;()</code> နဲ့ app-wide Dio wrapper ကို ယူ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>PUT /budget</code> ကို တိုက်ရိုက်ခေါ်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>date</code> ကို <code>_todayDate()</code> နဲ့ <code>YYYY-MM-DD</code> ပို့</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>response ရဲ့ <code>success</code> ကို စစ်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>ApiClient</code> က envelope တစ်ခုလုံး ပြန်တာမို့ <code>response['success']</code> ကို စစ်ရတယ်</span></div></div>
+<p><code>_todayDate()</code> —</p>
+<pre><code class="language-dart">String _todayDate() {
+  final now = DateTime.now();
+  return '${now.year.toString().padLeft(4, '0')}-'
+      '${now.month.toString().padLeft(2, '0')}-'
+      '${now.day.toString().padLeft(2, '0')}';
+}</code></pre>
+<h3>3.4 <code>SetBudgetPage</code> — input ယူတဲ့ screen</h3>
+<p><code>SetBudgetPage</code> က <strong>StatefulWidget</strong> ဖြစ်တယ်။ Field ၃ ခု ရှိတယ်။</p>
+<pre><code class="language-dart">class SetBudgetPage extends StatefulWidget {
+  final int? initialBudget;
+  final Future&lt;bool&gt; Function(int amount)? onSave;
+  final Widget Function(int amount)? confirmationPageBuilder;
+  ...
+}</code></pre>
+<table><thead><tr><th>Field</th><th>အသုံး</th></tr></thead><tbody><tr><td><code>initialBudget</code></td><td>Edit လုပ်တဲ့အခါ ရှိပြီးသား budget ကို ပြရန်</td></tr><tr><td><code>onSave</code></td><td>Save နှိပ်ရင် ခေါ်မယ့် async callback</td></tr><tr><td><code>confirmationPageBuilder</code></td><td>ရှိရင် confirmation page ကို ဆောက်၊ မရှိရင် pop</td></tr></tbody></table>
+<p>State ထဲမှာ —</p>
+<pre><code class="language-dart">late final TextEditingController _controller;
+final _formKey = GlobalKey&lt;FormState&gt;();
+bool _isSaving = false;</code></pre>
+<p><code>initState()</code> က <code>initialBudget</code> ကို comma format နဲ့ controller ထဲ ထည့်တယ်။</p>
+<pre><code class="language-dart">_controller = TextEditingController(
+  text: widget.initialBudget == null ? '' : _format(widget.initialBudget!),
+);</code></pre>
+<h3>3.5 Input ဖတ်ပုံ</h3>
+<pre><code class="language-dart">int? get _amount =&gt;
+    int.tryParse(_controller.text.replaceAll(',', '').trim());</code></pre>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Comma တွေ ဖျက်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Space ဖျက်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>int.tryParse</code> နဲ့ ကိန်းပြည့် ဖတ်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>မရရင် <code>null</code></span></div></div>
+<p>Input field မှာ —</p>
+<pre><code class="language-dart">keyboardType: TextInputType.number,
+inputFormatters: [FilteringTextInputFormatter.digitsOnly],</code></pre>
+<p>ဒါကြောင့် စာလုံး ရိုက်လို့ မရဘူး၊ ဂဏန်းပဲ ရိုက်နိုင်တယ်။</p>
+<p>Quick Amount chip နှိပ်ရင် —</p>
+<pre><code class="language-dart">void _selectAmount(int amount) {
+  setState(() =&gt; _controller.text = _format(amount));
+  _formKey.currentState?.validate();
+}</code></pre>
+<p><code>quickAmounts</code> က <code>[5000, 10000, 15000, 20000]</code>။</p>
+<h3>3.6 Validation</h3>
+<pre><code class="language-dart">validator: (value) {
+  final amount = int.tryParse(
+    (value ?? '').replaceAll(',', '').trim(),
+  );
+  if (amount == null || amount &lt;= 0) {
+    return 'Enter a budget greater than 0 MMK';
+  }
+  return null;
+},</code></pre>
+<p>Client က <strong>0 ထက် ကြီးရမယ်</strong> ဆိုတာပဲ စစ်တယ်။ <strong>အများဆုံး 10,000,000</strong> ကို မစစ်ဘူး။</p>
+<h3>3.7 <code>_save()</code> — အဓိကလုပ်ဆောင်ချက်</h3>
+<pre><code class="language-dart">Future&lt;void&gt; _save() async {
+  if (_isSaving) return;
+  if (!_formKey.currentState!.validate()) return;
+
+  final amount = _amount;
+  if (amount == null) return;
+
+  if (widget.onSave != null) {
+    setState(() =&gt; _isSaving = true);
+
+    try {
+      final success = await widget.onSave!(amount);
+      if (!mounted || !success) return;
+    } catch (error) {
+      ...
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Could not save budget. Please try again.'),
+        ),
+      );
+      return;
+    } finally {
+      if (mounted) setState(() =&gt; _isSaving = false);
+    }
+  }
+
+  if (!mounted) return;
+
+  if (widget.confirmationPageBuilder != null) {
+    Navigator.of(context).pushReplacement&lt;void, int&gt;(
+      MaterialPageRoute&lt;void&gt;(
+        builder: (_) =&gt; widget.confirmationPageBuilder!(amount),
+      ),
+      result: amount,
+    );
+  } else {
+    Navigator.of(context).pop(amount);
+  }
+}</code></pre>
+<p>အဆင့်လိုက် ရှင်းချက် —</p>
+<table><thead><tr><th>လုပ်ဆောင်ချက်</th><th>ရည်ရွယ်ချက်</th></tr></thead><tbody><tr><td><code>_isSaving</code> စစ်</td><td>double tap ကာကွယ်</td></tr><tr><td><code>validate()</code></td><td>form error ပြ</td></tr><tr><td><code>_amount</code> ဖတ်</td><td>null ဆို ရပ်</td></tr><tr><td><code>onSave</code> ရှိရင် ခေါ်</td><td>backend + GuestBudget သိမ်း</td></tr><tr><td><code>success == false</code></td><td>ဘာမှ မလုပ်၊ page မှာ ဆက်နေ</td></tr><tr><td><code>catch</code></td><td>generic snackbar ပြ</td></tr><tr><td><code>confirmationPageBuilder != null</code></td><td><code>pushReplacement</code> နဲ့ confirmation ကို အစားထိုး</td></tr><tr><td>မရှိရင်</td><td><code>pop(amount)</code> နဲ့ caller ကို ပြန်</td></tr></tbody></table>
+<h3>3.8 <code>pushReplacement</code> ရဲ့ အလုပ်လုပ်ပုံ</h3>
+<pre><code class="language-dart">Navigator.of(context).pushReplacement&lt;void, int&gt;(
+  MaterialPageRoute&lt;void&gt;(builder: (_) =&gt; BudgetSavePage(...)),
+  result: amount,
+);</code></pre>
+<p>ဒီနေရာမှာ —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>SetBudgetPage</code> route ကို stack ကနေ ဖျက်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>BudgetSavePage</code> ကို အပေါ်တင်တယ်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>ဖျက်လိုက်တဲ့ route ရဲ့ future ကို <code>amount</code> နဲ့ ပြီးစေတယ်</span></div></div>
+<p>ဒါကြောင့် <code>openBudget()</code> ထဲက <code>await Navigator.push&lt;int&gt;(...)</code> က <code>amount</code> နဲ့ ချက်ချင်း ပြီးသွားတယ်။ ဒါပေမယ့် <code>openBudget()</code> က အဲဒီ result ကို မသုံးဘူး။ ဘာကြောင့်လဲဆိုတော့ UI က <code>GuestBudget.dailyBudget</code> ကို စောင့်ကြည့်ထားလို့ပါ။</p>
+<h3>3.9 <code>BudgetSavePage</code> — အတည်ပြု screen</h3>
+<pre><code class="language-dart">class BudgetSavePage extends StatefulWidget {
+  final int budget;
+  final WidgetBuilder? automaticPageBuilder;
+  final WidgetBuilder? manualPageBuilder;
+  final Future&lt;bool&gt; Function(int amount)? onBudgetChanged;
+  ...
+}</code></pre>
+<table><thead><tr><th>Field</th><th>အသုံး</th></tr></thead><tbody><tr><td><code>budget</code></td><td>သိမ်းပြီးသား ပမာဏ</td></tr><tr><td><code>automaticPageBuilder</code></td><td>Auto planner ကို ဖွင့်ရန်</td></tr><tr><td><code>manualPageBuilder</code></td><td>Manual planner ကို ဖွင့်ရန်</td></tr><tr><td><code>onBudgetChanged</code></td><td>Edit လုပ်တဲ့အခါ ပြန်သိမ်းရန် callback</td></tr></tbody></table>
+<p>State —</p>
+<pre><code class="language-dart">late int _budget;</code></pre>
+<p><code>initState()</code> မှာ <code>_budget = widget.budget</code> လုပ်တယ်။</p>
+<p>ပြသတဲ့ အပိုင်း —</p>
+<pre><code class="language-text">✓ Budget Save!
+Your daily budget is
+{amount} Ks
+[ Edit Budget ]
+What would you like to do next?
+[ Automatic Meal Plan ]
+[ Manual Meal Plan ]
+[ Back to Home ]</code></pre>
+<h3>3.10 <code>_edit()</code> — ရှိပြီးသား budget ပြင်</h3>
+<pre><code class="language-dart">Future&lt;void&gt; _edit() async {
+  final updated = await Navigator.of(context).push&lt;int&gt;(
+    MaterialPageRoute(
+      builder: (context) =&gt; SetBudgetPage(
+        initialBudget: _budget,
+        onSave: widget.onBudgetChanged,
+      ),
+    ),
+  );
+
+  if (!mounted || updated == null) return;
+
+  if (widget.onBudgetChanged == null) {
+    GuestBudget.save(updated);
+  }
+
+  setState(() {
+    _budget = updated;
+  });
+}</code></pre>
+<p>ဒီမှာ —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>initialBudget</code> ကို ပေးလိုက်တာမို့ input မှာ ရှိပြီးသား ပမာဏ ပြ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>onSave</code> ကို <code>onBudgetChanged</code> ပေး</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>ပြင်ပြီး pop ပြန်ရင် <code>_budget</code> update</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>onBudgetChanged == null</code> ဆိုမှ <code>GuestBudget.save</code> (fallback)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>onBudgetChanged</code> ရှိရင် အဲဒီ callback ထဲမှာ <code>GuestBudget.save</code> ပါပြီးသား</span></div></div>
+<h3>3.11 <code>_home()</code> — Home ပြန်</h3>
+<pre><code class="language-dart">void _home() =&gt; Navigator.of(context).pop(_budget);</code></pre>
+<p><code>BudgetSavePage</code> ကို ဖွင့်ထားတဲ့သူက <code>await push&lt;int&gt;</code> မလုပ်ထားလို့ ဒီ result ကို ဘယ်သူမှ မယူဘူး။ ဒါပေမယ့် <code>GuestBudget.dailyBudget</code> က ပြောင်းထားပြီးသားမို့ Home card က မှန်ကန်တဲ့ ပမာဏ ပြနေတယ်။</p>
+<h3>3.12 <code>PopScope</code> — Android back button</h3>
+<pre><code class="language-dart">PopScope&lt;int&gt;(
+  canPop: false,
+  onPopInvokedWithResult: (didPop, result) {
+    if (!didPop) _home();
+  },
+  child: ...
+)</code></pre>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Back button နှိပ်ရင် ဒီ page ကို ဖျက်မယ့်အစား <code>_home()</code> ခေါ်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>_budget</code> ကို result အနေနဲ့ ပြန်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Home ကို ရောက်</span></div></div>
+<h3>3.13 Planner ကို ဆက်သွားခြင်း</h3>
+<pre><code class="language-dart">void _openPlan(WidgetBuilder? builder, String planName) {
+  if (builder == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('$planName page is not connected yet.')),
+    );
+    return;
+  }
+  Navigator.of(context).push(MaterialPageRoute(builder: builder));
+}</code></pre>
+<p><code>BudgetSavePage</code> မှာ card နှိပ်ရင် <code>automaticPageBuilder</code> သို့မဟုတ် <code>manualPageBuilder</code> ကို ခေါ်။</p>
+<p>Home က ပေးထားတဲ့ builder —</p>
+<pre><code class="language-dart">automaticPageBuilder: (context) =&gt; _plannerPage(
+  context, 'Automatic', GuestBudget.amount ?? amount,
+),</code></pre>
+<p>ဒါကြောင့် confirmation page ကနေ တိုက်ရိုက် planner ထဲ ဝင်နိုင်တယ်။</p>
+<hr/>
+<h2>4. Path B — Planner ဝင်ချိန် Budget မရှိသေးလျှင်</h2>
+<p><code>HomePage._startPlan()</code> က planner မဝင်ခင် budget ရှိမရှိ စစ်တယ်။</p>
+<pre><code class="language-dart">var budget = GuestBudget.amount;
+if (budget == null) {
+  final isLoggedIn = context.read&lt;AuthBloc&gt;().state.isAuthenticated;
+  final api = context.read&lt;ApiClient&gt;();
+
+  budget = await Navigator.of(context).push&lt;int&gt;(
+    MaterialPageRoute&lt;int&gt;(
+      builder: (_) =&gt; SetBudgetPage(
+        onSave: (amount) async {
+          if (isLoggedIn) {
+            final response = await api.put(
+              '/budget',
+              data: {'date': _todayDate(), 'amount': amount},
+            );
+            if (response['success'] != true) {
+              throw StateError('Budget could not be saved.');
+            }
+          }
+          GuestBudget.save(amount);
+          return true;
+        },
+      ),
+    ),
+  );
+
+  if (!context.mounted || budget == null) return;
+}
+
+if (!context.mounted) return;
+_openPlanner(context, method, budget);</code></pre>
+<p>ဒီလမ်းကြောင်းမှာ —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>confirmationPageBuilder</code> မပါ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Save အောင်မြင်ရင် <code>SetBudgetPage</code> က <code>pop(amount)</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>_startPlan</code> က <code>budget</code> ကို လက်ခံ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>ပြီးမှ <code>_openPlanner(context, method, budget)</code> ခေါ်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>BudgetSavePage</code> မပြ</span></div></div>
+<p>Error ဖြစ်ရင် <code>onSave</code> က throw လုပ်တယ်၊ <code>SetBudgetPage._save()</code> က ဖမ်းပြီး generic snackbar ပြတယ်။ ဒီလမ်းကြောင်းမှာတော့ error ကို user သိတယ် (Path A နဲ့ မတူဘူး)။</p>
+<hr/>
+<h2>5. Path C — BudgetSavePage မှ Edit</h2>
+<p>ဒီလမ်းကြောင်းကို အပေါ် 3.10 မှာ ရှင်းပြီးပါပြီ။ အနှစ်ချုပ်က —</p>
+<pre><code class="language-text">BudgetSavePage (_budget = 15000)
+  → Edit Budget
+  → SetBudgetPage(initialBudget: 15000, onSave: saveBudget)
+  → user က 20000 ရိုက်
+  → Save
+  → onSave(20000) → PUT /budget + GuestBudget.save(20000)
+  → pop(20000)
+  → BudgetSavePage._budget = 20000
+  → UI မှာ 20,000 Ks ပြ</code></pre>
+<hr/>
+<h2>6. Path D — Login / App ပြန်ဖွင့်ချိန် Budget ပြန်ဖတ်ခြင်း</h2>
+<p><code>HomePage</code> ကို <code>_PlanSessionGate</code> က ဖုံးထားတယ်။</p>
+<pre><code class="language-text">HomePage.build()
+  └── _PlanSessionGate
+        ├── initState → postFrame → _syncSession(authState)
+        ├── BlocListener&lt;AuthBloc&gt;
+        └── child: HomePage UI</code></pre>
+<h3>6.1 <code>_syncSession()</code> ရဲ့ budget အပိုင်း</h3>
+<pre><code class="language-dart">if (account == null) {
+  _loadedAccount = null;
+  GuestBudget.clear();
+  return;
+}
+
+if (_loadedAccount != account) {
+  HomePage._savedTodayPlan.value = null;
+  HomePage._myPlanSelected.value = false;
+  GuestBudget.clear();
+}
+
+_loadedAccount = account;
+
+try {
+  final api = context.read&lt;ApiClient&gt;();
+
+  try {
+    final response = await api.get(
+      '/budget',
+      queryParameters: {'date': _todayDateForSession()},
+    );
+
+    if (!mounted || request != _requestVersion) return;
+    if (_accountKey(context.read&lt;AuthBloc&gt;().state) != account) return;
+
+    final data = response['data'];
+    final budget = data is Map ? data['budget'] : null;
+    final amount = budget is Map ? budget['amount'] : null;
+
+    if (amount is num &amp;&amp; amount &gt; 0) {
+      GuestBudget.save(amount.toInt());
+    } else if (amount is String) {
+      final parsed = int.tryParse(amount);
+      if (parsed != null &amp;&amp; parsed &gt; 0) GuestBudget.save(parsed);
+    }
+  } catch (error, stackTrace) {
+    debugPrint('BUDGET GET ERROR (404 means no budget yet): $error');
+    debugPrintStack(stackTrace: stackTrace);
+  }
+  ...
+}</code></pre>
+<h3>6.2 အဆင့်လိုက်</h3>
+<table><thead><tr><th>အဆင့်</th><th>လုပ်ဆောင်ချက်</th><th>ရလဒ်</th></tr></thead><tbody><tr><td>1</td><td><code>account == null</code> စစ်</td><td>Guest ဆို budget ရှင်း</td></tr><tr><td>2</td><td>Account အသစ် စစ်</td><td>Plan/budget အဟောင်း မပြ</td></tr><tr><td>3</td><td><code>GET /budget?date=...</code></td><td>ဒီနေ့ budget ဆွဲ</td></tr><tr><td>4</td><td><code>data.budget.amount</code> ဖတ်</td><td>num သို့မဟုတ် String</td></tr><tr><td>5</td><td><code>GuestBudget.save()</code></td><td>UI card update</td></tr><tr><td>6</td><td>Error ဖြစ်ရင်</td><td>debugPrint ပဲ</td></tr></tbody></table>
+<h3>6.3 404 ရဲ့ အဓိပ္ပာယ်</h3>
+<p>Backend က budget မရှိရင် <code>404</code> ပြန်တယ်။</p>
+<pre><code class="language-json">{
+  "success": false,
+  "message": "No daily budget set for 2026-11-13."
+}</code></pre>
+<p>ဒါက <strong>error မဟုတ်ဘူး</strong>။ "ဒီနေ့ budget မသတ်မှတ်ရသေးဘူး" ဆိုတဲ့ empty state ပါ။ ဒါပေမယ့် လက်ရှိ code က <code>catch</code> ထဲ ဝင်ပြီး <code>debugPrintStack</code> နဲ့ log လုပ်တယ်။ User ကို error မပြဘူး (ကောင်းတယ်)၊ ဒါပေမယ့် console မှာ stack trace ထွက်နေတယ်။</p>
+<h3>6.4 Account လဲချိန်</h3>
+<pre><code class="language-dart">if (_loadedAccount != account) {
+  HomePage._savedTodayPlan.value = null;
+  HomePage._myPlanSelected.value = false;
+  GuestBudget.clear();
+}</code></pre>
+<p>ဒါက အကောင့် A ရဲ့ budget ကို အကောင့် B မှာ မပြစေရန် ကာကွယ်တယ်။</p>
+<h3>6.5 Logout ချိန်</h3>
+<p><code>_onAuthChanged()</code> က <code>newAccount == null</code> ဖြစ်ရင် —</p>
+<pre><code class="language-dart">++_requestVersion;
+_loadedAccount = null;
+HomePage._savedTodayPlan.value = null;
+HomePage._myPlanSelected.value = false;
+GuestBudget.clear();</code></pre>
+<p>ဒါကြောင့် logout လုပ်တာနဲ့ budget card က "Set your budget" ပြန်ဖြစ်တယ်။</p>
+<hr/>
+<h2>7. Guest နှင့် Logged-in ကွာခြားချက်</h2>
+<table><thead><tr><th>အချက်</th><th>Guest</th><th>Logged-in</th></tr></thead><tbody><tr><td>Save လုပ်တဲ့နေရာ</td><td><code>GuestBudget</code> memory</td><td>PostgreSQL <code>daily_budgets</code></td></tr><tr><td>API ခေါ်?</td><td>မခေါ်</td><td><code>PUT /budget</code></td></tr><tr><td>App ပိတ်ရင်</td><td>ပျောက်</td><td>ကျန်</td></tr><tr><td>App ပြန်ဖွင့်ရင်</td><td>မရ</td><td><code>GET /budget</code> နဲ့ ပြန်</td></tr><tr><td>Account လဲရင်</td><td>—</td><td>ရှင်းပြီး အသစ်ဆွဲ</td></tr><tr><td>Plan save</td><td>Local notifier</td><td><code>POST /plans</code> ကို budget နဲ့ စစ်</td></tr></tbody></table>
+<hr/>
+<h2>8. Class နှင့် Function Reference</h2>
+<h3>8.1 <code>HomePage</code> (budget သက်ဆိုင်ရာ)</h3>
+<table><thead><tr><th>Member</th><th>Signature</th><th>တာဝန်</th><th>ခေါ်တဲ့နေရာ</th></tr></thead><tbody><tr><td><code>_todayDate</code></td><td><code>String _todayDate()</code></td><td>ဒီနေ့ကို <code>YYYY-MM-DD</code> ပြောင်</td><td><code>_saveBudgetToBackend</code>, <code>_startPlan</code></td></tr><tr><td><code>_saveBudgetToBackend</code></td><td><code>Future&lt;void&gt; (BuildContext, int)</code></td><td><code>PUT /budget</code></td><td><code>openBudget</code>, <code>_startPlan</code></td></tr><tr><td><code>openBudget</code></td><td><code>Future&lt;void&gt; (BuildContext)</code></td><td>Budget screen ဖွင့်</td><td><code>_budgetCard</code></td></tr><tr><td><code>_startPlan</code></td><td><code>Future&lt;void&gt; (BuildContext, String)</code></td><td>Budget မရှိရင် အရင်မေး</td><td>Home cards</td></tr><tr><td><code>_budgetCard</code></td><td><code>Widget (BuildContext)</code></td><td>Budget UI ဆောက်</td><td><code>_content</code></td></tr><tr><td><code>_plannerPage</code></td><td><code>Widget (BuildContext, String, int)</code></td><td>Planner + catalog</td><td><code>openBudget</code>, <code>_startPlan</code></td></tr><tr><td><code>_PlanSessionGate</code></td><td>Widget</td><td>Session sync</td><td><code>HomePage.build</code></td></tr><tr><td><code>_syncSession</code></td><td><code>Future&lt;void&gt; (AuthState)</code></td><td>Budget/plan restore</td><td><code>initState</code>, auth listener</td></tr><tr><td><code>_onAuthChanged</code></td><td><code>void (AuthState)</code></td><td>Login/logout ကို တုံ့ပြန်</td><td><code>BlocListener</code></td></tr></tbody></table>
+<h3>8.2 <code>SetBudgetPage</code></h3>
+<table><thead><tr><th>Member</th><th>Signature</th><th>တာဝန်</th></tr></thead><tbody><tr><td><code>initialBudget</code></td><td><code>int?</code></td><td>ရှိပြီးသား budget</td></tr><tr><td><code>onSave</code></td><td><code>Future&lt;bool&gt; Function(int)?</code></td><td>Save callback</td></tr><tr><td><code>confirmationPageBuilder</code></td><td><code>Widget Function(int)?</code></td><td>အတည်ပြု page builder</td></tr><tr><td><code>_controller</code></td><td><code>TextEditingController</code></td><td>Input</td></tr><tr><td><code>_formKey</code></td><td><code>GlobalKey&lt;FormState&gt;</code></td><td>Form validation</td></tr><tr><td><code>_isSaving</code></td><td><code>bool</code></td><td>Save နေဆဲ</td></tr><tr><td><code>_format</code></td><td><code>static String (int)</code></td><td>Comma ထည့်</td></tr><tr><td><code>_amount</code></td><td><code>int? get</code></td><td>Input ကို ဖတ်</td></tr><tr><td><code>_selectAmount</code></td><td><code>void (int)</code></td><td>Quick chip</td></tr><tr><td><code>_save</code></td><td><code>Future&lt;void&gt; ()</code></td><td>Save + navigation</td></tr><tr><td><code>validator</code></td><td><code>String? (String?)</code></td><td>&gt; 0 စစ်</td></tr></tbody></table>
+<h3>8.3 <code>BudgetSavePage</code></h3>
+<table><thead><tr><th>Member</th><th>Signature</th><th>တာဝန်</th></tr></thead><tbody><tr><td><code>budget</code></td><td><code>int</code></td><td>သိမ်းပြီး ပမာဏ</td></tr><tr><td><code>automaticPageBuilder</code></td><td><code>WidgetBuilder?</code></td><td>Auto planner</td></tr><tr><td><code>manualPageBuilder</code></td><td><code>WidgetBuilder?</code></td><td>Manual planner</td></tr><tr><td><code>onBudgetChanged</code></td><td><code>Future&lt;bool&gt; Function(int)?</code></td><td>Edit save callback</td></tr><tr><td><code>_budget</code></td><td><code>int</code></td><td>လက်ရှိ ပြသ ပမာဏ</td></tr><tr><td><code>_money</code></td><td><code>String (int)</code></td><td>Comma format</td></tr><tr><td><code>_edit</code></td><td><code>Future&lt;void&gt; ()</code></td><td>Budget ပြင်</td></tr><tr><td><code>_home</code></td><td><code>void ()</code></td><td>Home ပြန်</td></tr><tr><td><code>_openPlan</code></td><td><code>void (WidgetBuilder?, String)</code></td><td>Planner ဖွင့်</td></tr><tr><td><code>_planCard</code></td><td><code>Widget (...)</code></td><td>Plan card</td></tr></tbody></table>
+<h3>8.4 <code>GuestBudget</code></h3>
+<table><thead><tr><th>Member</th><th>Type</th><th>တာဝန်</th></tr></thead><tbody><tr><td><code>dailyBudget</code></td><td><code>ValueNotifier&lt;int?&gt;</code></td><td>UI စောင့်ကြည့်တဲ့ တန်ဖိုး</td></tr><tr><td><code>amount</code></td><td><code>int? get</code></td><td>လက်ရှိ budget</td></tr><tr><td><code>hasBudget</code></td><td><code>bool get</code></td><td>ရှိ/မရှိ</td></tr><tr><td><code>save</code></td><td><code>static void (int)</code></td><td>သိမ်း (0 ထက် ကြီးရမယ်)</td></tr><tr><td><code>clear</code></td><td><code>static void ()</code></td><td>ရှင်း</td></tr><tr><td><code>format</code></td><td><code>static String (int)</code></td><td>Comma format</td></tr></tbody></table>
+<p><code>save()</code> က အောက်ပါအတိုင်း စစ်တယ်။</p>
+<pre><code class="language-dart">static void save(int amount) {
+  if (amount &lt;= 0) {
+    throw ArgumentError.value(amount, 'amount', 'Budget must be positive');
+  }
+  dailyBudget.value = amount;
+}</code></pre>
+<h3>8.5 <code>ApiClient</code></h3>
+<table><thead><tr><th>Method</th><th>ဘာအတွက်</th></tr></thead><tbody><tr><td><code>put(path, data)</code></td><td><code>PUT /budget</code></td></tr><tr><td><code>get(path, queryParameters)</code></td><td><code>GET /budget</code></td></tr></tbody></table>
+<p><code>ApiClient</code> က —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Bearer token ထည့်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>ApiException</code> ပြောင်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Response body တစ်ခုလုံး ပြန်</span></div></div>
+<h3>8.6 Backend</h3>
+<table><thead><tr><th>File</th><th>Function</th><th>တာဝန်</th></tr></thead><tbody><tr><td><code>budgetRoutes.js</code></td><td><code>router.get('/')</code></td><td><code>GET /api/budget</code></td></tr><tr><td><code>budgetRoutes.js</code></td><td><code>router.put('/')</code></td><td><code>PUT /api/budget</code></td></tr><tr><td><code>budgetController.js</code></td><td><code>getBudget</code></td><td>404 သို့မဟုတ် budget ပြန်</td></tr><tr><td><code>budgetController.js</code></td><td><code>setBudget</code></td><td>upsert + plan warning</td></tr><tr><td><code>DailyBudget.js</code></td><td><code>findByUserAndDate</code></td><td>user + date ရှာ</td></tr><tr><td><code>DailyBudget.js</code></td><td><code>upsert</code></td><td>insert သို့မဟုတ် update</td></tr><tr><td><code>DailyBudget.js</code></td><td><code>toApiJSON</code></td><td>row ကို JSON ပြောင်</td></tr><tr><td><code>validate.js</code></td><td><code>requiredAmount</code></td><td>1 မှ 10,000,000 စစ်</td></tr><tr><td><code>dates.js</code></td><td><code>todayInAppTimezone</code></td><td>Asia/Yangon ဒီနေ့</td></tr><tr><td><code>dates.js</code></td><td><code>parseDateOnly</code></td><td><code>YYYY-MM-DD</code> စစ်</td></tr></tbody></table>
+<hr/>
+<h2>9. Call Graph</h2>
+<pre><code class="language-text">HomePage._budgetCard
+  └── onPressed
+        └── HomePage.openBudget(context)
+              ├── AuthBloc.state.isAuthenticated
+              ├── saveBudget(amount)                 [closure]
+              │     ├── _saveBudgetToBackend(context, amount)
+              │     │     ├── context.read&lt;ApiClient&gt;()
+              │     │     ├── _todayDate()
+              │     │     └── ApiClient.put('/budget', ...)
+              │     └── GuestBudget.save(amount)
+              └── Navigator.push(SetBudgetPage)
+                    └── SetBudgetPage._save()
+                          ├── Form.validate()
+                          ├── _amount
+                          ├── onSave(amount)
+                          │     └── saveBudget(amount)
+                          └── confirmationPageBuilder != null
+                                ├── true  → pushReplacement(BudgetSavePage)
+                                └── false → pop(amount)</code></pre>
+<p>Plan ဝင်တဲ့လမ်းကြောင်း —</p>
+<pre><code class="language-text">HomePage._startPlan
+  ├── GuestBudget.amount == null
+  │     └── Navigator.push(SetBudgetPage)
+  │           └── onSave
+  │                 ├── logged-in → PUT /budget
+  │                 └── GuestBudget.save
+  └── _openPlanner(context, method, budget)
+        └── _plannerPage
+              ├── guest → sampleFoodCatalog
+              └── logged-in → FoodRepository.getFoods()</code></pre>
+<p>Restore လမ်းကြောင်း —</p>
+<pre><code class="language-text">_PlanSessionGate.initState
+  └── _syncSession(AuthState)
+        ├── account == null → GuestBudget.clear()
+        ├── GET /budget?date=...
+        ├── data.budget.amount
+        └── GuestBudget.save(amount)</code></pre>
+<hr/>
+<h2>10. Reactive State — ဘယ်လို update ဖြစ်လဲ</h2>
+<pre><code class="language-text">User input
+   ↓
+SetBudgetPage._save()
+   ↓
+GuestBudget.dailyBudget.value = amount
+   ↓
+ValueNotifier notifyListeners()
+   ↓
+HomePage._budgetCard ရဲ့ ValueListenableBuilder
+   ↓
+UI ပြန်ဆွဲ</code></pre>
+<p><code>GuestBudget</code> က app-wide static ဖြစ်တာမို့ page တစ်ခုနဲ့ တစ်ခု အကြား prop drilling မလိုဘူး။ ဒါပေမယ့် static ဖြစ်တာက test လုပ်ရခက်တဲ့ အချက် ဖြစ်တယ်။</p>
+<hr/>
+<h2>11. Backend Contract အသေးစိတ်</h2>
+<h3>11.1 <code>PUT /api/budget</code></h3>
+<p>Request —</p>
+<pre><code class="language-json">{
+  "date": "2026-11-13",
+  "amount": 15000
+}</code></pre>
+<p>Headers —</p>
+<pre><code class="language-text">Authorization: Bearer &lt;JWT&gt;
+Content-Type: application/json</code></pre>
+<p>Success —</p>
+<pre><code class="language-json">{
+  "success": true,
+  "data": {
+    "budget": {
+      "id": "uuid",
+      "date": "2026-11-13",
+      "amount": 15000,
+      "createdAt": "...",
+      "updatedAt": "..."
+    },
+    "plan": {
+      "plannedTotal": 12000,
+      "remaining": 3000,
+      "overBudget": false
+    }
+  }
+}</code></pre>
+<p><code>plan</code> က ဒီနေ့ plan ရှိမှ ပါမယ်။</p>
+<p>Error —</p>
+<pre><code class="language-json">{
+  "success": false,
+  "message": "Validation failed.",
+  "details": [
+    {
+      "field": "amount",
+      "message": "Amount must be a whole number between 1 and 10000000."
+    }
+  ]
+}</code></pre>
+<h3>11.2 <code>GET /api/budget?date=YYYY-MM-DD</code></h3>
+<p>Success —</p>
+<pre><code class="language-json">{
+  "success": true,
+  "data": {
+    "budget": {
+      "id": "uuid",
+      "date": "2026-11-13",
+      "amount": 15000
+    }
+  }
+}</code></pre>
+<p>Budget မရှိ —</p>
+<pre><code class="language-json">{
+  "success": false,
+  "message": "No daily budget set for 2026-11-13."
+}</code></pre>
+<p>Status <code>404</code>။</p>
+<h3>11.3 SQL Upsert</h3>
+<pre><code class="language-sql">INSERT INTO daily_budgets (id, user_id, budget_date, amount)
+VALUES ($1, $2, $3, $4)
+ON CONFLICT (user_id, budget_date)
+DO UPDATE SET amount = EXCLUDED.amount, updated_at = now()
+RETURNING id, budget_date, amount, created_at, updated_at;</code></pre>
+<p>ဒီ SQL က <strong>တစ်နေ့ တစ်ခု</strong> ဆိုတာကို database level မှာ အာမခံတယ်။</p>
+<h3>11.4 Business Rules</h3>
+<table><thead><tr><th>Rule</th><th>ရလဒ်</th></tr></thead><tbody><tr><td>Budget မရှိဘဲ plan သိမ်း</td><td><code>422</code></td></tr><tr><td>Auto plan budget ကျော်</td><td><code>422</code> (မသိမ်း)</td></tr><tr><td>Manual plan budget ကျော်</td><td>သိမ်း၊ <code>overBudget: true</code></td></tr><tr><td>Budget ပြင်ရင် plan ရှိ</td><td>Plan မဖျက်၊ warning ပြန်</td></tr><tr><td>Plan ဖျက်ရင် budget</td><td>Budget ကျန်</td></tr><tr><td>Budget သိမ်း</td><td>Expense မဖန်တီး</td></tr><tr><td>Future date</td><td>Budget အတွက် ခွင့်ပြု၊ plan အတွက် မခွင့်ပြု</td></tr></tbody></table>
+<hr/>
+<h2>12. Budget နှင့် Plan ဆက်စပ်ပုံ</h2>
+<pre><code class="language-text">Budget သတ်မှတ်
+   ↓
+Plan save လုပ်တဲ့အခါ backend က budget ရှိမရှိ စစ်
+   ↓
+မရှိ → 422 "Set a daily budget..."
+   ↓
+ရှိ → plan သိမ်း
+   ↓
+Auto plan → budget ကျော်ရင် ငြင်း
+Manual plan → budget ကျော်လို့ရ၊ warning</code></pre>
+<p>Client မှာ —</p>
+<pre><code class="language-dart">var budget = GuestBudget.amount;
+if (budget == null) {
+  // SetBudgetPage ကို အရင်ခေါ်
+}
+_openPlanner(context, method, budget);</code></pre>
+<p>ဒါကြောင့် UI level မှာ budget မရှိဘဲ planner ထဲ မဝင်နိုင်ဘူး။ Backend ကလည်း ထပ်စစ်တယ် (defense in depth)။</p>
+<hr/>
+<h2>13. Error နှင့် Edge Case Matrix</h2>
+<table><thead><tr><th>အခြေအနေ</th><th>လက်ရှိ ဖြစ်တာ</th><th>ကောင်းမွန်မှု</th></tr></thead><tbody><tr><td>Amount ဗလာ</td><td>Validator error</td><td>ကောင်း</td></tr><tr><td>Amount 0 သို့မဟုတ် အနုတ်</td><td>Validator error</td><td>ကောင်း</td></tr><tr><td>Amount 10,000,000 ကျော်</td><td>Client မစစ်၊ backend 422</td><td>မကောင်း</td></tr><tr><td>Guest save</td><td><code>GuestBudget.save</code></td><td>ကောင်း</td></tr><tr><td>Logged-in save success</td><td>PUT + GuestBudget</td><td>ကောင်း</td></tr><tr><td>Logged-in save fail (Path A)</td><td><code>false</code> ပြန်၊ UI ငြိမ်</td><td><strong>မကောင်း</strong></td></tr><tr><td>Logged-in save fail (Path B)</td><td>Snackbar ပြ</td><td>ကောင်း</td></tr><tr><td>GET 404</td><td>debugPrint + stack</td><td>log ဆူ</td></tr><tr><td>GET server error</td><td>debugPrint + stack</td><td>User မသိ</td></tr><tr><td>Double tap save</td><td><code>_isSaving</code> ကာကွယ်</td><td>ကောင်း</td></tr><tr><td>Edit cancel</td><td><code>updated == null</code> ရပ်</td><td>ကောင်း</td></tr><tr><td>Back button</td><td><code>PopScope</code> က Home ပို့</td><td>ကောင်း</td></tr><tr><td>Account switch</td><td>Budget ရှင်း + ပြန်ဆွဲ</td><td>ကောင်း</td></tr><tr><td>App restart logged-in</td><td>GET နဲ့ ပြန်</td><td>ကောင်း</td></tr><tr><td>App restart guest</td><td>ပျောက်</td><td>ဒီဇိုင်းအရ မှန်</td></tr></tbody></table>
+<hr/>
+<h2>14. အားနည်းချက်များ (Budget သီးသန့်)</h2>
+<h3>14.1 အရေးကြီး</h3>
+<p><strong>1. Path A မှာ save fail ဖြစ်ရင် user ကို ဘာမှ မပြ</strong></p>
+<pre><code class="language-dart">} catch (error, stackTrace) {
+  debugPrint('BUDGET SAVE ERROR: $error');
+  debugPrintStack(stackTrace: stackTrace);
+  return false;
+}</code></pre>
+<p><code>SetBudgetPage._save()</code> က <code>success == false</code> ဆို ငြိမ်ငြိမ်း return လုပ်တယ်။ ဒါကြောင့် network error သို့မဟုတ် 422 ဖြစ်ရင် user က button နှိပ်လိုက်ပေမယ့် ဘာမှ မဖြစ်သလို ခံစားရမယ်။</p>
+<p><strong>2. Backend validation message မျိုချ</strong></p>
+<p>Backend က "Amount must be a whole number between 1 and 10000000." လို တိကျတဲ့ message ပြန်ပေမယ့် client က generic snackbar သို့မဟုတ် ဘာမှ မပြဘူး။</p>
+<p><strong>3. Maximum amount ကို client မစစ်</strong></p>
+<p><code>validator</code> က <code>amount &lt;= 0</code> ပဲ စစ်တယ်။ 10,000,000 ကျော်ရင် server မှ ငြင်းမှ သိရတယ်။</p>
+<h3>14.2 အလယ်အလတ်</h3>
+<table><thead><tr><th>#</th><th>ပြဿနာ</th><th>ရှင်းလင်းချက်</th></tr></thead><tbody><tr><td>4</td><td>Error handling မတူ</td><td>Path A က false၊ Path B က throw၊ <code>_edit</code> က callback ပေါ်မူတည်</td></tr><tr><td>5</td><td>Direct API in UI</td><td><code>HomePage</code> က <code>ApiClient</code> ကို တိုက်ရိုက်ခေါ်၊ repository/BLoC မဖြတ်</td></tr><tr><td>6</td><td>Hardcoded endpoint</td><td><code>'/budget'</code> ကို <code>ApiEndpoints</code> မှာ မထည့်</td></tr><tr><td>7</td><td>Loading state မရှိ</td><td>Login ပြီး budget ပြန်ဆွဲချိန် card က "Set your budget" ပြနေတယ်</td></tr><tr><td>8</td><td>Timezone ကွာနိုင်</td><td>Client <code>DateTime.now()</code> က device timezone၊ backend က Asia/Yangon</td></tr><tr><td>9</td><td>Date ကို client ပို့</td><td>Server default ကို မသုံးဘဲ client ရဲ့ ဒီနေ့ကို သုံး</td></tr><tr><td>10</td><td>404 ကို error လို log</td><td><code>debugPrintStack</code> နဲ့ မလိုအပ်ဘဲ stack ထုတ်</td></tr><tr><td>11</td><td>Static state</td><td><code>GuestBudget</code> က global static၊ test isolate မလွယ်</td></tr><tr><td>12</td><td>Navigation quirk</td><td><code>pushReplacement</code> ရဲ့ result ကို ဘယ်သူမှ မယူ</td></tr><tr><td>13</td><td>Edit ပြီး plan warning မပြ</td><td>Backend က <code>overBudget</code> ပြန်ပေမယ့် confirmation page မှာ မပြ</td></tr></tbody></table>
+<h3>14.3 သေးငယ်</h3>
+<table><thead><tr><th>#</th><th>ပြဿနာ</th></tr></thead><tbody><tr><td>14</td><td><code>_format</code> ကို <code>SetBudgetPage</code>, <code>BudgetSavePage</code>, <code>GuestBudget</code> မှာ သုံးကြိမ် ပြန်ရေး</td></tr><tr><td>15</td><td>Amount ကို int ပဲ၊ decimal မပံ့ပိုး (ဒီဇိုင်းအရ မှန်)</td></tr><tr><td>16</td><td>Save နေဆဲ button ကို disable မလုပ်၊ <code>_isSaving</code> က guard ပဲ</td></tr><tr><td>17</td><td>Budget history မရှိ (တစ်နေ့ပဲ)</td></tr><tr><td>18</td><td>Offline retry mechanism မရှိ</td></tr></tbody></table>
+<hr/>
+<h2>15. ပိုကောင်းအောင် ပြင်ဆင်နည်း</h2>
+<h3>15.1 BudgetRepository ထုတ်ခြင်း</h3>
+<pre><code class="language-dart">abstract interface class BudgetRepository {
+  Future&lt;int?&gt; fetchBudget({DateTime? date});
+  Future&lt;void&gt; saveBudget({required int amount, DateTime? date});
+}</code></pre>
+<pre><code class="language-dart">class RemoteBudgetRepository implements BudgetRepository {
+  const RemoteBudgetRepository(this._api);
+
+  final ApiClient _api;
+
+  @override
+  Future&lt;int?&gt; fetchBudget({DateTime? date}) async {
+    try {
+      final body = await _api.get(
+        ApiEndpoints.budget,
+        queryParameters: date == null ? null : {'date': apiDate(date)},
+      );
+      final data = body['data'];
+      final budget = data is Map ? data['budget'] : null;
+      return budget is Map ? (budget['amount'] as num?)?.toInt() : null;
+    } on ApiException catch (error) {
+      if (error.statusCode == 404) return null;
+      rethrow;
+    }
+  }
+
+  @override
+  Future&lt;void&gt; saveBudget({required int amount, DateTime? date}) async {
+    await _api.put(
+      ApiEndpoints.budget,
+      data: {
+        if (date != null) 'date': apiDate(date),
+        'amount': amount,
+      },
+    );
+  }
+}</code></pre>
+<h3>15.2 Error message ကို user ပြ</h3>
+<pre><code class="language-dart">Future&lt;void&gt; _saveBudgetToBackend(BuildContext context, int amount) async {
+  try {
+    await context.read&lt;BudgetRepository&gt;().saveBudget(amount: amount);
+  } on ApiException catch (error) {
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(error.message)),
+    );
+    rethrow;
+  }
+}</code></pre>
+<h3>15.3 Client max validation</h3>
+<pre><code class="language-dart">const maxBudget = 10000000;
+
+if (amount == null || amount &lt;= 0) {
+  return 'Enter a budget greater than 0 MMK';
+}
+if (amount &gt; maxBudget) {
+  return 'Budget cannot exceed 10,000,000 MMK';
+}</code></pre>
+<h3>15.4 Loading state</h3>
+<pre><code class="language-dart">final ValueNotifier&lt;bool&gt; budgetLoading = ValueNotifier&lt;bool&gt;(false);</code></pre>
+<p><code>GET /budget</code> စချိန် <code>true</code>၊ ပြီးရင် <code>false</code>။ Card မှာ skeleton ပြ။</p>
+<h3>15.5 Timezone ကို server သုံး</h3>
+<p><code>date</code> ကို မပို့ဘဲ server ရဲ့ default (Asia/Yangon) ကို သုံးတာ ပိုလုံခြုံပါတယ်။</p>
+<pre><code class="language-dart">await api.put('/budget', data: {'amount': amount});</code></pre>
+<hr/>
+<h2>16. စမ်းသပ်ရန် Checklist</h2>
+<h3>Guest</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Budget မရှိချိန် "Set your budget" ပြ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ 15,000 ထည့် → သိမ်း → 15,000 MMK ပြ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ App ပိတ်ပြီး ပြန်ဖွင့် → ပျောက်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ 0 ထည့် → validation error</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Quick amount chip → input ပြည့်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Edit → 20,000 → confirmation မှာ 20,000</span></div></div>
+<h3>Logged-in</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ 15,000 သိမ်း → DB ရောက်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ App ပြန်ဖွင့် → 15,000 ပြန်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Edit → 20,000 → DB update</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Logout → budget ရှင်း</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Account လဲ → အရင် budget မပြ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Network ဖြတ် → save fail → <strong>error ပြရမယ် (လက်ရှိ မပြ)</strong></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ 10,000,001 ထည့် → backend 422</span></div></div>
+<h3>Plan နှင့် ဆက်စပ်</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Budget မရှိဘဲ Auto Plan → budget screen ရှေ့</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Budget ရှိမှ plan save ရ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Auto plan budget ကျော် → 422</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Manual plan budget ကျော် → သိမ်း၊ warning</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Budget ပြင်ရင် plan မပျက်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Plan ဖျက်ရင် budget ကျန်</span></div></div>
+<h3>UI/Navigation</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ SetBudgetPage back → Home</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ BudgetSavePage back → Home</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Confirmation မှ Edit → save → confirmation ပြန်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Confirmation မှ Auto/Manual → planner</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Save double tap → တစ်ခါပဲ သိမ်း</span></div></div>
+<hr/>
+<h2>17. အနှစ်ချုပ်</h2>
+<p>Budget feature ကို class အားဖြင့် —</p>
+<pre><code class="language-text">HomePage
+  ├── openBudget              (entry)
+  ├── _saveBudgetToBackend    (PUT)
+  ├── _startPlan              (budget gate)
+  ├── _budgetCard             (display)
+  └── _PlanSessionGate
+        └── _syncSession      (GET + restore)
+
+SetBudgetPage
+  ├── _amount                 (input parse)
+  ├── _save                   (validate + callback + nav)
+  └── validator               (&gt; 0)
+
+BudgetSavePage
+  ├── _edit                   (re-open editor)
+  ├── _home                   (pop)
+  └── _openPlan               (planner)
+
+GuestBudget
+  ├── dailyBudget             (ValueNotifier)
+  ├── save / clear / format
+  └── amount / hasBudget
+
+Backend
+  ├── budgetRoutes            (GET/PUT)
+  ├── budgetController        (get/set)
+  └── DailyBudget             (upsert by user+date)</code></pre>
+<p>အလုပ်လုပ်ပုံကို တစ်ကြောင်းတည်း ပြောရရင် —</p>
+<pre><code class="language-text">User က ငွေပမာဏ ထည့်
+  → SetBudgetPage က စစ်
+  → Logged-in ဆို PUT /budget
+  → Guest ဆို GuestBudget
+  → GuestBudget.dailyBudget ပြောင်း
+  → Home card အလိုအလျောက် ပြ
+  → Confirmation page မှ planner ဆက်ဝင်နိုင်</code></pre>
+<p>အဓိက အားသာချက်က <strong>guest နဲ့ logged-in နှစ်မျိုးလုံး တစ်နေရာတည်းက ကိုင်နိုင်တာ</strong> ဖြစ်တယ်။ အဓိက အားနည်းချက်က <strong>Path A မှာ error ဖြစ်ရင် user ကို မပြတာ</strong> နဲ့ <strong>repository/BLoC မဖြတ်ဘဲ UI ထဲ တိုက်ရိုက် API ခေါ်တာ</strong> ဖြစ်တယ်။</p>
+<hr/>
+<p>*ဒီ document ကို <code>home_page.dart</code>, <code>set_budget.dart</code>, <code>budget_save.dart</code>, <code>guest_budget.dart</code> နှင့် backend budget controller/model တို့ကို တိုက်ရိုက်ဖတ်ပြီး ရေးထားပါတယ်။*</p>
+<footer style="margin-top:28px;padding-top:10px;border-top:1px solid #d7ddd3;color:#6b7280;font-size:8.5pt;">
+Generated from <code>lib/</code> and backend API contract · 2026-11-13 13:37
+</footer>
+</body>
+</html>

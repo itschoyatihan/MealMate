@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>MealMate — API & UI Connection Guide</title>
+<style>
+@page {
+  size: A4;
+  margin: 17mm 14mm 18mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Myanmar Text", "Pyidaungsu", "Noto Sans Myanmar",
+    "Segoe UI", sans-serif;
+  font-size: 10.4pt;
+  line-height: 1.68;
+  color: #1f2937;
+  background: #ffffff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: 23pt;
+  line-height: 1.3;
+  color: #06462a;
+  border-bottom: 4px solid #ff7900;
+  padding-bottom: 10px;
+}
+
+h2 {
+  margin: 26px 0 10px;
+  font-size: 16.5pt;
+  line-height: 1.35;
+  color: #06462a;
+  border-left: 6px solid #ff7900;
+  padding-left: 10px;
+  page-break-after: avoid;
+}
+
+h3 {
+  margin: 20px 0 8px;
+  font-size: 13pt;
+  color: #123d22;
+  page-break-after: avoid;
+}
+
+h4 {
+  margin: 16px 0 6px;
+  font-size: 11.4pt;
+  color: #1f4d2e;
+  page-break-after: avoid;
+}
+
+p {
+  margin: 8px 0;
+  orphans: 3;
+  widows: 3;
+}
+
+a {
+  color: #0b63b6;
+  text-decoration: none;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #d7ddd3;
+  margin: 18px 0;
+}
+
+blockquote {
+  margin: 12px 0;
+  padding: 9px 13px;
+  background: #f3f9e9;
+  border-left: 5px solid #17852a;
+  border-radius: 0 6px 6px 0;
+  color: #26402e;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+code {
+  font-family: Consolas, "Cascadia Mono", "Courier New", monospace;
+}
+
+:not(pre) > code {
+  background: #eef2f7;
+  color: #b42318;
+  border: 1px solid #e3e8ef;
+  border-radius: 3px;
+  padding: 0.5px 4px;
+  font-size: 9.1pt;
+  word-break: break-word;
+}
+
+pre {
+  margin: 10px 0 14px;
+  padding: 11px 13px;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 7px;
+  font-size: 8.35pt;
+  line-height: 1.48;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  page-break-inside: avoid;
+}
+
+pre code {
+  color: inherit;
+  background: transparent;
+  padding: 0;
+  border: 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0 16px;
+  font-size: 8.9pt;
+  line-height: 1.45;
+  table-layout: fixed;
+  page-break-inside: avoid;
+}
+
+th {
+  background: #06462a;
+  color: #ffffff;
+  font-weight: 700;
+  text-align: left;
+}
+
+th,
+td {
+  border: 1px solid #d1d5db;
+  padding: 5px 7px;
+  vertical-align: top;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+tbody tr:nth-child(even) td {
+  background: #f8fafc;
+}
+
+.list-block {
+  margin: 6px 0 10px;
+}
+
+.list-item {
+  display: flex;
+  gap: 0.45em;
+  margin: 2.5px 0;
+  align-items: flex-start;
+}
+
+.list-marker {
+  flex: 0 0 auto;
+  color: #17852a;
+  font-weight: 700;
+}
+
+.list-item > span:last-child {
+  flex: 1 1 auto;
+}
+
+strong {
+  color: #111827;
+}
+</style>
+</head>
+<body>
+<h1>MealMate — Flutter <code>lib/</code> API Layer နှင့် UI ချိတ်ဆက်ပုံ လမ်းညွှန်</h1>
+<blockquote>ဒီ document က <code>PROJECT1/lib/</code> အတွင်းရှိ API endpoint, service, repository, model, BLoC နှင့် UI page များ ဘယ်လိုဆက်စပ်နေသည်ကို construction အလိုက် ရှင်းပြထားသည်။   နောက်ပိုင်း UI page များကို backend နှင့် ချိတ်ဆက်ရာတွင် လိုက်နာနိုင်သော pattern များလည်း ပါဝင်သည်။</blockquote>
+<hr/>
+<h2>Table of Contents</h2>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">1.</span><span><a href="#1-mental-model">Mental Model</a></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">2.</span><span>[Composition Root — <code>lib/main.dart</code>](#2-composition-root--libmaindart)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">3.</span><span>[Endpoint Constants — <code>lib/constants/api_endpoints.dart</code>](#3-endpoint-constants--libconstantsapi_endpointsdart)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">4.</span><span>[Transport Layer — <code>lib/services/api_client.dart</code>](#4-transport-layer--libservicesapi_clientdart)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">5.</span><span>[Error Layer — <code>lib/services/api_exception.dart</code>](#5-error-layer--libservicesapi_exceptiondart)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">6.</span><span>[Model Layer — <code>lib/models/</code>](#6-model-layer--libmodels)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">7.</span><span>[Repository Layer — <code>lib/repositories/</code>](#7-repository-layer--librepositories)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">8.</span><span>[BLoC Layer — <code>lib/logic/auth/</code>](#8-bloc-layer--liblogicauth)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">9.</span><span><a href="#9-ui-layer--လက်ရှိ-တကယ်ချိတ်ထားပုံ">UI Layer — လက်ရှိ တကယ်ချိတ်ထားပုံ</a></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">10.</span><span><a href="#10-backend-contract">Backend Contract</a></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">11.</span><span><a href="#11-နောက်ထပ်-page-များ-ချိတ်နည်း--concrete-pattern">နောက်ထပ် Page များ ချိတ်နည်း — Concrete Pattern</a></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">12.</span><span><a href="#12-လက်ရှိ-code-၏-အားသာချက်--အားနည်းချက်">လက်ရှိ Code ၏ အားသာချက် / အားနည်းချက်</a></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">13.</span><span><a href="#13-ဘယ်အစီအစဉ်နှင့်-ချိတ်သင့်လဲ">ဘယ်အစီအစဉ်နှင့် ချိတ်သင့်လဲ</a></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">14.</span><span><a href="#14-အမှားများလေ့ရှိသော-အချက်များ--checklist">အမှားများလေ့ရှိသော အချက်များ — Checklist</a></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">15.</span><span><a href="#15-အနှစ်ချုပ်">အနှစ်ချုပ်</a></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">16.</span><span><a href="#appendix--endpoint-quick-reference">Appendix — Endpoint Quick Reference</a></span></div></div>
+<hr/>
+<h2>1. Mental Model</h2>
+<p>ဒီ project ရဲ့ API ချိတ်ဆက်ပုံကို အလွှာ (၆) လွှာခွဲကြည့်နိုင်ပါတယ်။</p>
+<pre><code class="language-text">Flutter UI (Page/Widget)
+        │   event / callback
+        ▼
+BLoC (AuthBloc သာ လက်ရှိရှိ)  ──►  Repository (AuthRepository)
+        │                                      │
+        └──────────────┬───────────────────────┘
+                       ▼
+                  ApiClient (Dio wrapper)
+                       │  baseUrl + Bearer token
+                       ▼
+                Express Route + Controller
+                       │
+                       ▼
+                Model (raw SQL / pg)
+                       │
+                       ▼
+                   PostgreSQL
+                       │
+                       ▼
+        { success: true, data: {...} }  (JSON envelope)
+                       │
+                       ▼
+     ApiClient က body တစ်ခုလုံး return
+                       │
+                       ▼
+     Repository က body['data'] ကို ဆွဲထုတ်
+                       │
+                       ▼
+     Model class (User, Food, Plan ...)
+                       │
+                       ▼
+     BLoC State / setState → UI ပြန်ဆွဲ</code></pre>
+<p>ဒီ project မှာ <strong>လမ်းကြောင်းနှစ်ခု</strong> ရှိတယ်ဆိုတာ သတိထားပါ။</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">1.</span><span><strong>Auth လမ်းကြောင်း (အပြည့်အစုံချိတ်ထား)</strong>  </span></div></div>
+<p><code>UI → AuthBloc → AuthRepository → ApiClient → Backend</code></p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">2.</span><span><strong>Budget လမ်းကြောင်း (တိုတိုချိတ်ထား)</strong>  </span></div></div>
+<p><code>UI → ApiClient → Backend</code> (Repository/BLoC မဖြတ်)</p>
+<p>ကျန်တဲ့ Foods, Plans, Favorites, Expenses, History, Reports တွေက <strong>UI ပဲရှိပြီး API မချိတ်ရသေးပါ</strong>။ ဒါကြောင့် နောက်ပိုင်းချိတ်တဲ့အခါ အပေါ်က လမ်းကြောင်းနှစ်ခုထဲက ဘယ်ပုံစံလိုက်မလဲ ဆုံးဖြတ်ရပါမယ်။</p>
+<hr/>
+<h2>2. Composition Root — <code>lib/main.dart</code></h2>
+<p><code>main.dart</code> က <strong>အားလုံးကို တစ်နေရာတည်းမှာ တည်ဆောက်ပြီး အောက်ကို ဖြန့်ပေးတဲ့နေရာ</strong> ဖြစ်ပါတယ်။</p>
+<pre><code class="language-dart">void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final tokenStorage = TokenStorage();
+  final apiClient = ApiClient(tokenStorage: tokenStorage);
+
+  final authRepository = RemoteAuthRepository(
+    apiClient: apiClient,
+    tokenStorage: tokenStorage,
+  );
+
+  runApp(MealMateApp(
+    authRepository: authRepository,
+    apiClient: apiClient,
+  ));
+}</code></pre>
+<p>Construction အစီအစဉ်က အရေးကြီးပါတယ်။</p>
+<pre><code class="language-text">TokenStorage
+    │
+    ▼
+ApiClient(tokenStorage)
+    │
+    ▼
+RemoteAuthRepository(apiClient, tokenStorage)
+    │
+    ▼
+AuthBloc(authRepository)</code></pre>
+<p>ပြီးတော့ Provider tree က ဒီလို ဖြစ်ပါတယ်။</p>
+<pre><code class="language-dart">RepositoryProvider&lt;ApiClient&gt;.value(
+  value: apiClient,
+  child: BlocProvider(
+    create: (_) =&gt; AuthBloc(authRepository)..add(const AuthStarted()),
+    child: MaterialApp(
+      home: const SplashPage(),
+    ),
+  ),
+)</code></pre>
+<p>ဆိုလိုတာက —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>ApiClient</code> က <strong>app တစ်ခုလုံးအတွက် instance တစ်ခုတည်း</strong>။ ဘယ် page ကမဆို <code>context.read&lt;ApiClient&gt;()</code> နဲ့ ယူနိုင်တယ်။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>AuthBloc</code> က <strong>app တစ်ခုလုံးအတွက် instance တစ်ခုတည်း</strong>။ <code>context.watch&lt;AuthBloc&gt;()</code> နဲ့ login state ကို စောင့်ကြည့်နိုင်တယ်။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>App စတာနဲ့ <code>AuthStarted</code> event ကို ချက်ချင်း ပို့တယ်။ အဲဒါက secure storage ထဲက token ကို ဖတ်ပြီး <code>GET /auth/me</code> ခေါ်ကာ session ကို ပြန်တည်ဆောက်တယ်။</span></div></div>
+<p><code>SplashPage</code> က ၃ စက္ကန့်နေပြီး <code>HomePage</code> ကို <code>pushReplacement</code> လုပ်တယ်။ ဒီအချိန်မှာ <code>AuthStarted</code> က ပြီးသွားပြီဖြစ်လို့ Home က logged-in/guest state ကို မှန်ကန်စွာ ပြသနိုင်တယ်။</p>
+<hr/>
+<h2>3. Endpoint Constants — <code>lib/constants/api_endpoints.dart</code></h2>
+<p>Endpoint တွေက <strong>string path တွေပဲ</strong> ဖြစ်ပါတယ်။ အဲဒီ path ကို <code>ApiClient</code> ရဲ့ Dio က baseUrl နဲ့ ပေါင်းပြီး request လုပ်တယ်။</p>
+<pre><code class="language-dart">abstract final class ApiEndpoints {
+  static const String _configuredBaseUrl =
+      String.fromEnvironment('API_BASE_URL');
+
+  static const String _desktopBaseUrl = 'http://localhost:4000/api';
+  static const String _androidEmulatorBaseUrl = 'http://10.0.2.2:4000/api';
+
+  static String get baseUrl {
+    final configured = _configuredBaseUrl.trim();
+
+    final resolved = configured.isNotEmpty
+        ? configured
+        : switch (defaultTargetPlatform) {
+            TargetPlatform.android =&gt; _androidEmulatorBaseUrl,
+            _ =&gt; _desktopBaseUrl,
+          };
+
+    return resolved.endsWith('/')
+        ? resolved.substring(0, resolved.length - 1)
+        : resolved;
+  }
+
+  // Auth
+  static const String register = '/auth/register';
+  static const String login = '/auth/login';
+  static const String me = '/auth/me';
+  static const String logout = '/auth/logout';
+
+  // Profile
+  static const String updateProfile = '/users/me';
+  static const String changePassword = '/users/me/password';
+}</code></pre>
+<p>ဒီနေရာမှာ သိထားရမယ့်အချက်တွေ —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Windows/Web ဆို <code>http://localhost:4000/api</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Android Emulator ဆို <code>http://10.0.2.2:4000/api</code> (emulator ထဲက <code>localhost</code> က emulator ကိုယ်တိုင်ကို ညွှန်တာမို့)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Physical device ဆို ကိုယ့် PC ရဲ့ LAN IP ကို ပေးရမယ်။</span></div></div>
+<pre><code class="language-bash">flutter run --dart-define=API_BASE_URL=http://192.168.1.20:4000/api</code></pre>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Path တွေက <code>/auth/login</code> လို relative ပဲ။ Dio က <code>baseUrl + path</code> ကို ပေါင်းပေးတယ်။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>လက်ရှိ constant ထဲမှာ <strong>auth/profile ပဲ ရှိပါတယ်</strong>။ Budget က <code>home_page.dart</code> ထဲမှာ <code>'/budget'</code> လို့ hardcode ထားတယ်။ နောက်ပိုင်း ကျန်တဲ့ endpoint တွေကိုလည်း ဒီ file ထဲ ထည့်ဖို့ ကောင်းပါတယ်။</span></div></div>
+<pre><code class="language-dart">// Suggested additions
+static const String foods = '/foods';
+static String food(String id) =&gt; '/foods/$id';
+
+static const String favorites = '/favorites';
+static String favorite(String foodId) =&gt; '/favorites/$foodId';
+
+static const String budget = '/budget';
+static const String plans = '/plans';
+static const String expenses = '/expenses';
+static const String history = '/history';
+static const String reports = '/reports';
+static const String guestTransfer = '/guest-transfer';</code></pre>
+<hr/>
+<h2>4. Transport Layer — <code>lib/services/api_client.dart</code></h2>
+<p>ဒီ class က <strong>Dio ကို ဖုံးထားတဲ့ thin wrapper</strong> ပါ။ တာဝန်သုံးခုရှိတယ်။</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">1.</span><span>Base URL, timeout, JSON header သတ်မှတ်တယ်။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">2.</span><span>Request တိုင်းမှာ Bearer token ထည့်တယ်။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">3.</span><span>Dio error ကို <code>ApiException</code> အဖြစ် ပြောင်းတယ်။</span></div></div>
+<h3>4.1 Dio Configuration</h3>
+<pre><code class="language-dart">Dio(
+  BaseOptions(
+    baseUrl: baseUrl ?? ApiEndpoints.baseUrl,
+    connectTimeout: AppConstants.apiConnectTimeout,
+    receiveTimeout: AppConstants.apiReceiveTimeout,
+    sendTimeout: AppConstants.apiSendTimeout,
+    contentType: Headers.jsonContentType,
+    responseType: ResponseType.json,
+    headers: const {'Accept': 'application/json'},
+  ),
+)</code></pre>
+<h3>4.2 Token ထည့်ပုံ</h3>
+<pre><code class="language-dart">Future&lt;void&gt; _attachAccessToken(
+  RequestOptions options,
+  RequestInterceptorHandler handler,
+) async {
+  if (options.extra['skipAuth'] != true) {
+    final token = await tokenStorage.readToken();
+    if (token != null &amp;&amp; token.isNotEmpty) {
+      options.headers['Authorization'] = 'Bearer $token';
+    }
+  }
+  handler.next(options);
+}</code></pre>
+<p>ဒါက <strong>request တိုင်းမတိုင်မီ</strong> secure storage ကနေ token ဖတ်ပြီး header ထည့်တယ်။ ဒါကြောင့် repository တွေက token ကို ကိုယ်တိုင် ကိုင်စရာမလိုပါ။</p>
+<p>Login/Register လုပ်တဲ့အခါ token မရှိသေးလို့ <code>authenticated: false</code> ပေးရတယ်။ အဲဒါက <code>extra['skipAuth'] = true</code> ဖြစ်သွားပြီး token မထည့်တော့ဘူး။</p>
+<pre><code class="language-dart">Options _options(bool authenticated) {
+  return Options(extra: {'skipAuth': !authenticated});
+}</code></pre>
+<h3>4.3 Generic Methods</h3>
+<pre><code class="language-dart">Future&lt;Map&lt;String, dynamic&gt;&gt; get(String path, {
+  Map&lt;String, dynamic&gt;? queryParameters,
+  bool authenticated = true,
+});
+
+Future&lt;Map&lt;String, dynamic&gt;&gt; post(String path, {
+  Object? data,
+  bool authenticated = true,
+});
+
+Future&lt;Map&lt;String, dynamic&gt;&gt; put(...);
+Future&lt;Map&lt;String, dynamic&gt;&gt; patch(...);
+Future&lt;Map&lt;String, dynamic&gt;&gt; delete(...);</code></pre>
+<p>အားလုံးက <code>_run()</code> ကို ဖြတ်တယ်။</p>
+<pre><code class="language-dart">Future&lt;Map&lt;String, dynamic&gt;&gt; _run(
+  Future&lt;Response&lt;dynamic&gt;&gt; Function() request,
+) async {
+  try {
+    final response = await request();
+    final body = response.data;
+
+    if (body is Map) return Map&lt;String, dynamic&gt;.from(body);
+    return &lt;String, dynamic&gt;{};
+  } on DioException catch (error) {
+    throw ApiException.fromDio(error);
+  }
+}</code></pre>
+<p><strong>အရေးကြီးဆုံးအချက်:</strong> <code>ApiClient</code> က backend ရဲ့ <strong>response body တစ်ခုလုံး</strong> ကို return တယ်။</p>
+<pre><code class="language-json">{
+  "success": true,
+  "data": {
+    "user": {}
+  }
+}</code></pre>
+<p>ဆိုတော့ repository/model က <code>body['data']</code> ကို ဆွဲထုတ်ရတယ်။ <code>ApiClient</code> က <code>data</code> ကို အလိုအလျောက် မခွဲပေးပါ။</p>
+<h3>4.4 လက်ရှိ အားနည်းချက်</h3>
+<p><code>ApiClient</code> က <strong>401 ကို global မကိုင်ပါ</strong>။ <code>restoreSession()</code> တစ်နေရာတည်းမှာပဲ 401 ဆို token ဖျက်တယ်။ ကျန်တဲ့ API ခေါ်တဲ့အခါ 401 ရရင် UI ကို login ပို့တဲ့ mechanism မရှိသေးပါ။ နောက်ပိုင်း interceptor တစ်ခု ထပ်ထည့်ဖို့ လိုပါမယ်။</p>
+<hr/>
+<h2>5. Error Layer — <code>lib/services/api_exception.dart</code></h2>
+<p>Dio error တွေကို UI ဖတ်နိုင်တဲ့ error အဖြစ် ပြောင်းပေးတယ်။</p>
+<pre><code class="language-dart">class ApiFieldError {
+  const ApiFieldError({required this.field, required this.message});
+
+  final String field;
+  final String message;
+}
+
+class ApiException implements Exception {
+  const ApiException(
+    this.message, {
+    this.statusCode,
+    this.details = const [],
+  });
+
+  final String message;
+  final int? statusCode;
+  final List&lt;ApiFieldError&gt; details;
+
+  bool get isUnauthorized =&gt; statusCode == 401;
+  bool get isConflict =&gt; statusCode == 409;
+}</code></pre>
+<p>Backend က error ကို ဒီလို ပြန်တယ်။</p>
+<pre><code class="language-json">{
+  "success": false,
+  "message": "Validation failed.",
+  "details": [
+    { "field": "amount", "message": "Enter a budget greater than 0." }
+  ]
+}</code></pre>
+<p><code>ApiException.fromDio()</code> က —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>timeout → "server took too long"</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>connection error → "could not reach server"</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>badResponse</code> → backend ရဲ့ <code>message</code> နဲ့ <code>details</code> ကို ဆွဲထုတ်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>status code ကို <code>statusCode</code> ထဲ ထည့်</span></div></div>
+<p>ဒါကြောင့် UI မှာ —</p>
+<pre><code class="language-dart">try {
+  await repository.savePlan(...);
+} on ApiException catch (e) {
+  if (e.isConflict) {
+    // show conflict dialog
+  } else {
+    showSnackBar(e.message);
+  }
+}</code></pre>
+<p>ပြီးတော့ <code>e.details</code> ကို form field error တွေအောက်မှာ ပြနိုင်တယ်။</p>
+<hr/>
+<h2>6. Model Layer — <code>lib/models/</code></h2>
+<p>Model class တွေက <strong>JSON → Dart object</strong> ပြောင်းတဲ့နေရာ ဖြစ်တယ်။</p>
+<h3>6.1 <code>User</code></h3>
+<pre><code class="language-dart">factory User.fromJson(Map&lt;String, dynamic&gt; json) {
+  final rawId = json['id'] ?? json['_id'];
+
+  return User(
+    id: rawId?.toString() ?? '',
+    name: (json['name'] as String? ?? '').trim(),
+    email: (json['email'] as String? ?? '').trim(),
+    role: UserRole.fromApi(json['role']),
+    isActive: json['isActive'] as bool? ?? true,
+    lastLoginAt: _parseDate(json['lastLoginAt']),
+    createdAt: _parseDate(json['createdAt']),
+    updatedAt: _parseDate(json['updatedAt']),
+  );
+}</code></pre>
+<h3>6.2 <code>AuthSession</code></h3>
+<pre><code class="language-dart">factory AuthSession.fromJson(Map&lt;String, dynamic&gt; json) {
+  final token = json['token'] as String?;
+  final userJson = json['user'];
+
+  if (token == null || token.isEmpty || userJson is! Map) {
+    throw const FormatException('Malformed authentication response.');
+  }
+
+  return AuthSession(
+    token: token,
+    user: User.fromJson(Map&lt;String, dynamic&gt;.from(userJson)),
+  );
+}</code></pre>
+<h3>6.3 နောက်ပိုင်း လိုအပ်မယ့် model များ</h3>
+<p>Backend က ပြန်တဲ့ field တွေအတိုင်း ဆောက်ရပါမယ်။</p>
+<p><strong>Food</strong> (<code>GET /foods</code>):</p>
+<pre><code class="language-json">{
+  "id": "uuid",
+  "name": "Mohinga",
+  "shopName": "Shop A",
+  "location": "Hlaing",
+  "category": "Soups",
+  "price": 2000,
+  "imagePath": "assets/img/mohinga.jpg",
+  "isActive": true,
+  "createdAt": "2026-11-12T00:00:00.000Z",
+  "updatedAt": "2026-11-12T00:00:00.000Z"
+}</code></pre>
+<p><strong>Plan</strong> (<code>GET /plans</code>, <code>POST /plans</code>):</p>
+<pre><code class="language-json">{
+  "id": "uuid",
+  "date": "2026-11-12",
+  "method": "manual",
+  "plannedTotal": 8000,
+  "budgetAtSave": 10000,
+  "items": [
+    {
+      "food": "food-uuid",
+      "name": "Mohinga",
+      "shopName": "Shop A",
+      "category": "Soups",
+      "imagePath": "assets/img/mohinga.jpg",
+      "price": 2000,
+      "quantity": 2,
+      "mealType": "breakfast",
+      "lineTotal": 4000
+    }
+  ]
+}</code></pre>
+<p>ဒီနေရာမှာ <strong>အရေးကြီးတဲ့ အချက်</strong> ရှိတယ်။ Plan item ထဲက <code>"food"</code> က food object မဟုတ်ဘဲ <strong>food id string</strong> ဖြစ်တယ်။ <code>POST /plans</code> မှာ ပို့ရမယ့် field က <code>foodId</code> ဖြစ်တယ်။</p>
+<hr/>
+<h2>7. Repository Layer — <code>lib/repositories/</code></h2>
+<p>Repository က <strong>UI/BLoC နဲ့ API အကြား contract</strong> ပါ။ UI က Dio ကို တိုက်ရိုက် မသိရပါ။</p>
+<h3>7.1 Interface</h3>
+<pre><code class="language-dart">abstract interface class AuthRepository {
+  Future&lt;AuthSession&gt; login({
+    required String email,
+    required String password,
+  });
+
+  Future&lt;AuthSession&gt; register({
+    required String name,
+    required String email,
+    required String password,
+  });
+
+  Future&lt;AuthSession?&gt; restoreSession();
+
+  Future&lt;void&gt; logout();
+
+  Future&lt;User&gt; updateProfile({required String name});
+
+  Future&lt;void&gt; changePassword({
+    required String currentPassword,
+    required String newPassword,
+  });
+}</code></pre>
+<h3>7.2 Remote Implementation</h3>
+<pre><code class="language-dart">class RemoteAuthRepository implements AuthRepository {
+  const RemoteAuthRepository({
+    required this.apiClient,
+    required this.tokenStorage,
+  });
+
+  final ApiClient apiClient;
+  final TokenStorage tokenStorage;</code></pre>
+<h4>Login</h4>
+<pre><code class="language-dart">@override
+Future&lt;AuthSession&gt; login({
+  required String email,
+  required String password,
+}) async {
+  final body = await apiClient.post(
+    ApiEndpoints.login,
+    data: {
+      'email': email.trim(),
+      'password': password,
+    },
+    authenticated: false,
+  );
+
+  return _persistSession(body);
+}</code></pre>
+<p>Flow က —</p>
+<pre><code class="language-text">POST /api/auth/login
+  body: { email, password }
+        │
+        ▼
+Backend: user ရှာတယ် → bcrypt စစ်တယ် → JWT ထုတ်တယ်
+        │
+        ▼
+{ success: true, data: { token, user } }
+        │
+        ▼
+_persistSession()
+  - body['data'] ဆွဲ
+  - AuthSession.fromJson()
+  - tokenStorage.saveToken()</code></pre>
+<h4>Register</h4>
+<pre><code class="language-dart">@override
+Future&lt;AuthSession&gt; register({
+  required String name,
+  required String email,
+  required String password,
+}) async {
+  final body = await apiClient.post(
+    ApiEndpoints.register,
+    data: {
+      'name': name.trim(),
+      'email': email.trim(),
+      'password': password,
+    },
+    authenticated: false,
+  );
+
+  return _persistSession(body);
+}</code></pre>
+<h4>Restore Session</h4>
+<pre><code class="language-dart">@override
+Future&lt;AuthSession?&gt; restoreSession() async {
+  final token = await tokenStorage.readToken();
+  if (token == null || token.isEmpty) return null;
+
+  try {
+    final body = await apiClient.get(ApiEndpoints.me);
+    final user = _userFromBody(body);
+
+    return AuthSession(token: token, user: user);
+  } on ApiException catch (error) {
+    if (error.isUnauthorized) {
+      await tokenStorage.clearToken();
+      return null;
+    }
+    rethrow;
+  }
+}</code></pre>
+<p>App စတာနဲ့ —</p>
+<pre><code class="language-text">TokenStorage.readToken()
+   │
+   ├─ null → guest (unauthenticated)
+   │
+   └─ token ရှိ → GET /api/auth/me
+                    │
+                    ├─ 200 → authenticated
+                    └─ 401 → token ဖျက် → unauthenticated</code></pre>
+<h4>Logout</h4>
+<pre><code class="language-dart">@override
+Future&lt;void&gt; logout() async {
+  try {
+    await apiClient.post(ApiEndpoints.logout);
+  } on ApiException {
+    // Best effort: local token removal is what matters for the client.
+  } finally {
+    await tokenStorage.clearToken();
+  }
+}</code></pre>
+<p>Backend က stateless JWT ဖြစ်လို့ server-side revoke မလုပ်ပါ။ Client က token ဖျက်လိုက်တာနဲ့ logout ဖြစ်ပါတယ်။</p>
+<h4>Envelope ဆွဲထုတ်တဲ့ Helper</h4>
+<pre><code class="language-dart">Map&lt;String, dynamic&gt; _dataFromBody(Map&lt;String, dynamic&gt; body) {
+  final data = body['data'];
+
+  if (data is! Map) {
+    throw const ApiException('Unexpected response from the server.');
+  }
+
+  return Map&lt;String, dynamic&gt;.from(data);
+}</code></pre>
+<p>ဒီ helper က <strong>API envelope ကို ကိုင်တဲ့နေရာ</strong> ပါ။ နောက် repository တွေအတွက်လည်း ဒီလို helper/base class ထားဖို့ အကြံပြုပါတယ်။</p>
+<hr/>
+<h2>8. BLoC Layer — <code>lib/logic/auth/</code></h2>
+<h3>8.1 Event</h3>
+<pre><code class="language-dart">sealed class AuthEvent extends Equatable {
+  const AuthEvent();
+}
+
+final class AuthStarted extends AuthEvent {
+  const AuthStarted();
+}
+
+final class AuthLoginRequested extends AuthEvent {
+  const AuthLoginRequested({
+    required this.email,
+    required this.password,
+  });
+
+  final String email;
+  final String password;
+}
+
+final class AuthRegisterRequested extends AuthEvent {
+  const AuthRegisterRequested({
+    required this.name,
+    required this.email,
+    required this.password,
+  });
+}
+
+final class AuthLogoutRequested extends AuthEvent {
+  const AuthLogoutRequested();
+}</code></pre>
+<h3>8.2 State</h3>
+<pre><code class="language-dart">enum AuthStatus {
+  unknown,          // session restore မပြီးသေး
+  authenticated,
+  unauthenticated,
+}
+
+class AuthState extends Equatable {
+  const AuthState({
+    this.status = AuthStatus.unknown,
+    this.user,
+    this.isSubmitting = false,
+    this.errorMessage,
+  });
+
+  final AuthStatus status;
+  final User? user;
+  final bool isSubmitting;
+  final String? errorMessage;
+
+  bool get isAuthenticated =&gt; status == AuthStatus.authenticated;
+  bool get isGuest =&gt; status == AuthStatus.unauthenticated;
+  bool get isRestoring =&gt; status == AuthStatus.unknown &amp;&amp; !isSubmitting;
+}</code></pre>
+<h3>8.3 Bloc</h3>
+<pre><code class="language-dart">class AuthBloc extends Bloc&lt;AuthEvent, AuthState&gt; {
+  AuthBloc(this._authRepository) : super(const AuthState()) {
+    on&lt;AuthStarted&gt;(_onStarted);
+    on&lt;AuthLoginRequested&gt;(_onLoginRequested);
+    on&lt;AuthRegisterRequested&gt;(_onRegisterRequested);
+    on&lt;AuthLogoutRequested&gt;(_onLogoutRequested);
+    on&lt;AuthErrorDismissed&gt;(_onErrorDismissed);
+  }
+
+  final AuthRepository _authRepository;</code></pre>
+<p>Login handler —</p>
+<pre><code class="language-dart">Future&lt;void&gt; _onLoginRequested(
+  AuthLoginRequested event,
+  Emitter&lt;AuthState&gt; emit,
+) async {
+  if (state.isSubmitting) return;
+
+  emit(state.copyWith(isSubmitting: true, errorMessage: null));
+
+  try {
+    final session = await _authRepository.login(
+      email: event.email,
+      password: event.password,
+    );
+
+    emit(AuthState(
+      status: AuthStatus.authenticated,
+      user: session.user,
+    ));
+  } on ApiException catch (error) {
+    emit(AuthState(
+      status: AuthStatus.unauthenticated,
+      errorMessage: error.message,
+    ));
+  } catch (_) {
+    emit(const AuthState(
+      status: AuthStatus.unauthenticated,
+      errorMessage: 'Something went wrong. Please try again.',
+    ));
+  }
+}</code></pre>
+<p>ဒီနေရာမှာ အရေးကြီးတဲ့ state transition နှစ်ခု ရှိတယ်။</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Request ပို့ချိန်: <code>isSubmitting: true</code> → button disable, loading ပြ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>အောင်မြင်: <code>status: authenticated</code>, <code>user: session.user</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>မအောင်မြင်: <code>status: unauthenticated</code>, <code>errorMessage: ...</code></span></div></div>
+<hr/>
+<h2>9. UI Layer — လက်ရှိ တကယ်ချိတ်ထားပုံ</h2>
+<h3>9.1 Splash → Home</h3>
+<p><code>SplashPage</code> က API မခေါ်ပါ။ ၃ စက္ကန့်နေပြီး <code>HomePage</code> ကို သွားတယ်။</p>
+<pre><code class="language-dart">Timer(const Duration(seconds: 3), () {
+  Navigator.of(context).pushReplacement(
+    MaterialPageRoute&lt;void&gt;(builder: (_) =&gt; const HomePage()),
+  );
+});</code></pre>
+<h3>9.2 Login Page</h3>
+<p>Login button နှိပ်ရင် —</p>
+<pre><code class="language-dart">void _logIn() {
+  if (!_formKey.currentState!.validate()) return;
+
+  context.read&lt;AuthBloc&gt;().add(
+    AuthLoginRequested(
+      email: _email.text.trim(),
+      password: _password.text,
+    ),
+  );
+}</code></pre>
+<p>UI က <code>BlocConsumer</code> နဲ့ နားထောင်တယ်။</p>
+<pre><code class="language-dart">BlocConsumer&lt;AuthBloc, AuthState&gt;(
+  listenWhen: (previous, current) =&gt;
+      previous.status != current.status &amp;&amp; current.isAuthenticated,
+  listener: (context, _) =&gt; _onAuthenticated(),
+  builder: (context, authState) {
+    // UI ဆောက်
+  },
+)</code></pre>
+<p><code>_onAuthenticated()</code> က —</p>
+<pre><code class="language-dart">void _onAuthenticated() {
+  if (!mounted) return;
+
+  final navigator = Navigator.of(context);
+
+  if (navigator.canPop()) {
+    navigator.popUntil((route) =&gt; route.isFirst);
+  } else {
+    navigator.pushReplacement(
+      MaterialPageRoute&lt;void&gt;(builder: (_) =&gt; const HomePage()),
+    );
+  }
+}</code></pre>
+<p>Form ထဲမှာ error ပြပုံ —</p>
+<pre><code class="language-dart">if (authState.errorMessage != null) ...[
+  _ErrorBanner(message: authState.errorMessage!),
+],</code></pre>
+<p>Button disable ပုံ —</p>
+<pre><code class="language-dart">onPressed: authState.isSubmitting ? null : _logIn,</code></pre>
+<p>ဒါက <strong>standard BLoC UI pattern</strong> ပါ။ နောက် feature တွေအတွက်လည်း အတူတူ လုပ်နိုင်တယ်။</p>
+<h3>9.3 Signup Page</h3>
+<p>Signup ကလည်း အတူတူပါ။</p>
+<pre><code class="language-dart">context.read&lt;AuthBloc&gt;().add(
+  AuthRegisterRequested(
+    name: _name.text.trim(),
+    email: _email.text.trim(),
+    password: _password.text,
+  ),
+);</code></pre>
+<p><code>listenWhen</code> က authenticated ဖြစ်သွားတာနဲ့ Home ကို ပြန်ပို့တယ်။</p>
+<h3>9.4 Home Page — Auth State ကို ဖတ်ပုံ</h3>
+<pre><code class="language-dart">Widget _content(BuildContext context, bool desktop) {
+  final authState = context.watch&lt;AuthBloc&gt;().state;
+  final isLoggedIn = authState.isAuthenticated;
+  final userName = authState.user?.name;
+  // ...
+}</code></pre>
+<p><code>context.watch&lt;AuthBloc&gt;()</code> က state ပြောင်းတိုင်း <code>HomePage</code> ကို ပြန်ဆွဲစေတယ်။ ဒါကြောင့် login/logout လုပ်တာနဲ့ —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>"Guest Mode" banner ပျောက်/ပေါ်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>"WELCOME, {name}!" ပြောင်း</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Profile button က "Guest" → user name</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Reports/Expenses/History က login required ပြ/မ</span></div></div>
+<p>ဒါတွေ အလိုအလျောက် ဖြစ်တယ်။</p>
+<h3>9.5 Budget — တိုက်ရိုက် API ခေါ်ထားတဲ့ တစ်နေရာတည်း</h3>
+<p><code>home_page.dart</code> ထဲမှာ —</p>
+<pre><code class="language-dart">Future&lt;void&gt; _saveBudgetToBackend(
+  BuildContext context,
+  int amount,
+) async {
+  final api = context.read&lt;ApiClient&gt;();
+
+  final response = await api.put(
+    '/budget',
+    data: {
+      'date': _todayDate(),
+      'amount': amount,
+    },
+  );
+
+  if (response['success'] != true) {
+    throw StateError('Budget could not be saved.');
+  }
+}</code></pre>
+<p>ဒီနေရာမှာ —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>ApiClient</code> ကို <code>context.read</code> နဲ့ တိုက်ရိုက်ယူ</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>PUT /budget</code> ကို တိုက်ရိုက်ခေါ်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>date</code> ကို <code>YYYY-MM-DD</code> format နဲ့ ပို့</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>response ရဲ့ <code>success</code> ကို စစ်</span></div></div>
+<p>ပြီးတော့ <code>openBudget()</code> ထဲမှာ logged-in ဆိုမှ backend ကို သိမ်းတယ်။</p>
+<pre><code class="language-dart">Future&lt;bool&gt; saveBudget(int amount) async {
+  try {
+    if (isLoggedIn) {
+      await _saveBudgetToBackend(context, amount);
+    }
+
+    GuestBudget.save(amount);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}</code></pre>
+<p>ဒီ design မှာ <strong>guest နဲ့ logged-in ကို ခွဲထားတယ်</strong>။</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Guest → <code>GuestBudget</code> (memory only, app restart ဆို ပျောက်)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Logged-in → backend <code>PUT /budget</code> + local <code>GuestBudget</code> ကို display အတွက် သိမ်း</span></div></div>
+<p>ဒါပေမယ့် <strong>လက်ရှိ logged-in user အတွက် backend က budget ကို ပြန်မဖတ်ပါ</strong>။ App ပြန်ဖွင့်ရင် <code>GuestBudget</code> null ဖြစ်နေမှာမို့ backend မှာ budget ရှိပေမယ့် UI က "Set your budget" ပြနေမယ်။ ဒါကို နောက်ပိုင်း <code>GET /budget</code> နဲ့ ဖြေရှင်းရမယ်။</p>
+<h3>9.6 Plan — လက်ရှိ local only</h3>
+<p>Plan ကို <code>HomePage</code> ရဲ့ static <code>ValueNotifier</code> ထဲမှာပဲ သိမ်းတယ်။</p>
+<pre><code class="language-dart">static final ValueNotifier&lt;Object?&gt; _savedTodayPlan =
+    ValueNotifier&lt;Object?&gt;(null);</code></pre>
+<p>Save လုပ်တဲ့အခါ —</p>
+<pre><code class="language-dart">Future&lt;void&gt; _savePlan(BuildContext homeContext, Object plan) async {
+  _savedTodayPlan.value = plan;
+
+  final homeRoute = ModalRoute.of(homeContext);
+  if (homeRoute != null) {
+    Navigator.of(homeContext)
+        .popUntil((route) =&gt; identical(route, homeRoute));
+  }
+}</code></pre>
+<p>ဒီမှာ backend မခေါ်ပါ။ <code>AutoPlanPage</code>/<code>ManualPage</code> က <code>onSave</code> callback ပေးလိုက်တာကို Home က လက်ခံပြီး memory ထဲ ထည့်တာပါ။</p>
+<p><strong>ဒါပေမယ့် ဒီ callback က အလွန်ကောင်းတဲ့ seam ဖြစ်တယ်။</strong> နောက်ပိုင်း backend ချိတ်ဖို့ <code>_savePlan()</code> ထဲမှာ repository call ထည့်ရုံပါ။</p>
+<h3>9.7 Foods — local sample catalog</h3>
+<p><code>foods_page.dart</code> မှာ —</p>
+<pre><code class="language-dart">const List&lt;FoodCatalogItem&gt; sampleFoodCatalog = [
+  FoodCatalogItem(
+    id: 'food_001',
+    name: 'Mohinga',
+    price: 2000,
+    shopName: 'Shop A',
+    location: 'Hlaing',
+    category: 'Soups',
+    imagePath: 'assets/img/mohinga.jpg',
+  ),
+  // ...
+];</code></pre>
+<p>ပြီးတော့ <code>FoodsPage</code> က —</p>
+<pre><code class="language-dart">this.foods = sampleFoodCatalog,
+this.initialFavoriteIds = const {},</code></pre>
+<p>ဆိုတဲ့ props နဲ့ local data ကို လက်ခံတယ်။ Favorites ကလည်း —</p>
+<pre><code class="language-dart">final Set&lt;String&gt; _favoriteIds;</code></pre>
+<p>ဆိုတဲ့ local <code>Set</code> ပဲ။ <code>_toggleFavorite()</code> က <code>setState</code> နဲ့ local ပြောင်းတယ်။ API မခေါ်ပါ။</p>
+<p><strong>ဒီ UI ကို backend ချိတ်တဲ့အခါ အရေးကြီးဆုံးအချက်:</strong></p>
+<p><code>sampleFoodCatalog</code> ရဲ့ id တွေက <code>'food_001'</code> လို string တွေ ဖြစ်တယ်။ Backend က <strong>UUID</strong> လိုချင်တယ်။ ဒါကြောင့် Foods page ကို backend catalog နဲ့ မချိတ်ဘဲ Plan ကို backend သိမ်းဖို့ ကြိုးစားရင် —</p>
+<pre><code class="language-json">{ "foodId": "food_001" }</code></pre>
+<p>ဆိုတာ backend မှာ <code>422</code> ဖြစ်မယ်။ ဒါကြောင့် <strong>Foods catalog ကို API နဲ့ အရင်ချိတ်ရမယ်</strong>။</p>
+<h3>9.8 Auto/Manual Planner — local algorithm</h3>
+<p><code>AutoGenerator</code> က local algorithm ပါ။</p>
+<pre><code class="language-dart">final result = _generator.generate(
+  catalog: widget.catalog,
+  selected: _selected,
+  budget: widget.dailyBudget,
+  previous: _draft,
+);</code></pre>
+<p><code>ManualPage</code> ကလည်း local draft ကို စီမံတယ်။</p>
+<pre><code class="language-dart">draft = {
+  for (final type in MealType.values)
+    type: List.of(widget.initialPlan?.meals[type] ?? const &lt;ManualItem&gt;[]),
+};</code></pre>
+<p>Save လုပ်တဲ့အခါ <code>widget.onSave!(ManualPlan(...))</code> ကို ခေါ်တယ်။ ဒါကလည်း backend ချိတ်ဖို့ seam ပါ။</p>
+<h3>9.9 My Plan</h3>
+<p><code>MyPlanPage</code> က presentation only ပါ။</p>
+<pre><code class="language-dart">final ValueListenable&lt;Object?&gt; savedPlan;
+
+final VoidCallback onChooseAutomatic;
+final VoidCallback onChooseManual;
+final VoidCallback onEdit;
+final Future&lt;void&gt; Function() onDelete;</code></pre>
+<p>ဒါကြောင့် plan data ကို ကိုယ်တိုင် မခေါ်ပါ။ Home က ပေးတဲ့ notifier ကို ဖတ်ပြီး ပြတယ်။</p>
+<h3>9.10 လက်ရှိ API မချိတ်ရသေးတဲ့ UI</h3>
+<table><thead><tr><th>Feature</th><th>UI ရှိ/မရှိ</th><th>API ချိတ်ထား?</th></tr></thead><tbody><tr><td>Login / Register</td><td>ရှိ</td><td>ချိတ်ထား</td></tr><tr><td>Session restore</td><td>ရှိ</td><td>ချိတ်ထား</td></tr><tr><td>Logout</td><td>ရှိ</td><td>ချိတ်ထား</td></tr><tr><td>Budget save</td><td>ရှိ</td><td>ချိတ်ထား (logged-in only)</td></tr><tr><td>Budget load</td><td>မရှိ</td><td>မချိတ်ရသေး</td></tr><tr><td>Foods catalog</td><td>ရှိ (local sample)</td><td>မချိတ်ရသေး</td></tr><tr><td>Favorites</td><td>ရှိ (local Set)</td><td>မချိတ်ရသေး</td></tr><tr><td>Auto plan save</td><td>ရှိ (local notifier)</td><td>မချိတ်ရသေး</td></tr><tr><td>Manual plan save</td><td>ရှိ (local notifier)</td><td>မချိတ်ရသေး</td></tr><tr><td>Plan load / delete</td><td>မရှိ</td><td>မချိတ်ရသေး</td></tr><tr><td>Expenses</td><td>မရှိ (snackbar only)</td><td>မချိတ်ရသေး</td></tr><tr><td>History</td><td>မရှိ</td><td>မချိတ်ရသေး</td></tr><tr><td>Reports</td><td>မရှိ</td><td>မချိတ်ရသေး</td></tr><tr><td>Guest transfer</td><td>မရှိ</td><td>မချိတ်ရသေး</td></tr><tr><td>Profile update</td><td>မရှိ (dialog only)</td><td>မချိတ်ရသေး</td></tr><tr><td>Change password</td><td>မရှိ</td><td>မချိတ်ရသေး</td></tr></tbody></table>
+<hr/>
+<h2>10. Backend Contract</h2>
+<p>UI ချိတ်တဲ့အခါ လိုက်နာရမယ့် အချက်များ။</p>
+<h3>10.1 Base URL</h3>
+<pre><code class="language-text">Windows/Web : http://localhost:4000/api
+Android Emu : http://10.0.2.2:4000/api
+Physical    : http://&lt;PC-LAN-IP&gt;:4000/api</code></pre>
+<h3>10.2 Success Envelope</h3>
+<pre><code class="language-json">{
+  "success": true,
+  "data": {}
+}</code></pre>
+<p>Repository က <code>body['data']</code> ကို ဆွဲထုတ်ရမယ်။</p>
+<h3>10.3 Error Envelope</h3>
+<pre><code class="language-json">{
+  "success": false,
+  "message": "Validation failed.",
+  "details": [
+    { "field": "amount", "message": "Enter a budget greater than 0." }
+  ]
+}</code></pre>
+<p><code>details</code> ကို form field error အနေနဲ့ သုံးနိုင်တယ်။</p>
+<h3>10.4 Status Code အဓိပ္ပာယ်</h3>
+<table><thead><tr><th>Code</th><th>အဓိပ္ပာယ်</th><th>UI က ဘာလုပ်ရမလဲ</th></tr></thead><tbody><tr><td>200</td><td>အောင်မြင်</td><td>data ပြ</td></tr><tr><td>201</td><td>အသစ်ဖန်တီးပြီး</td><td>data ပြ</td></tr><tr><td>400</td><td>request မှား</td><td>message ပြ</td></tr><tr><td>401</td><td>token မရှိ/သက်တမ်းကုန်</td><td>login ပို့၊ token ဖျက်</td></tr><tr><td>403</td><td>ခွင့်မရှိ (admin only)</td><td>message ပြ</td></tr><tr><td>404</td><td>data မရှိ</td><td>empty state ပြ (error မဟုတ်)</td></tr><tr><td>409</td><td>conflict</td><td>dialog နဲ့ မေးပြီး ပြန် resubmit</td></tr><tr><td>422</td><td>validation/business rule</td><td><code>details</code> ပြ</td></tr><tr><td>429</td><td>rate limit</td><td>ခဏစောင့်ပါ</td></tr><tr><td>500</td><td>server error</td><td>retry/message</td></tr></tbody></table>
+<p><strong>အရေးကြီး:</strong> <code>GET /budget</code> နဲ့ <code>GET /plans</code> က data မရှိရင် <code>404</code> ပြန်တယ်။ ဒါက error မဟုတ်ဘဲ <strong>"ဒီနေ့အတွက် မရှိသေးဘူး"</strong> ဆိုတဲ့ empty state ပါ။ UI မှာ error banner မပြဘဲ "Set budget"/"No plan yet" ပြရမယ်။</p>
+<h3>10.5 Date</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Backend က <code>YYYY-MM-DD</code> ပဲ လက်ခံတယ်။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>DateTime.now().toIso8601String()</code> က <code>2026-11-12T...</code> ဆိုတဲ့ time ပါတယ်။ <strong>မသုံးရပါ</strong>။</span></div></div>
+<pre><code class="language-dart">String apiDate(DateTime date) =&gt;
+    '${date.year.toString().padLeft(4, '0')}-'
+    '${date.month.toString().padLeft(2, '0')}-'
+    '${date.day.toString().padLeft(2, '0')}';</code></pre>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Backend ရဲ့ "today" က <code>Asia/Yangon</code> timezone ပါ။ Client device timezone ကွာနေရင် date မတူနိုင်တယ်။ ဒါကြောင့် "ဒီနေ့" အတွက် <code>date</code> ကို မပို့ဘဲ server default ကို သုံးတာ ပိုလုံခြုံပါတယ်။</span></div></div>
+<pre><code class="language-dart">// Today's budget — let the server decide "today"
+await api.put('/budget', data: {'amount': amount});</code></pre>
+<h3>10.6 Money</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>အားလုံး <strong>whole MMK integer</strong>။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Decimal မပို့ပါ။</span></div></div>
+<h3>10.7 Food ID</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Backend food id က <strong>UUID</strong>။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>food_001</code> လို sample id တွေ မသုံးရပါ။</span></div></div>
+<h3>10.8 Plan Rules</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Plan မသိမ်းခင် <strong>budget ရှိရမယ်</strong>။ မရှိရင် <code>422</code>။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>auto</code> plan က budget ထက် မကျော်ရဘူး။ ကျော်ရင် <code>422</code>။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>manual</code> plan က budget ကျော်လို့ရတယ်။ response မှာ <code>overBudget: true</code> ပြန်တယ်။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Auto plan က <strong>meal type တစ်ခုကို item တစ်ခု၊ quantity 1</strong> ပဲ။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Plan သိမ်းတာက expense မဖန်တီးဘူး။</span></div></div>
+<h3>10.9 Bearer Token</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Login/Register ကလွဲရင် အားလုံး <code>Authorization: Bearer &lt;token&gt;</code> လိုတယ်။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>ApiClient</code> က အလိုအလျောက် ထည့်ပေးတယ်။</span></div></div>
+<hr/>
+<h2>11. နောက်ထပ် Page များ ချိတ်နည်း — Concrete Pattern</h2>
+<p>အောက်က pattern ကို feature တစ်ခုချင်းစီအတွက် ထပ်ခါသုံးနိုင်ပါတယ်။</p>
+<pre><code class="language-text">Endpoint constant
+      ↓
+Model (fromJson)
+      ↓
+Repository interface + Remote implementation
+      ↓
+BLoC (optional, but recommended for complex pages)
+      ↓
+UI (loading / error / empty / success)</code></pre>
+<h3>11.1 Foods Page ကို API ချိတ်ခြင်း</h3>
+<h4>Step 1 — Model</h4>
+<pre><code class="language-dart">class Food {
+  const Food({
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.shopName,
+    required this.location,
+    required this.category,
+    this.imagePath,
+  });
+
+  final String id;
+  final String name;
+  final int price;
+  final String shopName;
+  final String location;
+  final String category;
+  final String? imagePath;
+
+  factory Food.fromJson(Map&lt;String, dynamic&gt; json) {
+    return Food(
+      id: json['id'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+      price: (json['price'] as num?)?.toInt() ?? 0,
+      shopName: json['shopName'] as String? ?? '',
+      location: json['location'] as String? ?? '',
+      category: json['category'] as String? ?? 'Others',
+      imagePath: json['imagePath'] as String?,
+    );
+  }
+}</code></pre>
+<h4>Step 2 — Repository</h4>
+<pre><code class="language-dart">abstract interface class FoodRepository {
+  Future&lt;List&lt;Food&gt;&gt; fetchFoods({
+    String? category,
+    String? search,
+    String? sort,
+    int page = 1,
+    int limit = 50,
+  });
+}</code></pre>
+<pre><code class="language-dart">class RemoteFoodRepository implements FoodRepository {
+  const RemoteFoodRepository(this._apiClient);
+
+  final ApiClient _apiClient;
+
+  @override
+  Future&lt;List&lt;Food&gt;&gt; fetchFoods({
+    String? category,
+    String? search,
+    String? sort,
+    int page = 1,
+    int limit = 50,
+  }) async {
+    final body = await _apiClient.get(
+      ApiEndpoints.foods,
+      queryParameters: {
+        if (category != null &amp;&amp; category != 'All') 'category': category,
+        if (search != null &amp;&amp; search.trim().isNotEmpty) 'search': search.trim(),
+        if (sort != null) 'sort': sort,
+        'page': page,
+        'limit': limit,
+      },
+      authenticated: false, // catalog browsing is public
+    );
+
+    final data = body['data'];
+    if (data is! Map) {
+      throw const ApiException('Unexpected response from the server.');
+    }
+
+    final list = data['foods'] as List&lt;dynamic&gt;? ?? const [];
+
+    return list
+        .whereType&lt;Map&gt;()
+        .map((json) =&gt; Food.fromJson(Map&lt;String, dynamic&gt;.from(json)))
+        .toList(growable: false);
+  }
+}</code></pre>
+<h4>Step 3 — Provider</h4>
+<p><code>main.dart</code> မှာ repository ကို ထည့်ပါ။</p>
+<pre><code class="language-dart">final foodRepository = RemoteFoodRepository(apiClient);
+
+RepositoryProvider&lt;ApiClient&gt;.value(
+  value: apiClient,
+  child: MultiRepositoryProvider(
+    providers: [
+      RepositoryProvider&lt;FoodRepository&gt;.value(value: foodRepository),
+    ],
+    child: BlocProvider(
+      create: (_) =&gt; AuthBloc(authRepository)..add(const AuthStarted()),
+      child: MaterialApp(...),
+    ),
+  ),
+)</code></pre>
+<h4>Step 4 — BLoC (optional)</h4>
+<p>Foods page က search/category/favorite state တွေ များတဲ့အတွက် BLoC နဲ့ ခွဲတာ ကောင်းပါတယ်။</p>
+<pre><code class="language-dart">sealed class FoodsEvent extends Equatable {
+  const FoodsEvent();
+}
+
+final class FoodsRequested extends FoodsEvent {
+  const FoodsRequested({
+    this.category = 'All',
+    this.search = '',
+  });
+
+  final String category;
+  final String search;
+}
+
+final class FoodsSearchChanged extends FoodsEvent {
+  const FoodsSearchChanged(this.query);
+
+  final String query;
+}
+
+class FoodsState extends Equatable {
+  const FoodsState({
+    this.status = FoodsStatus.initial,
+    this.foods = const [],
+    this.errorMessage,
+  });
+
+  final FoodsStatus status;
+  final List&lt;Food&gt; foods;
+  final String? errorMessage;
+}</code></pre>
+<pre><code class="language-dart">class FoodsBloc extends Bloc&lt;FoodsEvent, FoodsState&gt; {
+  FoodsBloc(this._repository) : super(const FoodsState()) {
+    on&lt;FoodsRequested&gt;(_onRequested);
+    on&lt;FoodsSearchChanged&gt;(_onSearchChanged);
+  }
+
+  final FoodRepository _repository;
+
+  Future&lt;void&gt; _onRequested(
+    FoodsRequested event,
+    Emitter&lt;FoodsState&gt; emit,
+  ) async {
+    emit(state.copyWith(status: FoodsStatus.loading));
+
+    try {
+      final foods = await _repository.fetchFoods(
+        category: event.category,
+        search: event.search,
+      );
+
+      emit(state.copyWith(
+        status: FoodsStatus.success,
+        foods: foods,
+        errorMessage: null,
+      ));
+    } on ApiException catch (error) {
+      emit(state.copyWith(
+        status: FoodsStatus.failure,
+        errorMessage: error.message,
+      ));
+    }
+  }
+}</code></pre>
+<h4>Step 5 — UI States</h4>
+<pre><code class="language-dart">BlocBuilder&lt;FoodsBloc, FoodsState&gt;(
+  builder: (context, state) {
+    if (state.status == FoodsStatus.loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (state.status == FoodsStatus.failure) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(state.errorMessage ?? 'Could not load foods.'),
+            const SizedBox(height: 8),
+            FilledButton(
+              onPressed: () {
+                context.read&lt;FoodsBloc&gt;().add(const FoodsRequested());
+              },
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (state.foods.isEmpty) {
+      return const Center(child: Text('No foods found.'));
+    }
+
+    return ListView.builder(
+      itemCount: state.foods.length,
+      itemBuilder: (context, index) {
+        final food = state.foods[index];
+        return ListTile(
+          title: Text(food.name),
+          subtitle: Text('${food.shopName} · ${food.price} Ks'),
+        );
+      },
+    );
+  },
+)</code></pre>
+<h4>Step 6 — Existing props ကို အစားထိုးခြင်း</h4>
+<p><code>FoodsPage</code> ရဲ့ —</p>
+<pre><code class="language-dart">this.foods = sampleFoodCatalog,
+this.initialFavoriteIds = const {},</code></pre>
+<p>ကို API data နဲ့ အစားထိုးပါ။ ဒါပေမယ့် <code>FoodCatalogItem</code> နဲ့ <code>Food</code> က field တူတာမို့ <code>FoodCatalogItem</code> ကို ဖျက်ပြီး <code>Food</code> ကို သုံးတာ ပိုရှင်းပါတယ်။</p>
+<p><strong>အရေးကြီး:</strong> Plan save လုပ်တဲ့အခါ <code>food.id</code> က backend UUID ဖြစ်ရမယ်။</p>
+<h3>11.2 Plan ကို Backend သိမ်းခြင်း</h3>
+<h4>Step 1 — Payload Mapping</h4>
+<p>AutoPlan ကို —</p>
+<pre><code class="language-dart">Map&lt;String, dynamic&gt; autoPlanPayload(AutoPlan plan) {
+  return {
+    'method': 'auto',
+    'items': [
+      for (final entry in plan.meals.entries)
+        {
+          'foodId': entry.value.id,
+          'quantity': 1, // auto plans always use quantity 1
+          'mealType': entry.key.name, // breakfast/lunch/snacks/dinner
+        },
+    ],
+  };
+}</code></pre>
+<p>ManualPlan ကို —</p>
+<pre><code class="language-dart">Map&lt;String, dynamic&gt; manualPlanPayload(ManualPlan plan) {
+  return {
+    'method': 'manual',
+    'items': [
+      for (final entry in plan.meals.entries)
+        for (final item in entry.value)
+          {
+            'foodId': item.food.id,
+            'quantity': item.quantity,
+            'mealType': entry.key.name,
+          },
+    ],
+  };
+}</code></pre>
+<p><code>MealType</code> enum ရဲ့ <code>name</code> က backend ရဲ့ <code>breakfast|lunch|snacks|dinner</code> နဲ့ ကိုက်ညီတယ်။</p>
+<h4>Step 2 — Repository</h4>
+<pre><code class="language-dart">abstract interface class PlanRepository {
+  Future&lt;void&gt; savePlan({
+    required DateTime date,
+    required String method,
+    required List&lt;Map&lt;String, dynamic&gt;&gt; items,
+  });
+
+  Future&lt;PlanResponse?&gt; fetchPlan({DateTime? date});
+  Future&lt;void&gt; deletePlan({DateTime? date});
+}</code></pre>
+<pre><code class="language-dart">class RemotePlanRepository implements PlanRepository {
+  const RemotePlanRepository(this._apiClient);
+
+  final ApiClient _apiClient;
+
+  @override
+  Future&lt;void&gt; savePlan({
+    required DateTime date,
+    required String method,
+    required List&lt;Map&lt;String, dynamic&gt;&gt; items,
+  }) async {
+    await _apiClient.post(
+      ApiEndpoints.plans,
+      data: {
+        'date': apiDate(date),
+        'method': method,
+        'items': items,
+      },
+    );
+  }
+}</code></pre>
+<h4>Step 3 — HomePage Callback ကို ချိတ်ခြင်း</h4>
+<p>လက်ရှိ —</p>
+<pre><code class="language-dart">Future&lt;void&gt; _savePlan(BuildContext homeContext, Object plan) async {
+  _savedTodayPlan.value = plan;
+  // ...
+}</code></pre>
+<p>ကို —</p>
+<pre><code class="language-dart">Future&lt;void&gt; _savePlan(BuildContext homeContext, Object plan) async {
+  final repository = homeContext.read&lt;PlanRepository&gt;();
+
+  try {
+    if (plan is AutoPlan) {
+      await repository.savePlan(
+        date: plan.date,
+        method: 'auto',
+        items: autoPlanPayload(plan)['items'] as List&lt;Map&lt;String, dynamic&gt;&gt;,
+      );
+    } else if (plan is ManualPlan) {
+      await repository.savePlan(
+        date: plan.date,
+        method: 'manual',
+        items: manualPlanPayload(plan)['items'] as List&lt;Map&lt;String, dynamic&gt;&gt;,
+      );
+    }
+
+    _savedTodayPlan.value = plan;
+
+    final homeRoute = ModalRoute.of(homeContext);
+    if (homeRoute != null) {
+      Navigator.of(homeContext)
+          .popUntil((route) =&gt; identical(route, homeRoute));
+    }
+  } on ApiException catch (error) {
+    if (!homeContext.mounted) return;
+
+    ScaffoldMessenger.of(homeContext).showSnackBar(
+      SnackBar(content: Text(error.message)),
+    );
+  }
+}</code></pre>
+<h4>Step 4 — App စတာနဲ့ Plan ပြန်ဖတ်ခြင်း</h4>
+<pre><code class="language-dart">Future&lt;void&gt; _loadTodayPlan(BuildContext context) async {
+  try {
+    final response = await context.read&lt;PlanRepository&gt;().fetchPlan();
+    if (response != null) {
+      _savedTodayPlan.value = response.toLocalPlan();
+    }
+  } on ApiException catch (error) {
+    if (error.statusCode == 404) {
+      _savedTodayPlan.value = null; // no plan yet — normal
+      return;
+    }
+    // show error
+  }
+}</code></pre>
+<p><code>GET /plans</code> က <code>data.plan</code>, <code>data.budget</code>, <code>data.remaining</code>, <code>data.overBudget</code> ပြန်တယ်။ Backend plan item ရဲ့ field <code>food</code> က food id ဖြစ်တာကို သတိထားပါ။</p>
+<h3>11.3 Budget ကို ပြန်ဖတ်ခြင်း</h3>
+<p>လက်ရှိ အတိုချိတ်ထားတဲ့ <code>PUT /budget</code> ကို <code>BudgetRepository</code> ထဲ ရွှေ့ပြီး <code>GET /budget</code> ပါ ထည့်ပါ။</p>
+<pre><code class="language-dart">class RemoteBudgetRepository implements BudgetRepository {
+  const RemoteBudgetRepository(this._apiClient);
+
+  final ApiClient _apiClient;
+
+  @override
+  Future&lt;int?&gt; fetchBudget({DateTime? date}) async {
+    try {
+      final body = await _apiClient.get(
+        ApiEndpoints.budget,
+        queryParameters: date == null ? null : {'date': apiDate(date)},
+      );
+
+      final data = body['data'];
+      if (data is! Map) return null;
+
+      final budget = data['budget'];
+      if (budget is! Map) return null;
+
+      return (budget['amount'] as num?)?.toInt();
+    } on ApiException catch (error) {
+      if (error.statusCode == 404) return null; // no budget yet
+      rethrow;
+    }
+  }
+
+  @override
+  Future&lt;void&gt; saveBudget({
+    required int amount,
+    DateTime? date,
+  }) async {
+    await _apiClient.put(
+      ApiEndpoints.budget,
+      data: {
+        if (date != null) 'date': apiDate(date),
+        'amount': amount,
+      },
+    );
+  }
+}</code></pre>
+<p>ပြီးတော့ logged-in user အတွက် <code>HomePage</code> က <code>GET /budget</code> ကို ခေါ်ပြီး <code>GuestBudget</code> ကို sync လုပ်ပါ။</p>
+<pre><code class="language-dart">if (isLoggedIn) {
+  final amount = await budgetRepository.fetchBudget();
+  if (amount != null) GuestBudget.save(amount);
+}</code></pre>
+<p>ဒါဆို app ပြန်ဖွင့်တာနဲ့ backend budget ကို ပြနိုင်မယ်။</p>
+<h3>11.4 Favorites ချိတ်ခြင်း</h3>
+<pre><code class="language-dart">Future&lt;Set&lt;String&gt;&gt; fetchFavoriteIds() async {
+  final body = await apiClient.get(ApiEndpoints.favorites);
+  final data = body['data'];
+  if (data is! Map) return {};
+
+  final list = data['favorites'] as List&lt;dynamic&gt;? ?? const [];
+
+  return list
+      .whereType&lt;Map&gt;()
+      .map((favorite) {
+        final food = favorite['food'];
+        if (food is Map) return food['id']?.toString() ?? '';
+        return '';
+      })
+      .where((id) =&gt; id.isNotEmpty)
+      .toSet();
+}
+
+Future&lt;void&gt; addFavorite(String foodId) async {
+  await apiClient.post(
+    ApiEndpoints.favorites,
+    data: {'foodId': foodId},
+  );
+}
+
+Future&lt;void&gt; removeFavorite(String foodId) async {
+  await apiClient.delete(ApiEndpoints.favorite(foodId));
+}</code></pre>
+<p><code>POST /favorites</code> က ရှိပြီးသား food ဆို <code>409</code> ပြန်တယ်။</p>
+<pre><code class="language-dart">on ApiException catch (error) {
+  if (error.isConflict) {
+    // already favorited — safe to ignore or refresh
+  } else {
+    rethrow;
+  }
+}</code></pre>
+<h3>11.5 Expenses / History / Reports</h3>
+<p>ဒီသုံးခုက read/write pattern ရိုးရှင်းပါတယ်။</p>
+<p><strong>Expenses</strong></p>
+<pre><code class="language-dart">// GET /expenses?date=YYYY-MM-DD
+final body = await apiClient.get(
+  ApiEndpoints.expenses,
+  queryParameters: {'date': apiDate(date)},
+);
+
+// 404 = no expenses recorded for that date</code></pre>
+<pre><code class="language-dart">// POST /expenses
+await apiClient.post(
+  ApiEndpoints.expenses,
+  data: {
+    'date': apiDate(date),
+    'items': [
+      {
+        'name': name,
+        'quantity': quantity,
+        'unitPrice': unitPrice,
+        'mealType': mealType,
+      },
+    ],
+  },
+);</code></pre>
+<p>Rules:</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Future date မရဘူး။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Catalog နဲ့ မသက်ဆိုင်ဘူး။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Plan နဲ့ မသက်ဆိုင်ဘူး။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>တစ်နေ့လုံးကို atomically replace လုပ်တယ်။</span></div></div>
+<p><strong>History</strong></p>
+<pre><code class="language-dart">final body = await apiClient.get(
+  ApiEndpoints.history,
+  queryParameters: {
+    'from': apiDate(from),
+    'to': apiDate(to),
+    'page': 1,
+    'limit': 30,
+  },
+);</code></pre>
+<p>Response:</p>
+<pre><code class="language-json">{
+  "data": {
+    "days": [
+      {
+        "date": "2026-11-12",
+        "total": 6000,
+        "byMealType": {
+          "breakfast": 2000,
+          "lunch": 4000
+        }
+      }
+    ],
+    "summary": {
+      "from": "2026-10-14",
+      "to": "2026-11-12",
+      "dayCount": 1,
+      "totalSpent": 6000,
+      "averagePerDay": 6000
+    }
+  }
+}</code></pre>
+<p><strong>Reports</strong></p>
+<pre><code class="language-dart">final body = await apiClient.get(
+  ApiEndpoints.reports,
+  queryParameters: {
+    'period': 'weekly', // daily | weekly | monthly
+    'from': apiDate(from),
+    'to': apiDate(to),
+  },
+);</code></pre>
+<p>Reports က <strong>expenses ကနေပဲ</strong> တွက်တယ်။ Plan/budget မပါဘူး။</p>
+<h3>11.6 Guest Transfer</h3>
+<p>Login/Signup အောင်မြင်တာနဲ့ guest data ကို account ထဲ ရွှေ့နိုင်တယ်။</p>
+<pre><code class="language-dart">Future&lt;void&gt; transferGuestData({
+  required int? guestBudget,
+  required Map&lt;String, dynamic&gt;? guestPlan,
+}) async {
+  await apiClient.post(
+    ApiEndpoints.guestTransfer,
+    data: {
+      if (guestBudget != null) 'budget': {'amount': guestBudget},
+      if (guestPlan != null) 'plan': guestPlan,
+    },
+  );
+}</code></pre>
+<p>Account မှာ data ရှိပြီးသားဆို backend က <code>409</code> ပြန်တယ်။</p>
+<pre><code class="language-json">{
+  "success": false,
+  "message": "Account data conflicts with guest data for this date. Resubmit with resolution ...",
+  "details": [
+    { "field": "budget", "message": "The account already has a budget..." },
+    { "field": "plan", "message": "The account already has a saved meal plan..." }
+  ]
+}</code></pre>
+<p>ဒီအခါ UI က dialog နဲ့ မေးပြီး ပြန် resubmit လုပ်ရတယ်။</p>
+<pre><code class="language-dart">on ApiException catch (error) {
+  if (!error.isConflict) rethrow;
+
+  final replace = await showDialog&lt;bool&gt;(
+    context: context,
+    builder: (context) =&gt; AlertDialog(
+      title: const Text('Guest Data Found'),
+      content: Text(error.message),
+      actions: [
+        TextButton(
+          onPressed: () =&gt; Navigator.pop(context, false),
+          child: const Text('Keep Account'),
+        ),
+        FilledButton(
+          onPressed: () =&gt; Navigator.pop(context, true),
+          child: const Text('Replace with Guest'),
+        ),
+      ],
+    ),
+  );
+
+  if (replace == null) return;
+
+  await apiClient.post(
+    ApiEndpoints.guestTransfer,
+    data: {
+      // ...same payload...
+      'resolution': replace ? 'replace-with-guest' : 'keep-account',
+    },
+  );
+}</code></pre>
+<hr/>
+<h2>12. လက်ရှိ Code ၏ အားသာချက် / အားနည်းချက်</h2>
+<h3>အားသာချက်</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>main.dart</code> က composition root အနေနဲ့ ရှင်းရှင်းလင်းလင်း ရှိတယ်။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>ApiClient</code> က token injection နဲ့ error conversion ကို ဗဟိုချုပ်ထားတယ်။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Auth က repository + BLoC နဲ့ အပြည့်အစုံချိတ်ထားတယ်။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Planner/Page တွေက <strong>callback/props</strong> နဲ့ ရေးထားတာမို့ backend ချိတ်ဖို့ seam ကောင်းတွေ ရှိတယ်။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>ApiException.details</code> က backend field error တွေနဲ့ တိုက်ရိုက်ကိုက်တယ်။</span></div></div>
+<h3>အားနည်းချက်</h3>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Auth ကလွဲရင် ကျန်တဲ့ feature တွေမှာ repository/BLoC မရှိသေးဘူး။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Budget က <code>ApiClient</code> ကို UI ထဲက တိုက်ရိုက်ခေါ်တယ်။ နောက်ပိုင်း feature တွေ များလာရင် UI ထဲမှာ API code တွေ ရှုပ်လာနိုင်တယ်။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Logged-in user ရဲ့ budget/plan ကို app စတာနဲ့ backend ကနေ ပြန်မဖတ်ဘူး။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Foods catalog က local sample ဖြစ်နေတာမို့ backend plan save နဲ့ တိုက်ရိုက် မကိုက်ဘူး။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>401 ကို global မကိုင်ဘူး။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span><code>HomePage</code> က <code>StatelessWidget</code> ဖြစ်ပြီး static <code>ValueNotifier</code> တွေ သုံးတယ်။ Backend state ပါ ထည့်လာရင် StatefulWidget/Bloc ကို ပြောင်းတာ ပိုသင့်တော်ပါတယ်။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Profile update/password change UI မရှိသေးဘူး။</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>Reports/Expenses/History က "not implemented" snackbar ပဲ။</span></div></div>
+<hr/>
+<h2>13. ဘယ်အစီအစဉ်နဲ့ ချိတ်သင့်လဲ</h2>
+<p>အကောင်းဆုံး အစီအစဉ်က —</p>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">1.</span><span><strong>Endpoint constants + Models</strong></span></div><div class="list-item" style="padding-left:2.50em"><span class="list-marker">•</span><span><code>Food</code>, <code>Plan</code>, <code>PlanItem</code>, <code>Budget</code>, <code>Expense</code>, <code>HistoryDay</code>, <code>ReportBucket</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">2.</span><span><strong>FoodRepository + Foods page</strong></span></div><div class="list-item" style="padding-left:2.50em"><span class="list-marker">•</span><span><code>GET /foods</code> ကို အရင်ချိတ်</span></div><div class="list-item" style="padding-left:2.50em"><span class="list-marker">•</span><span>sample id တွေကို backend UUID တွေနဲ့ အစားထိုး</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">3.</span><span><strong>BudgetRepository</strong></span></div><div class="list-item" style="padding-left:2.50em"><span class="list-marker">•</span><span><code>GET /budget</code> + <code>PUT /budget</code></span></div><div class="list-item" style="padding-left:2.50em"><span class="list-marker">•</span><span>logged-in user အတွက် app စတာနဲ့ load</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">4.</span><span><strong>PlanRepository</strong></span></div><div class="list-item" style="padding-left:2.50em"><span class="list-marker">•</span><span><code>GET /plans</code>, <code>POST /plans</code>, <code>DELETE /plans</code></span></div><div class="list-item" style="padding-left:2.50em"><span class="list-marker">•</span><span><code>onSave</code> callback ကို backend ချိတ်</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">5.</span><span><strong>Favorites</strong></span></div><div class="list-item" style="padding-left:2.50em"><span class="list-marker">•</span><span><code>GET/POST/DELETE /favorites</code></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">6.</span><span><strong>Expenses + History + Reports</strong></span></div><div class="list-item" style="padding-left:2.50em"><span class="list-marker">•</span><span>Expenses ကို အရင်ချိတ် (ဒါမှ history/reports မှာ data ပေါ်မယ်)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">7.</span><span><strong>Guest transfer</strong></span></div><div class="list-item" style="padding-left:2.50em"><span class="list-marker">•</span><span>login/signup အောင်မြင်တာနဲ့ guest data ရွှေ့</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">8.</span><span><strong>Profile update + password change</strong></span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">9.</span><span><strong>Global 401 handling</strong></span></div><div class="list-item" style="padding-left:2.50em"><span class="list-marker">•</span><span><code>ApiClient</code> မှာ 401 ရရင် token ဖျက်ပြီး <code>AuthLogoutRequested</code> ပို့တဲ့ interceptor</span></div></div>
+<hr/>
+<h2>14. အမှားများလေ့ရှိသော အချက်များ — Checklist</h2>
+<div class="list-block"><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ <code>body['data']</code> ကို ဆွဲထုတ်ဖို့ မေ့နေခြင်း</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ <code>DateTime.toIso8601String()</code> ကို date အဖြစ် ပို့ခြင်း (<code>YYYY-MM-DD</code> မဟုတ်)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ <code>food_001</code> လို sample ID ကို backend ကို ပို့ခြင်း (UUID လိုတယ်)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Plan မသိမ်းခင် budget မတင်ထားခြင်း (<code>422</code>)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ <code>GET /budget</code>/<code>GET /plans</code> ရဲ့ <code>404</code> ကို error အနေနဲ့ ပြခြင်း</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Login/Register မှာ <code>authenticated: false</code> မပေးခြင်း</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ <code>await</code> ပြီးနောက် <code>context</code> ကို <code>mounted</code> မစစ်ဘဲ သုံးခြင်း</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ <code>ApiClient</code> က <code>data</code> မဟုတ်ဘဲ body တစ်ခုလုံး ပြန်တာကို မေ့နေခြင်း</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Auto plan မှာ meal type တစ်ခုကို item နှစ်ခု ပို့ခြင်း (<code>422</code>)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Manual plan က budget ကျော်လို့ရတာကို မသိခြင်း (<code>overBudget</code> warning)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Plan သိမ်းတာနဲ့ expense ပါ ဖန်တီးမယ်လို့ ထင်ခြင်း (မဖန်တီးဘူး)</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ 401 ကို global မကိုင်ဘဲ page တစ်ခုချင်း လုပ်နေခြင်း</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Physical device မှာ <code>localhost</code> သုံးခြင်း</span></div><div class="list-item" style="padding-left:1.35em"><span class="list-marker">•</span><span>☐ Guest data ကို login ပြီးနောက် မရွှေ့ခြင်း</span></div></div>
+<hr/>
+<h2>15. အနှစ်ချုပ်</h2>
+<p>ဒီ project ရဲ့ API ချိတ်ဆက်ပုံကို တစ်ကြောင်းတည်း ပြောရရင် —</p>
+<pre><code class="language-text">main.dart က TokenStorage → ApiClient → Repository → AuthBloc ကို တည်ဆောက်
+ApiClient က baseUrl + Bearer token + error conversion ကို ကိုင်
+AuthRepository က endpoint ခေါ်ပြီး body['data'] ကို model အဖြစ် ပြောင်
+AuthBloc က event → loading → success/error state ပြောင်
+UI က BlocConsumer/BlocBuilder/watch နဲ့ state ကို ဖတ်ပြီး ပြ</code></pre>
+<p>လက်ရှိ <strong>Auth နဲ့ Budget save</strong> ပဲ အပြည့်အစုံချိတ်ထားပြီး ကျန်တဲ့ feature တွေက UI-only ဖြစ်ပါတယ်။ ဒါပေမယ့် UI တွေက <code>onSave</code>, <code>onFavoritesChanged</code>, <code>savedPlan</code>, <code>foods</code> စတဲ့ <strong>props/callback</strong> တွေနဲ့ ရေးထားတာမို့ backend ချိတ်တဲ့အခါ page တွေကို အပြင်ကြီး ပြင်စရာမလိုဘဲ callback ထဲမှာ repository call ထည့်ရုံနဲ့ ချိတ်နိုင်ပါတယ်။</p>
+<p>အရေးကြီးဆုံး အစီအစဉ်က <strong>Foods catalog → Budget → Plans → Favorites → Expenses → History/Reports → Guest transfer</strong> ဆိုတဲ့ အစီအစဉ်ပါ။ အဲဒီအစီအစဉ်အတိုင်း သွားရင် dependency တွေ မရှုပ်ဘဲ တစ်ဆင့်ချင်း အလုပ်လုပ်တဲ့ UI ကို ရနိုင်ပါတယ်။</p>
+<hr/>
+<h2>Appendix — Endpoint Quick Reference</h2>
+<h3>Auth &amp; Profile</h3>
+<table><thead><tr><th>Method</th><th>Path</th><th>Body</th><th>Auth</th></tr></thead><tbody><tr><td>POST</td><td><code>/auth/register</code></td><td><code>{ name, email, password }</code></td><td>No</td></tr><tr><td>POST</td><td><code>/auth/login</code></td><td><code>{ email, password }</code></td><td>No</td></tr><tr><td>GET</td><td><code>/auth/me</code></td><td>—</td><td>Yes</td></tr><tr><td>POST</td><td><code>/auth/logout</code></td><td>—</td><td>Yes</td></tr><tr><td>PATCH</td><td><code>/users/me</code></td><td><code>{ name }</code></td><td>Yes</td></tr><tr><td>PATCH</td><td><code>/users/me/password</code></td><td><code>{ currentPassword, newPassword }</code></td><td>Yes</td></tr></tbody></table>
+<h3>Foods</h3>
+<table><thead><tr><th>Method</th><th>Path</th><th>Body / Query</th><th>Auth</th></tr></thead><tbody><tr><td>GET</td><td><code>/foods</code></td><td><code>?category=&amp;search=&amp;sort=&amp;page=&amp;limit=</code></td><td>No</td></tr><tr><td>GET</td><td><code>/foods/:id</code></td><td>—</td><td>No</td></tr><tr><td>POST</td><td><code>/foods</code></td><td><code>{ name, shopName, location?, category, price, imagePath? }</code></td><td>Admin</td></tr><tr><td>PATCH</td><td><code>/foods/:id</code></td><td>partial fields</td><td>Admin</td></tr><tr><td>DELETE</td><td><code>/foods/:id</code></td><td>—</td><td>Admin</td></tr></tbody></table>
+<h3>Favorites</h3>
+<table><thead><tr><th>Method</th><th>Path</th><th>Body</th><th>Auth</th></tr></thead><tbody><tr><td>GET</td><td><code>/favorites</code></td><td>—</td><td>Yes</td></tr><tr><td>POST</td><td><code>/favorites</code></td><td><code>{ foodId }</code></td><td>Yes</td></tr><tr><td>DELETE</td><td><code>/favorites/:foodId</code></td><td>—</td><td>Yes</td></tr></tbody></table>
+<h3>Budget</h3>
+<table><thead><tr><th>Method</th><th>Path</th><th>Body / Query</th><th>Auth</th></tr></thead><tbody><tr><td>GET</td><td><code>/budget</code></td><td><code>?date=YYYY-MM-DD</code></td><td>Yes</td></tr><tr><td>PUT</td><td><code>/budget</code></td><td><code>{ date?, amount }</code></td><td>Yes</td></tr></tbody></table>
+<h3>Plans</h3>
+<table><thead><tr><th>Method</th><th>Path</th><th>Body / Query</th><th>Auth</th></tr></thead><tbody><tr><td>GET</td><td><code>/plans</code></td><td><code>?date=YYYY-MM-DD</code></td><td>Yes</td></tr><tr><td>POST</td><td><code>/plans</code></td><td><code>{ date?, method: auto\</code></td><td>manual, items: [{ foodId, quantity, mealType }] }<code></code></td><td>Yes</td></tr><tr><td>DELETE</td><td><code>/plans</code></td><td><code>?date=YYYY-MM-DD</code></td><td>Yes</td></tr></tbody></table>
+<h3>Expenses</h3>
+<table><thead><tr><th>Method</th><th>Path</th><th>Body / Query</th><th>Auth</th></tr></thead><tbody><tr><td>GET</td><td><code>/expenses</code></td><td><code>?date=YYYY-MM-DD</code></td><td>Yes</td></tr><tr><td>POST</td><td><code>/expenses</code></td><td><code>{ date?, items: [{ name, quantity, unitPrice, mealType }] }</code></td><td>Yes</td></tr><tr><td>DELETE</td><td><code>/expenses</code></td><td><code>?date=YYYY-MM-DD</code></td><td>Yes</td></tr></tbody></table>
+<h3>History / Reports</h3>
+<table><thead><tr><th>Method</th><th>Path</th><th>Query</th><th>Auth</th></tr></thead><tbody><tr><td>GET</td><td><code>/history</code></td><td><code>?from=&amp;to=&amp;page=&amp;limit=</code></td><td>Yes</td></tr><tr><td>GET</td><td><code>/reports</code></td><td><code>?period=daily\</code></td><td>weekly\</td><td>monthly&amp;from=&amp;to=<code></code></td><td>Yes</td></tr></tbody></table>
+<h3>Guest Transfer</h3>
+<table><thead><tr><th>Method</th><th>Path</th><th>Body</th><th>Auth</th></tr></thead><tbody><tr><td>POST</td><td><code>/guest-transfer</code></td><td><code>{ date?, budget?: { amount }, plan?: { method, items }, resolution? }</code></td><td>Yes</td></tr></tbody></table>
+<hr/>
+<p><em>Document generated from the MealMate Flutter + Express/PostgreSQL project structure.</em></p>
+<footer style="margin-top:28px;padding-top:10px;border-top:1px solid #d7ddd3;color:#6b7280;font-size:8.5pt;">
+Generated from <code>lib/</code> and backend API contract · 2026-11-12 10:21
+</footer>
+</body>
+</html>
