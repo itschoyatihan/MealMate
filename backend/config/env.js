@@ -34,7 +34,7 @@ const env = {
   seedAdmin: getEnv('SEED_ADMIN', 'true') === 'true',
   adminName: getEnv('ADMIN_NAME', 'MealMate Admin'),
   adminEmail: getEnv('ADMIN_EMAIL', 'admin@mealmate.local').toLowerCase(),
-  adminPassword: getEnv('ADMIN_PASSWORD', 'Admin#1234'),
+  adminPassword: getEnv('ADMIN_PASSWORD'),
 };
 
 if (!env.jwtSecret || env.jwtSecret.length < 32) {

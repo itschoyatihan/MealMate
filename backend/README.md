@@ -47,12 +47,12 @@ npm start
 ```
 
 On startup the API connects to PostgreSQL, runs the idempotent schema
-(`config/schema.sql`), and seeds the sample campus catalog plus an admin
-account (`admin@mealmate.local` / `Admin#1234` by default — change these).
+(config/schema.sql), and seeds the sample campus catalog plus an admin
+account using the credentials configured in the local .env file.
 Seeding is controlled by `SEED_CATALOG` / `SEED_ADMIN` in `.env`.
 
-> `.env` notes: quote values containing `#` (e.g. `ADMIN_PASSWORD="Admin#1234"`),
-> otherwise dotenv treats the rest of the line as a comment. If your database
+.env notes: quote values containing # (e.g. ADMIN_PASSWORD="your-strong#password"),
+otherwise dotenv treats the rest of the line as a comment. If your database
 > password contains URL-reserved characters (`@`, `:`, `/`, `#`, ...), percent-
 > encode them in `DATABASE_URL`.
 
